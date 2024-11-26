@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Projects Overview</title>
+    <link rel="stylesheet" th:href="@{/homepage.css}">
+</head>
+<body>
+<div id="Logout">
+    <a th:href="@{/logout}"><button>Logout</button></a>
+</div>
+<ul>
+    <li><a th:href="@{/create-project}">Create Project</a></li>
+</ul>
+<p>Current Projects</p>
+<table>
+    <thead>
+    <tr>
+        <th>Project Name</th>
+        <th>Project Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="project : ${projects}">
+        <td th:text="${project.projectName}"></td>
+        <td th:text="${project.projectDescription}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
