@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Task </title>
+</head>
+<body>
+
+<form th:action="@{/create_task}" th:object="${task}" method="POST">
+    <h2> Add a Task to the project </h2>
+
+    <input type="hidden" name="subProjectId" th:value="${subProjectId}" />
+
+    <div>
+        <label> Task Name: </label>
+        <input id="taskName" type="text" th:field="*{taskName}" required>
+    </div>
+
+    <div>
+        <label> Start date: </label>
+        <input id="startDate" type="date" th:field="*{taskStartDate}">
+    </div>
+
+    <div>
+        <label> Deadline: </label>
+        <input id="deadline" type="date" th:field="*{taskDeadline}">
+    </div>
+
+    <div>
+        <label> Duration (in hours):  </label>
+        <input id="duration" type="number" th:field="*{duration}">
+    </div>
+
+    <div>
+        <label> Description: </label>
+        <input id="description" type="text" th:field="*{taskDescription}">
+    </div>
+
+    <button type="submit">Add task to project </button>
+</form>
+</body>
+</html>

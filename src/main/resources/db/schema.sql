@@ -69,7 +69,7 @@ CREATE TABLE Task
     name VARCHAR(30),
     startDate DATE,
     deadline DATE,
-    duration DOUBLE,
+    duration INTEGER,
     description VARCHAR(100),
     PRIMARY KEY (taskId),
     FOREIGN KEY (subProjectId) REFERENCES SubProject ON DELETE CASCADE
