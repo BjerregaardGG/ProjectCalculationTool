@@ -8,6 +8,7 @@ public class ProjectModel {
     private Date endDate;
     private double Budget;
     private String description;
+    private Boolean isDone;
 
     public ProjectModel(String name, Date startDate, Date endDate, double Budget, String description) {
         this.name = name;
@@ -43,5 +44,12 @@ public class ProjectModel {
     public String getDescription() {
         return description;
     }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public Boolean getDone() {
+        return isDone;
+    }
+
 
 }
