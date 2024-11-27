@@ -9,6 +9,10 @@ public class ProjectController {
 
     ProjectService projectService;
 
+    public ProjectController(ProjectService projectService) {
+        this.projectService = projectService;
+    }
+
     @GetMapping("/create_project")
     public String createProject(Model model) {
         model.addAttribute("project", new ProjectModel());
