@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class ProjectController {
 
+    ProjectService projectService;
+
     @GetMapping("/project/{projectId}/time")
     public String showProjectTime(@PathVariable int projectId,Model model) {
-        double totalTime = projectRepository.calculateTime(projectId);
-
+        double totalTime = projectService.calculateTime(projectId);
         model.addAttribute("totalTime", totalTime);
         return "some-project-page";
     }

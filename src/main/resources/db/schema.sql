@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS DoneTask CASCADE;
 CREATE TABLE Account
 (
     accountId INTEGER NOT NULL AUTO_INCREMENT,
-    userName  VARCHAR(30),
+    userName  VARCHAR(30) UNIQUE,
     password  VARCHAR(40),
     PRIMARY KEY (accountId)
 );
@@ -80,14 +80,14 @@ CREATE TABLE Task
 CREATE TABLE DoneTask
 (
     doneTaskId INTEGER NOT NULL AUTO_INCREMENT,
-    taskId INTEGER,
+    projectId INTEGER,
     name VARCHAR(30),
     startDate DATE,
     deadline DATE,
     Duration double,
     Description VARCHAR (100),
     PRIMARY KEY (doneTaskId),
-    FOREIGN KEY (taskId) REFERENCES Task(taskId) ON DELETE CASCADE
+    FOREIGN KEY (projectId) REFERENCES Project(projectId) ON DELETE CASCADE
 );
 
 CREATE TABLE TaskEmployee
