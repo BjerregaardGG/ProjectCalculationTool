@@ -44,7 +44,7 @@ public class ProjectController {
         double sum = 0;
         //Calculate total price based on job and time used.
         for(EmployeeModel employeeModel : employee){
-            Roles roles = employeeModel.getRoles()
+            Roles roles = employeeModel.getRoles();
             sum += roles.getWage() * newTime;
 
         }

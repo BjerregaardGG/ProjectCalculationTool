@@ -32,8 +32,8 @@ public class ProjectRepository {
                     rs.getString("password"),
                     rs.getString("name"),
                     rs.getString("email"),
-                    rs.getString("roles")
-            )
+                    rs.getString("roles"));
+
     //Will give you a list of all projects, using the projectModelRowMapper
     public List<ProjectModel> getAllProjects() {
         String sql = "SELECT name, start_date, deadline, budget, description, status FROM project";
@@ -58,9 +58,9 @@ public class ProjectRepository {
         return jdbcTemplate.queryForObject(sql, new Object[]{projectId}, Double.class);
     }
 
-    public List<EmployeeModel> getAllEmployeesInTask(int projectId) {
-        String sql = "SELECT * FROM employee WHERE id = (SELECT employee_id FROM project_team WHERE project_id = ?) ";
-        return jdbcTemplate.query(sql, employeeModelRowMapper, projectId);
+    public List<EmployeeModel> getAllEmployeesInTask(int taskId) {
+        String sql = "SELECT * FROM employee WHERE id = (SELECT employee_id FROM taskEmployee WHERE task_id = ?) ";
+        return jdbcTemplate.query(sql, employeeModelRowMapper, taskId);
     }
 
     public Integer getProjectIdFromEmployeeID(Integer employeeID) {
