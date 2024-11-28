@@ -47,7 +47,7 @@ public class ProjectRepository {
         return jdbcTemplate.queryForObject(sql, new Object[]{projectId}, Double.class);
     }
     public List<ProjectModel> getActiveProjects(){
-        String sql = "select * from project WHERE isDone = false";
+        String sql = "select * from project WHERE status = false";
         return jdbcTemplate.query(sql, projectModelRowMapper);
     }
 }

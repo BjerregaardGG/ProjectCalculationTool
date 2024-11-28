@@ -11,8 +11,8 @@ public class ProjectModel {
     private LocalDate startDate;
     private LocalDate deadline;
     private boolean status;
-    public ProjectModel() {
 
+    public ProjectModel() {
     }
 
     public ProjectModel(String name,LocalDate startDate,LocalDate deadline ,double budget, String description,boolean status) {
