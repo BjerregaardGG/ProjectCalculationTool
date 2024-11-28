@@ -13,7 +13,7 @@ public class EmployeeRepository {
     }
 
     public void createEmployee(EmployeeModel employee) {
-        String queryEmployee = "INSERT INTO employee VALUES (?,?,?,?,?)";
+        String queryEmployee = "INSERT INTO employee(name, email, username, password, roles) VALUES (?,?,?,?,?)";
 
         int employeeCreated = jdbcTemplate.update(
             queryEmployee,
@@ -21,21 +21,21 @@ public class EmployeeRepository {
             employee.getEmail(),
             employee.getUsername(),
             employee.getPassword(),
-            employee.getRoles()
+            employee.getRoles().name()
         );
-        if (employeeCreated == 0) {
+        if (employeeCreated != 1) {
             throw new RuntimeException("Employee creation failed");
         }
     }
 
     public boolean findByUsername(String username) {
-        String queryEmployee = "SELECT * FROM employee WHERE userName = ?";
+        String queryEmployee = "SELECT COUNT(*) FROM employee WHERE username = ?";
         Integer count = jdbcTemplate.queryForObject(queryEmployee, Integer.class, username);
         return count > 0;
     }
 
     public boolean findByEmail(String email) {
-        String queryEmployee = "SELECT * FROM employee WHERE email = ?";
+        String queryEmployee = "SELECT COUNT(*) FROM employee WHERE email = ?";
         Integer count = jdbcTemplate.queryForObject(queryEmployee, Integer.class, email);
         return count > 0;
     }

@@ -1,10 +1,4 @@
-INSERT INTO Account(username, password)
-VALUES ('Hannibal24', 'HansiHinterseer02'),
-       ('Wasim13', '123og4'),
-       ('WalleMontana', 'AltidAltid');
-
-INSERT INTO Employee(name, email, accountId)
-VALUES ('Hannibal Vestergaard', 'Hannibal24@gmail.com',
-           SELECT accountId FROM ACCOUNT WHERE Account.username = 'Hannibal24');
+INSERT INTO Employee(name, email, username, password, roles)
+VALUES ('Hannibal Vestergaard', 'Hannibal24@gmail.com', 'Hannimal', 'pass1234','MANAGER');
 
 

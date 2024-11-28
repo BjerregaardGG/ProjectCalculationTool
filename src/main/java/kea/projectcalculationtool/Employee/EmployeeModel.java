@@ -6,6 +6,7 @@ public class EmployeeModel {
     private String email;
     private String username;
     private String password;
+    private String confirmPassword;
     private Roles roles;
 
     enum Roles {
@@ -24,12 +25,13 @@ public class EmployeeModel {
         }
     }
 
-    public EmployeeModel(int employeeID, String fullName, String email, String username, String password, Roles roles ) {
+    public EmployeeModel(int employeeID, String fullName, String email, String username, String password, String confirmPassword, Roles roles ) {
         this.employeeID = employeeID;
         this.fullName = fullName;
         this.email = email;
         this.username = username;
         this.password = password;
+        this.confirmPassword = confirmPassword;
         this.roles = roles;
     }
     public EmployeeModel() {
@@ -69,5 +71,11 @@ public class EmployeeModel {
     }
     public void setRoles(Roles roles) {
         this.roles = roles;
+    }
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

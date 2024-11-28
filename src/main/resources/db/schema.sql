@@ -15,8 +15,9 @@ CREATE TABLE employee
     password VARCHAR(40),
     name VARCHAR(30),
     email VARCHAR(30) UNIQUE,
-    roles ENUM ('INTERN','JUNIOR','SENIOR','MANAGER')
-    PRIMARY KEY (id),
+    roles VARCHAR(20),
+    CONSTRAINT chk_roles CHECK (roles IN ('INTERN', 'JUNIOR', 'SENIOR', 'MANAGER')),
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE project
@@ -52,8 +53,8 @@ CREATE TABLE project_team
     project_id INTEGER,
     employee_id INTEGER,
     PRIMARY KEY (project_id, employee_id),
-    FOREIGN KEY (project_id) REFERENCES Project (id) ON DELETE CASCADE,
-    FOREIGN KEY (employee_id) REFERENCES Employee (id) ON DELETE CASCADE
+    FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE,
+    FOREIGN KEY (employee_id) REFERENCES employee (id) ON DELETE CASCADE
 );
 
 CREATE TABLE task
@@ -67,7 +68,7 @@ CREATE TABLE task
     description VARCHAR(100),
     status BOOLEAN,
     PRIMARY KEY (id),
-    FOREIGN KEY (sub_project_id) REFERENCES SubProject ON DELETE CASCADE
+    FOREIGN KEY (sub_project_id) REFERENCES sub_project ON DELETE CASCADE
 );
 
 CREATE TABLE task_employee
@@ -75,7 +76,7 @@ CREATE TABLE task_employee
     task_id INTEGER,
     employee_id INTEGER,
     PRIMARY KEY (task_id, employee_id),
-    FOREIGN KEY (task_id) REFERENCES Task (id) ON DELETE CASCADE,
-    FOREIGN KEY (employee_id) REFERENCES Employee (id) ON DELETE CASCADE
+    FOREIGN KEY (task_id) REFERENCES task (id) ON DELETE CASCADE,
+    FOREIGN KEY (employee_id) REFERENCES employee (id) ON DELETE CASCADE
 );
 

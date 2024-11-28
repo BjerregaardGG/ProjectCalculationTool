@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@Controller("/")
+@Controller
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -15,16 +15,21 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("create_employee")
+    @GetMapping("/create_employee")
     public String createEmployee(Model model) {
         model.addAttribute("employee", new EmployeeModel());
-        return "employee";
+        model.addAttribute("roles", EmployeeModel.Roles.values());
+        return "create_employee";
     }
 
-    @PostMapping("create_employee")
+    @PostMapping("/create_employee")
     public String createEmployee(@ModelAttribute("employee") EmployeeModel employee, Model model) {
         if(employeeService.findByUsername(employee.getUsername()) || employeeService.findByEmail(employee.getEmail())){
             model.addAttribute("error", "username or email already exists");
+            return "create_employee";
+        }
+        if(!employee.getPassword().equals(employee.getConfirmPassword())){
+            model.addAttribute("passerror", "passwords do not match");
             return "create_employee";
         }
         employeeService.createEmployee(employee);

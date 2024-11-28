@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Employee</title>
+    <link>
+</head>
+<body>
+<div>
+    <form th:action="@{/create_employee}" th:object="${employee}" method="post">
+        <h2>Create an account</h2>
+        <h2>Employee Details</h2>
+        <div>
+            <label for="fullName">Your Fullname:</label>
+            <input type="text" id="fullName" name="fullName" th:field="*{fullName}" required/>
+        </div>
+        <div>
+            <label for="username">Your Username</label>
+            <input type="text" id="username" name="username" th:field="*{username}" required/>
+        </div>
+        <div>
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" th:field="*{email}" required/>
+        </div>
+        <div>
+            <label for="password">Your Password:</label>
+            <input type="password" id="password" name="password" th:field="*{password}" required/>
+        </div>
+        <div>
+            <label for="confirmPassword">Confirm your Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}"/>
+        </div>
+        <div>
+            <label for="roles">Roles</label>
+            <select id="roles" th:field="*{roles}">
+                <option th:each="role : ${roles}"
+                        th:value="${role.name()}"
+                        th:text="${role.name()}">
+                </option>
+            </select>
+        </div>
+        <button type="submit">Submit</button>
+        <p th:if="${success}" style="color:green">User created successfully!</p>
+        <p th:if="${error}" style="color:red">Error: Username or email already exists.</p>
+        <p th:if="${passerror}" style="color:red">Not matching passwords.</p>
+    </form>
+</div>
+
+</body>
+</html>
