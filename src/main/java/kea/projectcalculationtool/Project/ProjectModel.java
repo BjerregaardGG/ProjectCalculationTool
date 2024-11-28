@@ -6,7 +6,7 @@ public class ProjectModel {
     private String name;
     private Date startDate;
     private Date endDate;
-    private double Budget;
+    private double budget;
     private String description;
     private Boolean isDone;
 
@@ -14,7 +14,7 @@ public class ProjectModel {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.Budget = Budget;
+        this.budget = Budget;
         this.description = description;
     }
     public String getName() {
@@ -36,10 +36,10 @@ public class ProjectModel {
         this.endDate = endDate;
     }
     public double getBudget() {
-        return Budget;
+        return budget;
     }
     public void setBudget(double budget) {
-        Budget = budget;
+        budget = budget;
     }
     public String getDescription() {
         return description;
