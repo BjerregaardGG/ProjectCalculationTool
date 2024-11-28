@@ -36,6 +36,13 @@
         <input id="description" type="text" th:field="*{taskDescription}">
     </div>
 
+    <div>
+        <label> Add employee: </label>
+        <select id="employeeId" name="employeeId">
+            <option th:each="employee : ${employees}" th:value = "*{emp}"
+        </select>
+    </div>
+
     <button type="submit">Add task to project </button>
 </form>
 </body>

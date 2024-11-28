@@ -12,9 +12,9 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public void createTask(TaskModel task, int id) {
+    public void createTaskAndAddEmployee(TaskModel task, int taskId, int employeeId) {
         try {
-            taskRepository.createTask(task, id);
+            taskRepository.createTask(task, taskId, employeeId);
 
         } catch (Exception e) {
             throw new RuntimeException(e);

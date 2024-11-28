@@ -24,7 +24,7 @@ public class TaskRepository {
     ));
 
     // method for creating a task
-    public void createTask(TaskModel task, int subProjectId) {
+    public void createTask(TaskModel task, int subProjectId, int employeeId) {
 
         String query = "insert into Task (name, startDate, deadline, duration, description, subProjectId) values (?, ?, ?, ?, ?, ?)";
 
@@ -41,6 +41,13 @@ public class TaskRepository {
         if(rowsAffected != 1 ) {
             System.out.println("Problem. Could not insert the new task");
         }
+
+        // last_insert_id() --> because we need the id from the current form to insert in TaskEmployee
+        String employeeAssignment = "insert into TaskEmployee (taskId, employeeId) values (last_insert_id(), ?)";
+
+        // connects employee with the current task
+        jdbcTemplate.update(employeeAssignment, employeeId);
+
     }
 
     // method for getting a task by id
