@@ -29,6 +29,6 @@ public class ProjectService {
     }
 
     public List<EmployeeModel> getAllEmployeesInTask(int projectId) {
-        return projectRepository.getAllEmploueesInTask(projectId);
+        return projectRepository.getAllEmployeesInTask(projectId);
     }
 }
