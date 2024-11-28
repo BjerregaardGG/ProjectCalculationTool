@@ -10,6 +10,7 @@
     <h2> Add a Task to the project </h2>
 
     <input type="hidden" name="subProjectId" th:value="${subProjectId}" />
+    <input type="hidden" name="projectId" th:value="${projectId}"/>
 
     <div>
         <label> Task Name: </label>
@@ -39,7 +40,7 @@
     <div>
         <label> Add employee: </label>
         <select id="employeeId" name="employeeId">
-            <option th:each="employee : ${employees}" th:value = "*{emp}"
+            <option th:each="employee : ${employeesByProject}" th:value = "${employee.id}" th:text="${employee.fullName}"></option>
         </select>
     </div>
 

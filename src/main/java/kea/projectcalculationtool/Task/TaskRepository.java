@@ -14,11 +14,11 @@ public class TaskRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // rowmapper --> skaber task objekter ud fra ResultSet
+    // rowmapper --> creates task object out of a resultSet
     private final RowMapper<TaskModel> taskModelRowMapper = ((rs, rowNum) ->
             new TaskModel(
             rs.getString("name"), rs.getString("description"),
-            rs.getDate("startDate").toLocalDate(),
+            rs.getDate("start_date").toLocalDate(),
             rs.getDate("deadline").toLocalDate(),
             rs.getInt("duration")
     ));
@@ -26,7 +26,7 @@ public class TaskRepository {
     // method for creating a task
     public void createTask(TaskModel task, int subProjectId, int employeeId) {
 
-        String query = "insert into Task (name, startDate, deadline, duration, description, subProjectId) values (?, ?, ?, ?, ?, ?)";
+        String query = "insert into task (name, start_date, deadline, duration, description, sub_project_id) values (?, ?, ?, ?, ?, ?)";
 
         int rowsAffected = jdbcTemplate.update(
                 query,
@@ -43,9 +43,9 @@ public class TaskRepository {
         }
 
         // last_insert_id() --> because we need the id from the current form to insert in TaskEmployee
-        String employeeAssignment = "insert into TaskEmployee (taskId, employeeId) values (last_insert_id(), ?)";
+        String employeeAssignment = "insert into task_employee (task_id, employee_id) values (last_insert_id(), ?)";
 
-        // connects employee with the current task
+        // connects employee with the current task in TaskEmployee
         jdbcTemplate.update(employeeAssignment, employeeId);
 
     }
@@ -53,7 +53,7 @@ public class TaskRepository {
     // method for getting a task by id
     public TaskModel getTask(int id) {
 
-        String query = "select * from Task where taskId = ?";
+        String query = "select * from task where id = ?";
 
         return jdbcTemplate.queryForObject(query, taskModelRowMapper, id);
     }

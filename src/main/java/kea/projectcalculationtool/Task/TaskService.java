@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class TaskService {
 
-    TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
     public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
