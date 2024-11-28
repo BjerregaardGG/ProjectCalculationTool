@@ -1,22 +1,37 @@
 package kea.projectcalculationtool.Task;
 
-import java.util.Date;
+import org.springframework.scheduling.config.Task;
+
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class TaskModel {
     private String taskName;
     private String taskDescription;
-    private Date taskStartDate;
-    private Date taskDeadline;
+    private LocalDate taskStartDate;
+    private LocalDate taskDeadline;
     private String taskStatus;
     private int duration;
 
-    public TaskModel(String taskName, String taskDescription, Date taskStartDate, Date taskDeadline, String taskStatus, int duration) {
+    public TaskModel(String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, String taskStatus, int duration) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.taskStartDate = taskStartDate;
         this.taskDeadline = taskDeadline;
         this.taskStatus = taskStatus;
         this.duration = duration;
+    }
+
+    public TaskModel(String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, int duration) {
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+        this.taskStartDate = taskStartDate;
+        this.taskDeadline = taskDeadline;
+        this.duration = duration;
+    }
+
+    public TaskModel(){
+
     }
 
     public String getTaskName() {
@@ -35,19 +50,19 @@ public class TaskModel {
         this.taskDescription = taskDescription;
     }
 
-    public Date getTaskStartDate() {
+    public LocalDate getTaskStartDate() {
         return taskStartDate;
     }
 
-    public void setTaskStartDate(Date taskStartDate) {
+    public void setTaskStartDate(LocalDate taskStartDate) {
         this.taskStartDate = taskStartDate;
     }
 
-    public Date getTaskDeadline() {
+    public LocalDate getTaskDeadline() {
         return taskDeadline;
     }
 
-    public void setTaskDeadline(Date taskDeadline) {
+    public void setTaskDeadline(LocalDate taskDeadline) {
         this.taskDeadline = taskDeadline;
     }
 

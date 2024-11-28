@@ -60,7 +60,7 @@ CREATE TABLE task
     name VARCHAR(30),
     start_date DATE,
     deadline DATE,
-    duration DOUBLE,
+    duration INTEGER,
     description VARCHAR(100),
     status BOOLEAN,
     PRIMARY KEY (id),
