@@ -1,55 +1,90 @@
 package kea.projectcalculationtool.Project;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ProjectModel {
-    private String name;
-    private Date startDate;
-    private Date endDate;
-    private double budget;
-    private String description;
-    private Boolean isDone;
 
-    public ProjectModel(String name, Date startDate, Date endDate, double Budget, String description) {
-        this.name = name;
+    private int projectId;
+    private String projectName;
+    private String projectDescription;
+    private double Budget;
+    private LocalDate startDate;
+    private LocalDate deadline;
+    private boolean status;
+    public ProjectModel() {
+
+    }
+
+    public ProjectModel(String name,LocalDate startDate,LocalDate deadline ,double budget, String description,boolean status) {
+        this.projectName = name;
+        this.deadline = deadline;
+        this.Budget = budget;
+        this.projectDescription = description;
         this.startDate = startDate;
-        this.endDate = endDate;
-        this.budget = Budget;
-        this.description = description;
+        this.status=status;
     }
-    public String getName() {
-        return name;
+    public ProjectModel(String projectName,String projectDescription,double Budget,LocalDate startDate,LocalDate Deadline) {
+        this.projectName = projectName;
+        this.projectDescription = projectDescription;
+        this.Budget = Budget;
+        this.startDate = startDate;
+        this.deadline = Deadline;
     }
-    public void setName(String name) {
-        this.name = name;
+
+    public int getProjectId() {
+        return projectId;
     }
-    public Date getStartDate() {
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getProjectDescription() {
+        return projectDescription;
+    }
+
+    public void setProjectDescription(String projectDescription) {
+        this.projectDescription = projectDescription;
+    }
+
+    public double getBudget() {
+        return Budget;
+    }
+
+    public void setBudget(double budget) {
+        Budget = budget;
+    }
+
+    public LocalDate getStartDate() {
         return startDate;
     }
-    public void setStartDate(Date startDate) {
+
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
-    public Date getEndDate() {
-        return endDate;
-    }
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-    public double getBudget() {
-        return budget;
-    }
-    public void setBudget(double budget) {
-        budget = budget;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public Boolean getDone() {
-        return isDone;
+
+    public LocalDate getDeadline() {
+        return deadline;
     }
 
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 
 }
