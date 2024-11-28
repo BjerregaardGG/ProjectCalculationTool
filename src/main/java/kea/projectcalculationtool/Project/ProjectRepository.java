@@ -1,9 +1,11 @@
 package kea.projectcalculationtool.Project;
 
+import kea.projectcalculationtool.Employee.EmployeeModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -46,5 +48,11 @@ public class ProjectRepository {
         //using a inner query, which first gives us the subproject id that is bound to the project id, and then the tasks that are bound to these subprojects.
         String sql = "SELECT SUM(duration) FROM task WHERE sub_project_id = (SELECT sub_project_id FROM sub_project WHERE project_id = ?)";
         return jdbcTemplate.queryForObject(sql, new Object[]{projectId}, Double.class);
+    }
+
+    public List<EmployeeModel> getAllEmploueesInTask(int projectId) {
+        List<EmployeeModel> employees = new ArrayList<>();
+        String sql = "SELECT employee FROM "
+        return employees
     }
 }

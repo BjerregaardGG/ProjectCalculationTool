@@ -1,8 +1,11 @@
 package kea.projectcalculationtool.Project;
 
+import kea.projectcalculationtool.Employee.EmployeeModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class ProjectController {
@@ -22,13 +25,28 @@ public class ProjectController {
     @PostMapping("/create_project")
     public String createNewProject(@ModelAttribute ("project") ProjectModel project){
         projectService.createProject(project);
-        return "redirect:/";
+        // insert some way to ensure person dont call project same name as one of their others
+        return "redirect:/home";
     }
 
     @GetMapping("/project/{projectId}/time")
     public String showProjectTime(@PathVariable int projectId,Model model) {
         double totalTime = projectService.calculateTime(projectId);
         model.addAttribute("totalTime", totalTime);
+        return "some-project-page";
+    }
+
+    @GetMapping("/project/{projectId}/cost")
+    public String showProjectCost(@PathVariable int projectId,Model model) {
+        double totalTime = projectService.calculateTime(projectId);
+        List<EmployeeModel> employee = projectService.getAllEmployeesInTask(projectId);
+        double newTime = totalTime / employee.size();
+        double sum = 0;
+        for(EmployeeModel employeeModel : employee){
+
+            sum = employee.getRoles().employeeModel.getRoles().getWage() * newTime + sum;
+
+        }
         return "some-project-page";
     }
 }
