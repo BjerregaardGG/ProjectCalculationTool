@@ -1,0 +1,108 @@
+body {
+    font-family: 'Arial', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    line-height: 1.6;
+    color: #333;
+}
+
+#Logout {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+#Logout button {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#Logout button:hover {
+    background-color: #ff5252;
+}
+#action-links {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start; /* Aligns the buttons to the left */
+    margin-bottom: 20px;
+}
+/* Remove blue color and underline for links */
+.custom-link {
+    color: inherit; /* Inherits the text color from the parent */
+    text-decoration: none; /* Removes underline */
+}
+
+/* Styling for the Finished cell */
+.finished-cell {
+    font-weight: bold;
+    color: green; /* Adjust this color to your preference */
+}
+
+
+div#action-links button {
+    background-color: #4ecdc4;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+}
+
+div#action-links button:hover {
+    background-color: #45b7aa;
+}
+
+
+
+p {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table thead {
+    background-color: #4ecdc4;
+    color: white;
+}
+
+table th {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #4ecdc4 !important;
+}
+
+table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+table tr:hover {
+    background-color: #f1f3f5;
+}
+
+table thead tr:hover {
+    background-color: #4ecdc4;
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Project</title>
+    <link rel="stylesheet" th:href="@{/create_project.css}">
+</head>
+<body>
+<div id="top-button">
+    <a th:href="@{/home}"><button>Home</button></a>
+</div>
+<ul>
+    <li><a th:href="@{/projects}">If a button is needed place here</a></li>
+</ul>
+
+<h1>Create a New Project</h1>
+
+<!-- Form to create a new project -->
+<form th:action="@{/create_project}" method="post" th:object="${project}">
+    <div>
+        <label for="projectName">Project Name:</label>
+        <input type="text" id="projectName" th:field="*{projectName}" placeholder="Enter project name">
+    </div>
+    <div>
+        <label for="projectDescription">Project Description:</label>
+        <textarea id="projectDescription" th:field="*{projectDescription}" placeholder="Enter project description"></textarea>
+    </div>
+    <div>
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" th:field="*{startDate}">
+    </div>
+    <div>
+        <label for="deadline">Deadline:</label>
+        <input type="date" id="deadline" th:field="*{deadline}">
+    </div>
+    <div>
+        <label for="budget">Budget:</label>
+        <input type="number" id="budget" th:field="*{budget}" placeholder="Enter budget">
+    </div>
+    <div>
+        <label for="status">Status:</label>
+        <input type="checkbox" id="status" th:field="*{status}"> Active
+    </div>
+    <div>
+        <button type="submit">Create Project</button>
+    </div>
+</form>
+</body>
+</html>
