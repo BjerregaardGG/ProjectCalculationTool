@@ -29,6 +29,22 @@ public class ProjectController {
         return "redirect:/home";
     }
 
+    // will get a List of employees and Projects to choose from, and values from those will be combinded to add to project_team
+    @GetMapping("/addToProject")
+    public String addToProject(Model model) {
+        List<EmployeeModel> employees = projectService.getAllEmployees();
+        List<ProjectModel> projects = projectService.getAllProjects();
+        model.addAttribute("employees", employees);
+        model.addAttribute("projects", projects);
+        return "add_to_project";
+    }
+
+    @PostMapping("/addToProject")
+    public String assignToProject(@RequestParam("employeeId") int employeeId,
+                                  @RequestParam("projectId") int projectId) {
+        projectService.addEmployeeToProject(employeeId, projectId);
+        return "redirect:/home";
+
     @GetMapping("/project/{projectId}/time")
     public String showProjectTime(@PathVariable int projectId,Model model) {
         double totalTime = projectService.calculateTime(projectId);

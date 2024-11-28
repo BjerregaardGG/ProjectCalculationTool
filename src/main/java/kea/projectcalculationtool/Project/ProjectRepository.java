@@ -59,12 +59,22 @@ public class ProjectRepository {
     }
 
     public List<EmployeeModel> getAllEmployeesInTask(int taskId) {
-        String sql = "SELECT * FROM employee WHERE id = (SELECT employee_id FROM taskEmployee WHERE task_id = ?) ";
+        String sql = "SELECT * FROM employee WHERE id = (SELECT employee_id FROM task_employee WHERE task_id = ?) ";
         return jdbcTemplate.query(sql, employeeModelRowMapper, taskId);
     }
 
     public Integer getProjectIdFromEmployeeID(Integer employeeID) {
         String sql = "SELECT project_id FROM project_team WHERE employee_id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{employeeID}, Integer.class);
+    }
+
+    public List<EmployeeModel> getAllEmployees() {
+        String queryEmployee = "SELECT * FROM employee";
+        return jdbcTemplate.query(queryEmployee,employeeModelRowMapper);
+    }
+
+    public void addEmployeeToProject(int employeeId,int projectId) {
+        String sql = "INSERT INTO project_team(employee_id, project_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, employeeId, projectId);
     }
 }

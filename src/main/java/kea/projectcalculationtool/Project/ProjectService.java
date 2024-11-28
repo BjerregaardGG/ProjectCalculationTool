@@ -31,4 +31,12 @@ public class ProjectService {
     public List<EmployeeModel> getAllEmployeesInTask(int taskId) {
         return projectRepository.getAllEmployeesInTask(taskId);
     }
+
+    public List<EmployeeModel> getAllEmployees() {
+        return projectRepository.getAllEmployees();
+    }
+
+    public void addEmployeeToProject(int employeeId,int projectId) {
+        projectRepository.addEmployeeToProject(employeeId,projectId);
+    }
 }
