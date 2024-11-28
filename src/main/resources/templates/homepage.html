@@ -9,22 +9,29 @@
 <div id="Logout">
     <a th:href="@{/logout}"><button>Logout</button></a>
 </div>
-<ul>
-    <li><a th:href="@{/create_project}">Create Project</a></li>
-</ul>
-<p>Current Projects</p>
+<div id="action-links">
+    <a href="/create_project"><button>Create Project</button></a>
+    <a href="/view_project"><button>View Current Project</button></a>
+</div>
+<p>Completed Projects</p>
 <table>
     <thead>
     <tr>
         <th>Project Name</th>
         <th>Project Description</th>
+        <th>Status</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="project : ${projects}">
-        <td th:text="${project.projectName}"></td>
+    <tr th:each="project : ${projects}" th:if="${project.status}">
+        <td>
+            <a th:href="${'/DoneProject/' + project.projectId}" th:text="${project.projectName}" class="custom-link"></a>
+        </td>
         <td th:text="${project.projectDescription}"></td>
+        <td class="finished-cell">Finished</td>
     </tr>
+
+
     </tbody>
 </table>
 </body>

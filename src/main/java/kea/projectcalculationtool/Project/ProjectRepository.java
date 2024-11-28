@@ -41,7 +41,9 @@ public class ProjectRepository {
                 project.getStatus());
 
     }
+    //Ensures that all tasks duration is added together when they belong to a certain project/projectId
     public double calculateTime(int projectId) {
+        //using a inner query, which first gives us the subproject id that is bound to the project id, and then the tasks that are bound to these subprojects.
         String sql = "SELECT SUM(duration) FROM task WHERE sub_project_id = (SELECT sub_project_id FROM sub_project WHERE project_id = ?)";
         return jdbcTemplate.queryForObject(sql, new Object[]{projectId}, Double.class);
     }

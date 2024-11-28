@@ -26,26 +26,41 @@ body {
 #Logout button:hover {
     background-color: #ff5252;
 }
-
-ul {
-    list-style-type: none;
-    padding: 0;
+#action-links {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start; /* Aligns the buttons to the left */
     margin-bottom: 20px;
 }
+/* Remove blue color and underline for links */
+.custom-link {
+    color: inherit; /* Inherits the text color from the parent */
+    text-decoration: none; /* Removes underline */
+}
 
-ul li a {
-    display: inline-block;
+/* Styling for the Finished cell */
+.finished-cell {
+    font-weight: bold;
+    color: green; /* Adjust this color to your preference */
+}
+
+
+div#action-links button {
     background-color: #4ecdc4;
     color: white;
-    text-decoration: none;
+    border: none;
     padding: 10px 15px;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
 }
 
-ul li a:hover {
+div#action-links button:hover {
     background-color: #45b7aa;
 }
+
+
 
 p {
     font-size: 1.2em;
@@ -71,7 +86,6 @@ table th {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #e0e0e0;
-    /* Removing hover effect for header */
     background-color: #4ecdc4 !important;
 }
 
@@ -89,7 +103,6 @@ table tr:hover {
     background-color: #f1f3f5;
 }
 
-/* Explicitly prevent header from changing on hover */
 table thead tr:hover {
     background-color: #4ecdc4;
 }
