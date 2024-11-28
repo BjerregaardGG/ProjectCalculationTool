@@ -12,6 +12,13 @@ public class EmployeeModel {
         this.userName = userName;
         this.password = password;
     }
+    public EmployeeModel(String username, String password, String fullName, String email, Roles roles) {
+        this.userName = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.email = email;
+        this.roles = roles;
+    }
     public String getFullName() {
         return fullName;
     }

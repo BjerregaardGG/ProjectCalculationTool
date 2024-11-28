@@ -42,11 +42,13 @@ public class ProjectController {
         List<EmployeeModel> employee = projectService.getAllEmployeesInTask(projectId);
         double newTime = totalTime / employee.size();
         double sum = 0;
+        //Calculate total price based on job and time used.
         for(EmployeeModel employeeModel : employee){
-
-            sum = employee.getRoles().employeeModel.getRoles().getWage() * newTime + sum;
+            Roles roles = employeeModel.getRoles()
+            sum += roles.getWage() * newTime;
 
         }
+        model.addAttribute("totalPrice", sum);
         return "some-project-page";
     }
 }
