@@ -1,101 +1,78 @@
-CREATE SCHEMA IF NOT EXISTS ProjectCalculationDB;
+CREATE SCHEMA IF NOT EXISTS projectcalculationdb;
 
-DROP TABLE IF EXISTS Account CASCADE;
-DROP TABLE IF EXISTS Employee CASCADE;
-DROP TABLE IF EXISTS Project CASCADE;
-DROP TABLE IF EXISTS ProjectTeam CASCADE;
-DROP TABLE IF EXISTS Task CASCADE;
-DROP TABLE IF EXISTS TaskEmployee CASCADE;
-DROP TABLE IF EXISTS SubProject CASCADE;
-DROP TABLE IF EXISTS DoneTask CASCADE;
+DROP TABLE IF EXISTS employee CASCADE;
+DROP TABLE IF EXISTS project CASCADE;
+DROP TABLE IF EXISTS project_team CASCADE;
+DROP TABLE IF EXISTS task CASCADE;
+DROP TABLE IF EXISTS task_employee CASCADE;
+DROP TABLE IF EXISTS sub_project CASCADE;
 
-CREATE TABLE Account
+CREATE TABLE employee
 (
-    accountId INTEGER NOT NULL AUTO_INCREMENT,
-    userName  VARCHAR(30),
-    password  VARCHAR(40),
-    PRIMARY KEY (accountId)
-);
-
-CREATE TABLE Employee
-(
-    employeeId INTEGER NOT NULL AUTO_INCREMENT,
-    accountId  INTEGER,
-    name       VARCHAR(30),
-    email      VARCHAR(30) UNIQUE,
-    PRIMARY KEY (employeeId),
-    FOREIGN KEY (accountId) REFERENCES Account (accountId) ON DELETE CASCADE
-);
-
-CREATE TABLE Project
-(
-    projectId INTEGER NOT NULL AUTO_INCREMENT,
-    employeeId INTEGER,
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    username VARCHAR(30),
+    password VARCHAR(40),
     name VARCHAR(30),
-    startDate DATE,
+    email VARCHAR(30) UNIQUE,
+    roles VARCHAR(10) CHECK (roles IN ('INTERN', 'JUNIOR', 'SENIOR', 'MANAGER')),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE project
+(
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR(30),
+    start_date DATE,
     deadline DATE,
     budget DOUBLE,
     description VARCHAR(100),
-    PRIMARY KEY (projectId),
-    FOREIGN KEY (employeeId) REFERENCES Employee (employeeId) ON DELETE CASCADE
+    status BOOLEAN,
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE SubProject
+CREATE TABLE sub_project
 (
-    subProjectId INTEGER NOT NULL AUTO_INCREMENT,
-    projectId INTEGER,
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    project_id INTEGER,
     name VARCHAR(30),
-    dateDate DATE,
+    start_date DATE,
     deadline DATE,
-    subProjectBudget DOUBLE,
+    budget DOUBLE,
     description VARCHAR(100),
-    PRIMARY KEY (subProjectId),
-    FOREIGN KEY (projectId) REFERENCES Project(projectId) ON DELETE CASCADE
+    status BOOLEAN,
+    PRIMARY KEY (id),
+    FOREIGN KEY (project_id) REFERENCES project(id) ON DELETE CASCADE
 );
 
-CREATE TABLE ProjectTeam
+CREATE TABLE project_team
 (
-    projectId INTEGER,
-    employeeId INTEGER,
-    PRIMARY KEY (projectId, employeeId),
-    FOREIGN KEY (projectId) REFERENCES Project (projectId) ON DELETE CASCADE,
-    FOREIGN KEY (employeeId) REFERENCES Employee (employeeId) ON DELETE CASCADE
+    project_id INTEGER,
+    employee_id INTEGER,
+    PRIMARY KEY (project_id, employee_id),
+    FOREIGN KEY (project_id) REFERENCES project(id) ON DELETE CASCADE,
+    FOREIGN KEY (employee_id) REFERENCES employee(id) ON DELETE CASCADE
 );
 
-CREATE TABLE Task
+CREATE TABLE task
 (
-    taskId INTEGER NOT NULL AUTO_INCREMENT,
-    subProjectId INTEGER,
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    sub_project_id INTEGER,
     name VARCHAR(30),
-    startDate DATE,
+    start_date DATE,
     deadline DATE,
     duration DOUBLE,
     description VARCHAR(100),
-    PRIMARY KEY (taskId),
-    FOREIGN KEY (subProjectId) REFERENCES SubProject ON DELETE CASCADE
+    status BOOLEAN,
+    PRIMARY KEY (id),
+    FOREIGN KEY (sub_project_id) REFERENCES sub_project(id) ON DELETE CASCADE
 );
 
-
-
-CREATE TABLE DoneTask
+CREATE TABLE task_employee
 (
-    doneTaskId INTEGER NOT NULL AUTO_INCREMENT,
-    taskId INTEGER,
-    name VARCHAR(30),
-    startDate DATE,
-    deadline DATE,
-    Duration double,
-    Description VARCHAR (100),
-    PRIMARY KEY (doneTaskId),
-    FOREIGN KEY (taskId) REFERENCES Task(taskId) ON DELETE CASCADE
-);
-
-CREATE TABLE TaskEmployee
-(
-    taskId INTEGER,
-    employeeId INTEGER,
-    PRIMARY KEY (taskId, employeeId),
-    FOREIGN KEY (taskId) REFERENCES Task (taskId) ON DELETE CASCADE,
-    FOREIGN KEY (employeeId) REFERENCES Employee (employeeId) ON DELETE CASCADE
+    task_id INTEGER,
+    employee_id INTEGER,
+    PRIMARY KEY (task_id, employee_id),
+    FOREIGN KEY (task_id) REFERENCES task(id) ON DELETE CASCADE,
+    FOREIGN KEY (employee_id) REFERENCES employee(id) ON DELETE CASCADE
 );
 
