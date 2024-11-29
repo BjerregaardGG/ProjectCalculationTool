@@ -35,10 +35,11 @@ public class ProjectController {
         return "some-project-page";
     }
 
-    @GetMapping("/projects")
-    public String getActiveProjects(){
+    @GetMapping("/activeProjects")
+    public String getActiveProjects(Model model){
         List<ProjectModel> activeProjects = projectService.getActiveProjects();
-        return "projects";
+        model.addAttribute("projects", activeProjects);
+        return "activeProjects";
     }
 
 }
