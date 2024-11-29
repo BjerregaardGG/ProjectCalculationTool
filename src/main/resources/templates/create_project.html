@@ -38,8 +38,21 @@
         <input type="number" id="budget" th:field="*{budget}" placeholder="Enter budget">
     </div>
     <div>
+        <label for="employees">Assign Employees:</label>
+        <select id="employees" name="employees" multiple>
+            <option th:each="employee : ${employees}"
+                    th:value="${employee.id}"
+                    th:text="${employee.name}">
+            </option>
+        </select>
+        <small>Hold Ctrl (Windows) or Command (Mac) to select multiple employees.</small>
+    </div>
+    <div>
         <label for="status">Status:</label>
-        <input type="checkbox" id="status" th:field="*{status}"> Active
+        <select id="status" th:field="*{status}" required>
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+        </select>
     </div>
     <div>
         <button type="submit">Create Project</button>

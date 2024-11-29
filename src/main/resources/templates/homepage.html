@@ -23,7 +23,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="project : ${projects}" th:if="${project.status} and ${project.getProjectId()== ProjectOwner}">
+    <tr th:each="project : ${projects}" th:if="${!project.status} and ${project.getProjectId()== ProjectOwner}">
         <td>
             <a th:href="${'/DoneProject/' + project.projectId}" th:text="${project.projectName}" class="custom-link"></a>
         </td>

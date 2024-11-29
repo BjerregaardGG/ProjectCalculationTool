@@ -19,12 +19,19 @@ public class ProjectController {
     @GetMapping("/create_project")
     public String createProject(Model model) {
         model.addAttribute("project", new ProjectModel());
+        List<EmployeeModel> employees = projectService.getAllEmployees();
+        model.addAttribute("employees", employees);
         return "create_project";
     }
 
     @PostMapping("/create_project")
-    public String createNewProject(@ModelAttribute ("project") ProjectModel project){
+    public String createNewProject(@ModelAttribute ("project") ProjectModel project,
+                                   @RequestParam("employees") List<Integer> employees){
         projectService.createProject(project);
+        for(Integer employee : employees){
+            projectService.addEmployeeToProject(employee,project.getProjectId());
+        }
+
         // insert some way to ensure person dont call project same name as one of their others
         return "redirect:/home";
     }
