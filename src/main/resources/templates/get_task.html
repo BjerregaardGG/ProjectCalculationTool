@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Get a task </title>
+    <link rel="stylesheet" th:href="@{/homepage.css}">
 </head>
 <body>
 
@@ -18,12 +19,16 @@
     </thead>
 
     <tbody>
-    <tr th:each="task : ${task}">
+    <tr th:each="task : ${priorityTasks}">
         <td th:text="${task.taskName}"></td>
         <td th:text="${task.taskDescription}"></td>
         <td th:text="${task.taskDeadline}"></td>
-        <td th:text="${task.taskPriority}"></td>
-        <td th:text="${task.taskStatus}"></td>
+        <td th:text="${task.priority}"></td>
+        <td>
+            <span th:if="${task.taskStatus}" th:text="'✔️'" class="status_done"></span>
+            <span th:if="${!task.taskStatus}" th:text="'✖'" class="status_not_done"></span>
+        </td>
+
     </tr>
     </tbody>
 </table>

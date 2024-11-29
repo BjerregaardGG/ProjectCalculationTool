@@ -12,6 +12,7 @@ public class TaskModel {
     private LocalDate taskDeadline;
     private boolean taskStatus;
     private int duration;
+    private int priority;
 
     public TaskModel(String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, boolean taskStatus, int duration) {
         this.taskName = taskName;
@@ -22,16 +23,26 @@ public class TaskModel {
         this.duration = duration;
     }
 
-    public TaskModel(String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, int duration) {
+    public TaskModel(String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, int duration, int priority, boolean taskStatus) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.taskStartDate = taskStartDate;
         this.taskDeadline = taskDeadline;
         this.duration = duration;
+        this.priority = priority;
+        this.taskStatus = taskStatus;
     }
 
     public TaskModel(){
 
+    }
+
+    public int getPriority(){
+        return priority;
+    }
+
+    public void setPriority(int priority){
+        this.priority = priority;
     }
 
     public String getTaskName() {

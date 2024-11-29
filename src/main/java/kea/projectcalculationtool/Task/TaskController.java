@@ -40,20 +40,24 @@ public class TaskController {
     public String createTask(@ModelAttribute TaskModel task,
                              @RequestParam("subProjectId") int subProjectId,
                              @RequestParam("employeeId") int employeeId) {
+
+        System.out.println("Received employeeId: " + employeeId);
         taskService.createTaskAndAddEmployee(task, subProjectId, employeeId);
 
-        return "redirect:/";
+
+        return "redirect:/get_task" + subProjectId;
     }
 
     @GetMapping("/get_task/{subProjectId}")
     public String getTaskBasedOnSubprojectId(@PathVariable int subProjectId, Model model) {
 
-        List<TaskModel> tasks = taskService.getAllTasksBasedOnSubProjectId(subProjectId);
+        List<TaskModel> priorityTasks = taskService.getTasksSortedByPriority(subProjectId);
 
-        model.addAttribute("task", tasks);
+        model.addAttribute("priorityTasks", priorityTasks);
 
         return "get_task";
     }
+
 
 
 }

@@ -27,6 +27,10 @@ public class TaskService {
         return taskRepository.getAllTasksBySubProjectId(subProjectId);
     }
 
+    public List<TaskModel> getTasksSortedByPriority(int subProjectId) {
+        return taskRepository.getTasksSortedByPriority(subProjectId);
+    }
+
     public TaskModel getTask(int id) {
         return taskRepository.getTask(id);
     }

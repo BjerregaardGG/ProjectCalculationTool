@@ -106,3 +106,13 @@ table tr:hover {
 table thead tr:hover {
     background-color: #4ecdc4;
 }
+
+.status-done {
+    color: green;
+    font-weight: bold;
+}
+
+.status-not-done {
+    color: red;
+    font-weight: bold;
+}
