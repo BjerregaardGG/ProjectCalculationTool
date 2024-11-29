@@ -5,6 +5,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class TaskRepository {
 
@@ -26,7 +28,7 @@ public class TaskRepository {
     // method for creating a task
     public void createTask(TaskModel task, int subProjectId, int employeeId) {
 
-        String query = "insert into task (name, start_date, deadline, duration, description, sub_project_id) values (?, ?, ?, ?, ?, ?)";
+        String query = "insert into task (name, start_date, deadline, duration, description, status, sub_project_id) values (?, ?, ?, ?, ?, ?, ?)";
 
         int rowsAffected = jdbcTemplate.update(
                 query,
@@ -35,6 +37,7 @@ public class TaskRepository {
                 task.getTaskDeadline(),
                 task.getDuration(),
                 task.getTaskDescription(),
+                task.getTaskStatus(),
                 subProjectId
         );
 
@@ -48,6 +51,8 @@ public class TaskRepository {
         // connects employee with the current task in TaskEmployee
         jdbcTemplate.update(employeeAssignment, employeeId);
 
+        // h2 tager ikke imode last_insert_id() -> skal anvende en KeyHolder
+
     }
 
     // method for getting a task by id
@@ -58,7 +63,13 @@ public class TaskRepository {
         return jdbcTemplate.queryForObject(query, taskModelRowMapper, id);
     }
 
-    // add employee to task
+    // method for getting tasks based on subProjectId
+    public List<TaskModel> getAllTasksBySubProjectId(int subProjectId) {
+
+        String query = "select * from task where sub_project_id = ?";
+
+        return jdbcTemplate.query(query, taskModelRowMapper, subProjectId);
+    }
 
 
 }

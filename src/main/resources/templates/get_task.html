@@ -6,5 +6,27 @@
 </head>
 <body>
 
+<table>
+    <thead>
+    <tr>
+        <th>Task Name </th>
+        <th>Description</th>
+        <th>Deadline</th>
+        <th>Priority</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="task : ${task}">
+        <td th:text="${task.taskName}"></td>
+        <td th:text="${task.taskDescription}"></td>
+        <td th:text="${task.taskDeadline}"></td>
+        <td th:text="${task.taskPriority}"></td>
+        <td th:text="${task.taskStatus}"></td>
+    </tr>
+    </tbody>
+</table>
+
 </body>
 </html>

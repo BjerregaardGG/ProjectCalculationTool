@@ -29,6 +29,7 @@ public class TaskController {
         List<EmployeeModel> employeesByProject = employeeService.getAllEmployeesByProject(projectId);
 
         model.addAttribute("task", task);
+        model.addAttribute("subProjectId", subProjectId);
         model.addAttribute("employeesByProject", employeesByProject);
 
         return "create_task";
@@ -44,11 +45,12 @@ public class TaskController {
         return "redirect:/";
     }
 
-    @GetMapping("/get_task/{id}")
-    public String getTask(@PathVariable int id, Model model) {
-        TaskModel task = taskService.getTask(id);
+    @GetMapping("/get_task/{subProjectId}")
+    public String getTaskBasedOnSubprojectId(@PathVariable int subProjectId, Model model) {
 
-        model.addAttribute("task", task);
+        List<TaskModel> tasks = taskService.getAllTasksBasedOnSubProjectId(subProjectId);
+
+        model.addAttribute("task", tasks);
 
         return "get_task";
     }

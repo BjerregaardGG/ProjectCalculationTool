@@ -38,7 +38,7 @@ public class EmployeeRepository {
 
         // to get all information about an employee we use a join
         String query = "select e.id, e.name, e.email from Employee e " +
-                "join project_team on e.id = project_team.employee_id " +
+                "join project_team on e.id = project_team.employee_id " + // maps employees to project based on id
                 "where project_team.project_id = ?";
 
         return jdbcTemplate.query(query,EmployeeModelRowmapper, projectId);

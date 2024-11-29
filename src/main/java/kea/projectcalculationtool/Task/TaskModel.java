@@ -10,10 +10,10 @@ public class TaskModel {
     private String taskDescription;
     private LocalDate taskStartDate;
     private LocalDate taskDeadline;
-    private String taskStatus;
+    private boolean taskStatus;
     private int duration;
 
-    public TaskModel(String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, String taskStatus, int duration) {
+    public TaskModel(String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, boolean taskStatus, int duration) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.taskStartDate = taskStartDate;
@@ -66,11 +66,11 @@ public class TaskModel {
         this.taskDeadline = taskDeadline;
     }
 
-    public String getTaskStatus() {
+    public boolean getTaskStatus() {
         return taskStatus;
     }
 
-    public void setTaskStatus(String taskStatus) {
+    public void setTaskStatus(boolean taskStatus) {
         this.taskStatus = taskStatus;
     }
 

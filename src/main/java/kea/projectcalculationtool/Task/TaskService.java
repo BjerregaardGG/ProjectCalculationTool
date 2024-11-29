@@ -3,6 +3,8 @@ package kea.projectcalculationtool.Task;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TaskService {
 
@@ -19,6 +21,10 @@ public class TaskService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<TaskModel> getAllTasksBasedOnSubProjectId(int subProjectId) {
+        return taskRepository.getAllTasksBySubProjectId(subProjectId);
     }
 
     public TaskModel getTask(int id) {
