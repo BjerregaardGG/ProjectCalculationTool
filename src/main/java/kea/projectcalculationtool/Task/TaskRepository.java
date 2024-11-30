@@ -23,6 +23,7 @@ public class TaskRepository {
     // rowmapper --> creates task object out of a resultSet
     private final RowMapper<TaskModel> taskModelRowMapper = ((rs, rowNum) ->
             new TaskModel(
+                    rs.getInt("id"),
             rs.getString("name"), rs.getString("description"),
             rs.getDate("start_date").toLocalDate(),
             rs.getDate("deadline").toLocalDate(),

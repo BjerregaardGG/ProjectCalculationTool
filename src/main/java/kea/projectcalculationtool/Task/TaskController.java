@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller("/")
 public class TaskController {
@@ -39,21 +41,35 @@ public class TaskController {
     @PostMapping("/create_task")
     public String createTask(@ModelAttribute TaskModel task,
                              @RequestParam("subProjectId") int subProjectId,
-                             @RequestParam("employeeId") int employeeId) {
+                             @RequestParam("employeeId") int employeeId, @RequestParam("projectId") int projectId) {
 
-        System.out.println("Received employeeId: " + employeeId);
         taskService.createTaskAndAddEmployee(task, subProjectId, employeeId);
 
 
-        return "redirect:/get_task" + subProjectId;
+        return "redirect:/get_task/" + projectId + '/' + subProjectId;
     }
 
-    @GetMapping("/get_task/{subProjectId}")
-    public String getTaskBasedOnSubprojectId(@PathVariable int subProjectId, Model model) {
+    // shows the tasks for a given subProject
+    @GetMapping("/get_task/{projectId}/{subProjectId}")
+    public String getTaskBasedOnSubprojectId(@PathVariable int projectId, @PathVariable int subProjectId, Model model) {
 
         List<TaskModel> priorityTasks = taskService.getTasksSortedByPriority(subProjectId);
 
+        Map<Integer, List<EmployeeModel>> employeesByTask = new HashMap<>();
+
+        for(TaskModel task : priorityTasks) {
+            List<EmployeeModel> employees = employeeService.getAllEmployeesByTask(task.getTaskId());
+            employeesByTask.put(task.getTaskId(), employees);
+
+        }
+
+        for(TaskModel task : priorityTasks){
+            System.out.println(task.getTaskId());
+        }
+
         model.addAttribute("priorityTasks", priorityTasks);
+        model.addAttribute("employeesByTask", employeesByTask);
+
 
         return "get_task";
     }

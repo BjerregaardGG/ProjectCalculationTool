@@ -45,9 +45,6 @@
         </select>
     </div>
 
-    <p th:each="employee : ${employeesByProject}" th:text="${employee.id} + ' - ' + ${employee.fullName}"></p>
-
-
     <div>
         <label> Priority (1 for low - 5 for high): </label>
         <input id="priority" type="number" th:field="*{priority}" min="1" max="5" required>

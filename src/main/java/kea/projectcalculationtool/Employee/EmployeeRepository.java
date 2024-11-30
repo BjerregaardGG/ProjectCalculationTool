@@ -33,15 +33,27 @@ public class EmployeeRepository {
 
     }
 
-    // Method to get employees based on a project
-    public List<EmployeeModel> getEmployeeByProject(int projectId) {
+    // Method to get employees based on a project and who's not assigned a task
+    public List<EmployeeModel> getEmployeeByProjectMinusTask(int projectId) {
 
-        // to get all information about an employee we use a join
+        // sql to get an employee on a specific project but with no tasks
         String query = "select e.id, e.name, e.email from Employee e " +
-                "join project_team on e.id = project_team.employee_id " + // maps employees to project based on id
-                "where project_team.project_id = ?";
+                "join project_team pt on e.id = pt.employee_id " + // join to find all employees on a project
+                "left join task_employee te ON e.id = te.employee_id " + // left join to find all employees with and without tasks
+                "where pt.project_id = ? and te.task_id is null"; // finds employees for project with no tasks
 
         return jdbcTemplate.query(query,EmployeeModelRowmapper, projectId);
+
+    }
+
+    // Method for getting an employee based on a task
+    public List <EmployeeModel> getEmployeesByTaskID(int taskID) {
+
+        String query = "select e.id, e.name, e.email from Employee e " +
+                "join task_employee on e.id = task_employee.employee_id " + // maps employees to task based on id
+                "where task_employee.task_id = ?";
+
+        return jdbcTemplate.query(query,EmployeeModelRowmapper, taskID);
 
     }
 

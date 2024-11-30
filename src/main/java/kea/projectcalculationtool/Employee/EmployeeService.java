@@ -19,7 +19,11 @@ public class EmployeeService {
     }
 
     public List<EmployeeModel> getAllEmployeesByProject(int projectId) {
-        return employeeRepository.getEmployeeByProject(projectId);
+        return employeeRepository.getEmployeeByProjectMinusTask(projectId);
+    }
+
+    public List<EmployeeModel> getAllEmployeesByTask(int taskId) {
+        return employeeRepository.getEmployeesByTaskID(taskId);
     }
 
 }

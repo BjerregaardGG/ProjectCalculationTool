@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class TaskModel {
+    private Integer taskId;
     private String taskName;
     private String taskDescription;
     private LocalDate taskStartDate;
@@ -14,7 +15,8 @@ public class TaskModel {
     private int duration;
     private int priority;
 
-    public TaskModel(String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, boolean taskStatus, int duration) {
+    public TaskModel(Integer taskId, String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, boolean taskStatus, int duration) {
+        this.taskId = taskId;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.taskStartDate = taskStartDate;
@@ -23,7 +25,8 @@ public class TaskModel {
         this.duration = duration;
     }
 
-    public TaskModel(String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, int duration, int priority, boolean taskStatus) {
+    public TaskModel(Integer taskId, String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, int duration, int priority, boolean taskStatus) {
+        this.taskId = taskId;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.taskStartDate = taskStartDate;
@@ -35,6 +38,14 @@ public class TaskModel {
 
     public TaskModel(){
 
+    }
+
+    public Integer getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 
     public int getPriority(){
