@@ -63,12 +63,18 @@ public class TaskController {
 
         }
 
-        for(TaskModel task : priorityTasks){
-            System.out.println(task.getTaskId());
+        // total hours for a subproject
+        int totalHours = 0;
+
+        for(TaskModel task : priorityTasks) {
+            if(!task.getTaskStatus()){
+                totalHours += task.getDuration();
+            }
         }
 
         model.addAttribute("priorityTasks", priorityTasks);
         model.addAttribute("employeesByTask", employeesByTask);
+        model.addAttribute("totalHours", totalHours);
 
 
         return "get_task";
