@@ -35,4 +35,12 @@ public class TaskService {
         return taskRepository.getTask(id);
     }
 
+    public void markTaskAsDone(int id){
+        taskRepository.markATaskAsDone(id);
+    }
+
+    public void markTaskAsNotDone(int id){
+        taskRepository.markATaskAsNotDone(id);
+    }
+
 }

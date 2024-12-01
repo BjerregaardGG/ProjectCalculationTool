@@ -26,8 +26,16 @@
         <td th:text="${task.taskDeadline}"></td>
         <td th:text="${task.priority}"></td>
         <td>
-            <span th:if="${task.taskStatus}" th:text="'✔️'" class="status_done"></span>
-            <span th:if="${!task.taskStatus}" th:text="'✖'" class="status_not_done"></span>
+            <form th:if="${task.taskStatus}" th:action="@{'/task_not_done/' + ${task.taskId}}" method="POST">
+                <input type="hidden" name="subProjectId" th:value="${subProjectId}"/>
+                <input type="hidden" name="projectId" th:value="${projectId}"/>
+                <button type="submit" class="button_done">✔️</button>
+            </form>
+            <form th:if="${!task.taskStatus}" th:action="@{'/task_done/' + ${task.taskId}}" method="POST">
+                <input type="hidden" name="subProjectId" th:value="${subProjectId}"/>
+                <input type="hidden" name="projectId" th:value="${projectId}"/>
+                <button type="submit" class="button_done">✖</button>
+            </form>
         </td>
         <td>
             <ul>
@@ -47,8 +55,8 @@
     </form>
 </div>
 
-<div>
-    <p th:text="'Total hours for subproject: ' + ${totalHours}"></p>
+<div id="hours">
+    <span class="total-hours-button" th:text="'Total hours for subproject: ' + ${totalHours}"></span>
 </div>
 
 </body>

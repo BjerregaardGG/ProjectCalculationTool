@@ -72,12 +72,32 @@ public class TaskController {
             }
         }
 
+
         model.addAttribute("priorityTasks", priorityTasks);
         model.addAttribute("employeesByTask", employeesByTask);
         model.addAttribute("totalHours", totalHours);
 
 
         return "get_task";
+    }
+
+    @PostMapping("/task_done/{taskId}")
+    public String taskDone(@PathVariable int taskId, @RequestParam("subProjectId") int subProjectId,
+                           @RequestParam("projectId") int projectId) {
+
+        taskService.markTaskAsDone(taskId);
+
+        return "redirect:/get_task/" + projectId + '/' + subProjectId;
+
+    }
+
+    @PostMapping("/task_not_done/{taskId}")
+    public String taskNotDone(@PathVariable int taskId, @RequestParam("subProjectId") int subProjectId,
+                              @RequestParam("projectId") int projectId) {
+
+        taskService.markTaskAsNotDone(taskId);
+
+        return "redirect:/get_task/" + projectId + '/' + subProjectId;
     }
 
 

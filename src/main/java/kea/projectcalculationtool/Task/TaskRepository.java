@@ -111,9 +111,24 @@ public class TaskRepository {
     public List<TaskModel> getTasksSortedByPriority(int subProjectId) {
 
         // order the tasks by priority, and if same priority, then deadline
-        String query = "select * from task where sub_project_id = ? order by priority desc, deadline asc";
+        String query = "select * from task where sub_project_id = ? order by status asc, priority desc, deadline asc";
 
         return jdbcTemplate.query(query, taskModelRowMapper, subProjectId);
+    }
+
+    public void markATaskAsDone(int id){
+
+        String query = "update task set status = ? where id = ?";
+
+        jdbcTemplate.update(query, true, id);
+
+    }
+
+    public void markATaskAsNotDone(int id){
+
+        String query = "update task set status = ? where id = ?";
+
+        jdbcTemplate.update(query, false, id);
     }
 
 
