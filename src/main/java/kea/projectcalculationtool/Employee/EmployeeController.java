@@ -1,5 +1,7 @@
 package kea.projectcalculationtool.Employee;
 
+import jakarta.servlet.http.HttpSession;
+import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,5 +37,34 @@ public class EmployeeController {
         employeeService.createEmployee(employee);
         model.addAttribute("sucess", true);
         return "create_employee";
+    }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        model.addAttribute("employee", new EmployeeModel());
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute("employee") EmployeeModel employee, HttpSession session, Model model) {
+        try{
+            EmployeeModel foundEmployee = employeeService.findByUsernameAndPassword(employee.getUsername(), employee.getPassword());
+
+            if(foundEmployee == null){
+                model.addAttribute("error", "username or password does not exist");
+            }
+            session.setAttribute("employee", foundEmployee.getUsername());
+            return "redirect:/" + foundEmployee.getUsername();
+
+
+        } catch (Exception e){
+            model.addAttribute("error", "An unexpected error occurred. Please try again.");
+            return "login";
+        }
+    }
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/login";
     }
 }

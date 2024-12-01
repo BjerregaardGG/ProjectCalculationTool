@@ -22,4 +22,8 @@ public class EmployeeService {
     public boolean findByEmail(String email) {
         return employeeRepository.findByEmail(email);
     }
+
+    public EmployeeModel findByUsernameAndPassword(String username, String password) {
+        return employeeRepository.findByUsernameAndPassword(username, password);
+    }
 }

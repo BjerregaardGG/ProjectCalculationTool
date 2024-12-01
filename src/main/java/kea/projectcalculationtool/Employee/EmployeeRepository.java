@@ -39,4 +39,9 @@ public class EmployeeRepository {
         Integer count = jdbcTemplate.queryForObject(queryEmployee, Integer.class, email);
         return count > 0;
     }
+    public EmployeeModel findByUsernameAndPassword (String username, String password) {
+        String queryEmployee = "SELECT * FROM employee WHERE username = ? AND password = ?";
+        EmployeeModel employee = jdbcTemplate.queryForObject(queryEmployee, EmployeeModel.class, username, password);
+        return employee;
+    }
 }
