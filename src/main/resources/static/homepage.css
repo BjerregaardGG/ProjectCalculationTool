@@ -60,7 +60,21 @@ div#action-links button:hover {
     background-color: #45b7aa;
 }
 
+.action-button {
+    background-color: #4ecdc4;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
 
+.action-button:hover {
+    background-color: #45b7aa;
+}
 
 p {
     font-size: 1.2em;
