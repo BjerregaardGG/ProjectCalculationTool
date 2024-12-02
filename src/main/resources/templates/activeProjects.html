@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Active projects</title>
+    <link rel="stylesheet" th:href="@{/homepage.css}">
+</head>
+<body>
+<h1>Active projects</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Project Name</th>
+                <th>Start Date</th>
+                <th>Deadline</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+            <tbody>
+                <tr th:each="project : ${projects}" th:if="${!project.status}">
+                    <td th:text="${project.getProjectName()}"></td>
+                    <td th:text="${project.getStartDate()}"></td>
+                    <td th:text="${project.getDeadline()}"></td>
+                    <td th:text="${project.getProjectDescription()}"></td>
+                </tr>
+            </tbody>
+    </table>
+        <div>
+            <button type="button" class="action-button" onclick="history.back()"> Back </button>
+        </div>
+</body>
+</html>

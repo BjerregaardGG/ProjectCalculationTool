@@ -9,12 +9,24 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+import kea.projectcalculationtool.Project.ProjectRepository;
+import kea.projectcalculationtool.Project.ProjectService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
 public class EmployeeController {
 
     private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
+    }
+    ProjectService projectService;
+
+    public EmployeeController(ProjectService projectService) {
+        this.projectService = projectService;
     }
 
     @GetMapping("/create_employee")
@@ -69,5 +81,10 @@ public class EmployeeController {
     public String logout(HttpSession session){
         session.invalidate();
         return "redirect:/login";
+    }
+    @GetMapping("/home")
+    public String ShowHomepage(Model model) {
+        model.addAttribute("projects", projectService.getAllProjects());
+        return "homepage";
     }
 }

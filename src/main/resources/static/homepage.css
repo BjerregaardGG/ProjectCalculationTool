@@ -1,0 +1,182 @@
+body {
+    font-family: 'Arial', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    line-height: 1.6;
+    color: #333;
+}
+
+#Logout {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+#Logout button {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#Logout button:hover {
+    background-color: #ff5252;
+}
+#action-links {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start; /* Aligns the buttons to the left */
+    margin-bottom: 20px;
+}
+/* Remove blue color and underline for links */
+.custom-link {
+    color: inherit; /* Inherits the text color from the parent */
+    text-decoration: none; /* Removes underline */
+}
+
+/* Styling for the Finished cell */
+.finished-cell {
+    font-weight: bold;
+    color: green; /* Adjust this color to your preference */
+}
+
+
+div#action-links button {
+    background-color: #4ecdc4;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+}
+
+div#action-links button:hover {
+    background-color: #45b7aa;
+}
+
+.action-button {
+    background-color: #4ecdc4;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+    background-color: #45b7aa;
+}
+
+p {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table thead {
+    background-color: #4ecdc4;
+    color: white;
+}
+
+table th {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #4ecdc4 !important;
+}
+
+table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+table tr:hover {
+    background-color: #f1f3f5;
+}
+
+table thead tr:hover {
+    background-color: #4ecdc4;
+}
+
+.status-done {
+    color: green;
+    font-weight: bold;
+}
+
+.status-not-done {
+    color: red;
+    font-weight: bold;
+}
+
+ul {
+    list-style-type: none;
+}
+
+table td ul {
+    padding: 12px 2px;
+    text-align: left;
+}
+
+/* Styling the action-links container */
+div#action-links {
+    display: flex;
+    gap: 10px; /* Adds space between elements in the container */
+    justify-content: flex-start; /* Aligns the button to the left */
+    margin-bottom: 40px; /* Adds space below the container */
+}
+
+/* Button styling inside action-links */
+div#action-links button {
+    background-color: #4ecdc4; /* Button background */
+    color: white; /* Text color */
+    border: none; /* Removes the border */
+    padding: 10px 15px; /* Button padding */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-weight: bold; /* Makes the text bold */
+    text-align: center; /* Centers the text inside the button */
+    margin-top: 20px; /* Adds space above the table */
+}
+
+div#action-links button:hover {
+    background-color: #45b7aa; /* Changes background color on hover */
+}
+
+/* Styling the 'Total hours' text as a button-like element */
+#hours span.total-hours-button {
+    background-color: #4ecdc4; /* Background color */
+    color: white; /* Text color */
+    padding: 10px 15px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    font-weight: bold; /* Makes the text bold */
+    cursor: pointer; /* Pointer cursor */
+    display: inline-block; /* Makes it behave like a button */
+    text-align: center; /* Centers the text */
+}
+
+#hours span.total-hours-button:hover {
+    background-color: #45b7aa; /* Changes background on hover */
+}

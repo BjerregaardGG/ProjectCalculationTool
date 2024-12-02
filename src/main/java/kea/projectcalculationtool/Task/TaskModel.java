@@ -1,22 +1,59 @@
 package kea.projectcalculationtool.Task;
 
-import java.util.Date;
+import org.springframework.scheduling.config.Task;
+
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class TaskModel {
+    private Integer taskId;
     private String taskName;
     private String taskDescription;
-    private Date taskStartDate;
-    private Date taskDeadline;
-    private String taskStatus;
+    private LocalDate taskStartDate;
+    private LocalDate taskDeadline;
+    private boolean taskStatus;
     private int duration;
+    private int priority;
 
-    public TaskModel(String taskName, String taskDescription, Date taskStartDate, Date taskDeadline, String taskStatus, int duration) {
+    public TaskModel(Integer taskId, String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, boolean taskStatus, int duration) {
+        this.taskId = taskId;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.taskStartDate = taskStartDate;
         this.taskDeadline = taskDeadline;
         this.taskStatus = taskStatus;
         this.duration = duration;
+    }
+
+    public TaskModel(Integer taskId, String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, int duration, int priority, boolean taskStatus) {
+        this.taskId = taskId;
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+        this.taskStartDate = taskStartDate;
+        this.taskDeadline = taskDeadline;
+        this.duration = duration;
+        this.priority = priority;
+        this.taskStatus = taskStatus;
+    }
+
+    public TaskModel(){
+
+    }
+
+    public Integer getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
+    }
+
+    public int getPriority(){
+        return priority;
+    }
+
+    public void setPriority(int priority){
+        this.priority = priority;
     }
 
     public String getTaskName() {
@@ -35,27 +72,27 @@ public class TaskModel {
         this.taskDescription = taskDescription;
     }
 
-    public Date getTaskStartDate() {
+    public LocalDate getTaskStartDate() {
         return taskStartDate;
     }
 
-    public void setTaskStartDate(Date taskStartDate) {
+    public void setTaskStartDate(LocalDate taskStartDate) {
         this.taskStartDate = taskStartDate;
     }
 
-    public Date getTaskDeadline() {
+    public LocalDate getTaskDeadline() {
         return taskDeadline;
     }
 
-    public void setTaskDeadline(Date taskDeadline) {
+    public void setTaskDeadline(LocalDate taskDeadline) {
         this.taskDeadline = taskDeadline;
     }
 
-    public String getTaskStatus() {
+    public boolean getTaskStatus() {
         return taskStatus;
     }
 
-    public void setTaskStatus(String taskStatus) {
+    public void setTaskStatus(boolean taskStatus) {
         this.taskStatus = taskStatus;
     }
 

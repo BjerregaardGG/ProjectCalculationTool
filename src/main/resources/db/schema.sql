@@ -67,6 +67,7 @@ CREATE TABLE task
     duration DOUBLE,
     description VARCHAR(100),
     status BOOLEAN,
+    priority INTEGER DEFAULT 0,
     PRIMARY KEY (id),
     FOREIGN KEY (sub_project_id) REFERENCES sub_project ON DELETE CASCADE
 );
@@ -79,4 +80,3 @@ CREATE TABLE task_employee
     FOREIGN KEY (task_id) REFERENCES task (id) ON DELETE CASCADE,
     FOREIGN KEY (employee_id) REFERENCES employee (id) ON DELETE CASCADE
 );
-
