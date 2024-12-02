@@ -1,6 +1,7 @@
 package kea.projectcalculationtool.Employee;
 
 public class EmployeeModel {
+    private int id;
     private String fullName;
     private String email;
     private String userName;
@@ -12,6 +13,13 @@ public class EmployeeModel {
         this.userName = userName;
         this.password = password;
     }
+
+    public EmployeeModel(int id, String fullName, String email){
+        this.id = id;
+        this.fullName = fullName;
+        this.email = email;
+    }
+
     public String getFullName() {
         return fullName;
     }
@@ -35,5 +43,11 @@ public class EmployeeModel {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 }

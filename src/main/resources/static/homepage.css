@@ -120,3 +120,63 @@ table tr:hover {
 table thead tr:hover {
     background-color: #4ecdc4;
 }
+
+.status-done {
+    color: green;
+    font-weight: bold;
+}
+
+.status-not-done {
+    color: red;
+    font-weight: bold;
+}
+
+ul {
+    list-style-type: none;
+}
+
+table td ul {
+    padding: 12px 2px;
+    text-align: left;
+}
+
+/* Styling the action-links container */
+div#action-links {
+    display: flex;
+    gap: 10px; /* Adds space between elements in the container */
+    justify-content: flex-start; /* Aligns the button to the left */
+    margin-bottom: 40px; /* Adds space below the container */
+}
+
+/* Button styling inside action-links */
+div#action-links button {
+    background-color: #4ecdc4; /* Button background */
+    color: white; /* Text color */
+    border: none; /* Removes the border */
+    padding: 10px 15px; /* Button padding */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-weight: bold; /* Makes the text bold */
+    text-align: center; /* Centers the text inside the button */
+    margin-top: 20px; /* Adds space above the table */
+}
+
+div#action-links button:hover {
+    background-color: #45b7aa; /* Changes background color on hover */
+}
+
+/* Styling the 'Total hours' text as a button-like element */
+#hours span.total-hours-button {
+    background-color: #4ecdc4; /* Background color */
+    color: white; /* Text color */
+    padding: 10px 15px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    font-weight: bold; /* Makes the text bold */
+    cursor: pointer; /* Pointer cursor */
+    display: inline-block; /* Makes it behave like a button */
+    text-align: center; /* Centers the text */
+}
+
+#hours span.total-hours-button:hover {
+    background-color: #45b7aa; /* Changes background on hover */
+}

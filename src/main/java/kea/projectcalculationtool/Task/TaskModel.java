@@ -6,14 +6,17 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class TaskModel {
+    private Integer taskId;
     private String taskName;
     private String taskDescription;
     private LocalDate taskStartDate;
     private LocalDate taskDeadline;
-    private String taskStatus;
+    private boolean taskStatus;
     private int duration;
+    private int priority;
 
-    public TaskModel(String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, String taskStatus, int duration) {
+    public TaskModel(Integer taskId, String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, boolean taskStatus, int duration) {
+        this.taskId = taskId;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.taskStartDate = taskStartDate;
@@ -22,16 +25,35 @@ public class TaskModel {
         this.duration = duration;
     }
 
-    public TaskModel(String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, int duration) {
+    public TaskModel(Integer taskId, String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, int duration, int priority, boolean taskStatus) {
+        this.taskId = taskId;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.taskStartDate = taskStartDate;
         this.taskDeadline = taskDeadline;
         this.duration = duration;
+        this.priority = priority;
+        this.taskStatus = taskStatus;
     }
 
     public TaskModel(){
 
+    }
+
+    public Integer getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
+    }
+
+    public int getPriority(){
+        return priority;
+    }
+
+    public void setPriority(int priority){
+        this.priority = priority;
     }
 
     public String getTaskName() {
@@ -66,11 +88,11 @@ public class TaskModel {
         this.taskDeadline = taskDeadline;
     }
 
-    public String getTaskStatus() {
+    public boolean getTaskStatus() {
         return taskStatus;
     }
 
-    public void setTaskStatus(String taskStatus) {
+    public void setTaskStatus(boolean taskStatus) {
         this.taskStatus = taskStatus;
     }
 
