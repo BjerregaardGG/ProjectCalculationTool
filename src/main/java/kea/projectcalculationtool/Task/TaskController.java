@@ -60,7 +60,6 @@ public class TaskController {
         for(TaskModel task : priorityTasks) {
             List<EmployeeModel> employees = employeeService.getAllEmployeesByTask(task.getTaskId());
             employeesByTask.put(task.getTaskId(), employees);
-
         }
 
         // total hours for a subproject
@@ -72,11 +71,9 @@ public class TaskController {
             }
         }
 
-
         model.addAttribute("priorityTasks", priorityTasks);
         model.addAttribute("employeesByTask", employeesByTask);
         model.addAttribute("totalHours", totalHours);
-
 
         return "get_task";
     }
@@ -99,7 +96,5 @@ public class TaskController {
 
         return "redirect:/get_task/" + projectId + '/' + subProjectId;
     }
-
-
 
 }
