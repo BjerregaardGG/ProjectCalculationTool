@@ -3,6 +3,7 @@ package kea.projectcalculationtool.SubProject;
 import java.util.Date;
 
 public class SubProjectModel {
+    private int projectId;
     private String subProjectName;
     private String subProjectDescription;
     private double Budget;
@@ -16,6 +17,7 @@ public class SubProjectModel {
         this.startDate = startDate;
         Deadline = deadline;
     }
+    public SubProjectModel(){}
 
     public String getSubProjectName() {
         return subProjectName;
@@ -55,5 +57,13 @@ public class SubProjectModel {
 
     public void setDeadline(Date deadline) {
         Deadline = deadline;
+    }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
     }
 }
