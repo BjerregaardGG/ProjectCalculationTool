@@ -35,13 +35,13 @@
 
     <div>
         <label> Description: </label>
-        <input id="description" type="text" th:field="*{taskDescription}">
+        <textarea id="description" type="text" th:field="*{taskDescription}"></textarea>
     </div>
 
     <div>
         <label> Add employee: </label>
         <select id="employeeId" name="employeeId">
-            <option th:each="employee : ${employeesByProject}" th:value= "${employee.id}" th:text="${employee.fullName}"></option>
+            <option th:each="employee : ${employeesByProject}" th:value= "${employee.employeeID}" th:text="${employee.fullName}"></option>
         </select>
     </div>
 

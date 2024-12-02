@@ -45,7 +45,6 @@ public class TaskController {
 
         taskService.createTaskAndAddEmployee(task, subProjectId, employeeId);
 
-
         return "redirect:/get_task/" + projectId + '/' + subProjectId;
     }
 
