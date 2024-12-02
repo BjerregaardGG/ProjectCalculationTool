@@ -8,22 +8,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@Controller
 import kea.projectcalculationtool.Project.ProjectRepository;
 import kea.projectcalculationtool.Project.ProjectService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class EmployeeController {
 
-    private final EmployeeService employeeService;
+    EmployeeService employeeService;
+
+    ProjectService projectService;
+
+    public EmployeeController(){
+
+    }
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
-    ProjectService projectService;
 
     public EmployeeController(ProjectService projectService) {
         this.projectService = projectService;

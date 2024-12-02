@@ -34,6 +34,11 @@ public class EmployeeModel {
         this.confirmPassword = confirmPassword;
         this.roles = roles;
     }
+    public EmployeeModel(int employeeID, String fullName, String email){
+        this.employeeID = employeeID;
+        this.fullName = fullName;
+        this.email = email;
+    }
     public EmployeeModel() {
     }
     public int getEmployeeID() {
