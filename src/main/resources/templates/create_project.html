@@ -40,7 +40,7 @@
     </div>
     <div>
         <label for="employees">Assign Employees:</label>
-        <select id="employees" name="employees" multiple>
+        <select id="employees" name="employees[]" multiple>
             <option th:each="employee : ${employees}"
                     th:value="${employee.employeeID}"
                     th:text="${employee.fullName}">

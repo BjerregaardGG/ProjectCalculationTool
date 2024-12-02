@@ -23,15 +23,13 @@ CREATE TABLE employee
 CREATE TABLE project
 (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    employee_id INTEGER,
     name VARCHAR(30),
     start_date DATE,
     deadline DATE,
     budget DOUBLE,
     description VARCHAR(100),
     status BOOLEAN,
-    PRIMARY KEY (id),
-    FOREIGN KEY (employee_id) REFERENCES employee (id) ON DELETE CASCADE
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE sub_project
