@@ -22,6 +22,7 @@ public class ProjectController {
     model.addAttribute("project", new ProjectModel());
     List<EmployeeModel> employees = projectService.getAllEmployees();
     model.addAttribute("employees", employees);
+    model.addAttribute("EmpOnProjects", projectService.getEmployeesFromProjectTeam());
     return "create_project";
   }
 
@@ -32,9 +33,7 @@ public class ProjectController {
     ProjectModel projectm = projectService.createProject(project);
     // checks if the name exist in the projects
     System.out.println(employees.get(0));
-    System.out.println(employees.get(1));
-    System.out.println(employees.get(2));
-    System.out.println(project.getProjectId());
+    System.out.println(projectm.getProjectId());
     for (ProjectModel projectModel : projects) {
       if (project.getProjectName().equals(projectModel.getProjectName())) {
         System.out.println("Name Already exist," + project.getProjectName());

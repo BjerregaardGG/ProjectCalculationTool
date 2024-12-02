@@ -18,20 +18,14 @@ import kea.projectcalculationtool.Project.ProjectService;
 public class EmployeeController {
 
     EmployeeService employeeService;
-
     ProjectRepository projectRepository;
 
-    public EmployeeController(){
 
-    }
-
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, ProjectRepository projectRepository) {
         this.employeeService = employeeService;
-    }
-
-    public EmployeeController(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
+
 
     @GetMapping("/create_employee")
     public String createEmployee(Model model) {
@@ -71,9 +65,9 @@ public class EmployeeController {
             }
             System.out.println("hej");
             Integer EmployeeID = employee.getEmployeeID();
-            session.setAttribute("employeeID", EmployeeID);
+            session.setAttribute("employeeID", foundEmployee.getEmployeeID());
             session.setAttribute("employee", foundEmployee.getUsername());
-            session.setAttribute("employeePassword", employee.getPassword());
+            session.setAttribute("employeePassword", foundEmployee.getPassword());
             return "redirect:/" + foundEmployee.getUsername();
 
         } catch (Exception e){
@@ -90,7 +84,7 @@ public class EmployeeController {
     // show projects that the employee are bound too.
     @GetMapping("/home")
     public String ShowHomepage(Model model,HttpSession session) {
-        Integer EmployeeID = (Integer) session.getAttribute("EmployeeID");
+        Integer EmployeeID = (Integer) session.getAttribute("employeeID");
         model.addAttribute("projects", projectRepository.getAllProjects());
         model.addAttribute("ProjectOwner", projectRepository.getProjectIdFromEmployeeID(EmployeeID));
         return "homepage";

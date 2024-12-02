@@ -41,4 +41,8 @@ public class ProjectService {
   public List<ProjectModel> getActiveProjects() {
     return projectRepository.getActiveProjects();
   }
+
+  public List<Integer> getEmployeesFromProjectTeam() {
+    return projectRepository.getEmployeesFromProjectTeam();
+  }
 }

@@ -39,7 +39,8 @@ public class EmployeeModel {
         this.fullName = fullName;
         this.email = email;
     }
-    public EmployeeModel(String fullName, String email, String username, String password, Roles roles ) {
+    public EmployeeModel(int employeeID,String fullName, String email, String username, String password, Roles roles ) {
+        this.employeeID = employeeID;
         this.fullName = fullName;
         this.email = email;
         this.username = username;

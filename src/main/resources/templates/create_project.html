@@ -41,7 +41,9 @@
     <div>
         <label for="employees">Assign Employees:</label>
         <select id="employees" name="employees[]" multiple>
+            <!--This ensures that if the id isnt inside the list it will be shown -->
             <option th:each="employee : ${employees}"
+                    th:if="${!EmpOnProjects.contains(employee.employeeID)}"
                     th:value="${employee.employeeID}"
                     th:text="${employee.fullName}">
             </option>

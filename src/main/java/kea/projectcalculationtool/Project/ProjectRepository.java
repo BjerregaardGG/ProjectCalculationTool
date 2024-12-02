@@ -28,6 +28,7 @@ public class ProjectRepository {
       rs.getBoolean("status"));
 
   private final RowMapper<EmployeeModel> employeeModelRowMapper = (rs, rowNum) -> new EmployeeModel(
+      rs.getInt("id"),
       rs.getString("name"),
       rs.getString("email"),
       rs.getString("username"),
@@ -87,5 +88,10 @@ public class ProjectRepository {
   public List<ProjectModel> getActiveProjects() {
     String sql = "select * from project WHERE status = false";
     return jdbcTemplate.query(sql, projectModelRowMapper);
+  }
+  public List<Integer> getEmployeesFromProjectTeam() {
+    String sql = "SELECT employee_id FROM project_team";
+    return jdbcTemplate.queryForList(sql, Integer.class);
+
   }
 }
