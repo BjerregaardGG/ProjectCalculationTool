@@ -1,5 +1,6 @@
 package kea.projectcalculationtool.Project;
 
+import kea.projectcalculationtool.Employee.EmployeeModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,18 @@ public class ProjectService {
 
     public List<ProjectModel> getAllProjects() {
         return projectRepository.getAllProjects();
+    }
+
+    public List<EmployeeModel> getAllEmployeesInTask(int taskId) {
+        return projectRepository.getAllEmployeesInTask(taskId);
+    }
+
+    public List<EmployeeModel> getAllEmployees() {
+        return projectRepository.getAllEmployees();
+    }
+
+    public void addEmployeeToProject(int employeeId,int projectId) {
+        projectRepository.addEmployeeToProject(employeeId,projectId);
     }
 
     public List<ProjectModel> getActiveProjects() {

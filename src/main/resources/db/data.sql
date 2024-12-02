@@ -32,3 +32,12 @@ VALUES (1,1),
        (3,4);
 
 
+
+INSERT INTO employee (username, password, name, email, roles)
+VALUES
+    ('jdoe', 'password123', 'John Doe', 'jdoe@example.com', 'JUNIOR'),
+    ('asmith', 'passw0rd', 'Alice Smith', 'asmith@example.com', 'SENIOR'),
+    ('bwhite', '12345pass', 'Bob White', 'bwhite@example.com', 'INTERN'),
+    ('kmartin', 'martinK@!', 'Kate Martin', 'kmartin@example.com', 'MANAGER'),
+    ('ltaylor', 'taylor!123', 'Liam Taylor', 'ltaylor@example.com', 'SENIOR'),
+    ('hgrace', 'securePass1', 'Hannah Grace', 'hgrace@example.com', 'JUNIOR');

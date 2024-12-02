@@ -9,7 +9,7 @@ public class EmployeeModel {
     private String confirmPassword;
     private Roles roles;
 
-    enum Roles {
+    public enum Roles {
         INTERN(0),
         JUNIOR(220),
         SENIOR(320),
@@ -39,6 +39,14 @@ public class EmployeeModel {
         this.fullName = fullName;
         this.email = email;
     }
+    public EmployeeModel(String fullName, String email, String username, String password, Roles roles ) {
+        this.fullName = fullName;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
+
     public EmployeeModel() {
     }
     public int getEmployeeID() {
