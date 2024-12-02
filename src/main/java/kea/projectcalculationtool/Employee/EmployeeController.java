@@ -19,7 +19,7 @@ public class EmployeeController {
 
     EmployeeService employeeService;
 
-    ProjectService projectService;
+    ProjectRepository projectRepository;
 
     public EmployeeController(){
 
@@ -29,8 +29,8 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    public EmployeeController(ProjectService projectService) {
-        this.projectService = projectService;
+    public EmployeeController(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
     }
 
     @GetMapping("/create_employee")

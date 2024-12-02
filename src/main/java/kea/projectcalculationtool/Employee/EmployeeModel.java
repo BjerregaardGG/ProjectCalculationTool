@@ -9,7 +9,7 @@ public class EmployeeModel {
     private String confirmPassword;
     private Roles roles;
 
-    enum Roles {
+    public enum Roles {
         INTERN(0),
         JUNIOR(220),
         SENIOR(320),
