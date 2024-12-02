@@ -48,14 +48,17 @@ public class EmployeeController {
     @PostMapping("/login")
     public String login(@ModelAttribute("employee") EmployeeModel employee, HttpSession session, Model model) {
         try{
-            EmployeeModel foundEmployee = employeeService.findByUsernameAndPassword(employee.getUsername(), employee.getPassword());
-
+            EmployeeModel foundEmployee = employeeService.findEmployee(employee.getUsername(), employee.getPassword());
             if(foundEmployee == null){
                 model.addAttribute("error", "username or password does not exist");
+                return "login";
             }
+            System.out.println("hej");
+            Integer EmployeeID = employee.getEmployeeID();
+            session.setAttribute("employeeID", EmployeeID);
             session.setAttribute("employee", foundEmployee.getUsername());
+            session.setAttribute("employeePassword", employee.getPassword());
             return "redirect:/" + foundEmployee.getUsername();
-
 
         } catch (Exception e){
             model.addAttribute("error", "An unexpected error occurred. Please try again.");

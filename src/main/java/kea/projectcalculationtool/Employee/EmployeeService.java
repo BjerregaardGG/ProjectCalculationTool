@@ -23,7 +23,7 @@ public class EmployeeService {
         return employeeRepository.findByEmail(email);
     }
 
-    public EmployeeModel findByUsernameAndPassword(String username, String password) {
-        return employeeRepository.findByUsernameAndPassword(username, password);
+    public EmployeeModel findEmployee(String username, String password) {
+        return employeeRepository.findEmployee(username, password);
     }
 }

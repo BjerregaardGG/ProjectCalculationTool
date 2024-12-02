@@ -5,8 +5,8 @@
     <title>Login Page</title>
 </head>
 <body>
-<div class="form-cointainer">
-    <form id="login-form" th:action="@{/login}" th:object="@{employee}" method="post">
+<div class="form-container">
+    <form id="login-form" th:action="@{/login}" th:object="${employee}" method="post">
         <h2>Login Page</h2>
         <div>
             <label for="username">Username:</label>
@@ -16,6 +16,7 @@
             <label for="password">Password:</label>
             <input type="password" id="password" th:field="*{password}" required />
         </div>
+        <div>
         <button type="submit">Login</button>
         <p th:if="${error}" style="color:red">Error: Wrong Username or Password.</p>
         </div>

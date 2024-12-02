@@ -39,9 +39,17 @@ public class EmployeeRepository {
         Integer count = jdbcTemplate.queryForObject(queryEmployee, Integer.class, email);
         return count > 0;
     }
-    public EmployeeModel findByUsernameAndPassword (String username, String password) {
+
+    public EmployeeModel findEmployee (String username, String password) {
         String queryEmployee = "SELECT * FROM employee WHERE username = ? AND password = ?";
-        EmployeeModel employee = jdbcTemplate.queryForObject(queryEmployee, EmployeeModel.class, username, password);
-        return employee;
+        return jdbcTemplate.queryForObject(queryEmployee, (rs, rownum )-> {
+            EmployeeModel employee = new EmployeeModel();
+            employee.setEmployeeID(rs.getInt("id"));
+            employee.setFullName(rs.getString("name"));
+            employee.setEmail(rs.getString("email"));
+            employee.setUsername(rs.getString("username"));
+            employee.setPassword(rs.getString("password"));
+            return employee;
+        }, username, password);
     }
 }
