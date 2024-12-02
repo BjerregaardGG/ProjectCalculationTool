@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get a task </title>
+    <link rel="stylesheet" th:href="@{/homepage.css}">
+</head>
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th>Task Name </th>
+        <th>Description</th>
+        <th>Deadline</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Assigned Employees</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="task : ${priorityTasks}">
+        <td th:text="${task.taskName}"></td>
+        <td th:text="${task.taskDescription}"></td>
+        <td th:text="${task.taskDeadline}"></td>
+        <td th:text="${task.priority}"></td>
+        <td>
+            <form th:if="${task.taskStatus}" th:action="@{'/task_not_done/' + ${task.taskId}}" method="POST">
+                <input type="hidden" name="subProjectId" th:value="${subProjectId}"/>
+                <input type="hidden" name="projectId" th:value="${projectId}"/>
+                <button type="submit" class="button_done">✔️</button>
+            </form>
+            <form th:if="${!task.taskStatus}" th:action="@{'/task_done/' + ${task.taskId}}" method="POST">
+                <input type="hidden" name="subProjectId" th:value="${subProjectId}"/>
+                <input type="hidden" name="projectId" th:value="${projectId}"/>
+                <button type="submit" class="button_done">✖</button>
+            </form>
+        </td>
+        <td>
+            <ul>
+                <li th:each="employee : ${employeesByTask[task.getTaskId()]}" th:text="${employee.fullName}" ></li>
+                <li th:if="${employeesByTask[task.getTaskId()].isEmpty()}" th:text="'No assigned employees'"></li>
+            </ul>
+
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+<div id="action-links">
+    <form th:action="@{'/task_form/project/' + ${projectId} + '/' + ${subProjectId}}" method="GET">
+        <button type="submit">Add a task to the current Sub Project</button>
+    </form>
+</div>
+
+<div id="hours">
+    <span class="total-hours-button" th:text="'Total hours for subproject: ' + ${totalHours}"></span>
+</div>
+
+</body>
+</html>

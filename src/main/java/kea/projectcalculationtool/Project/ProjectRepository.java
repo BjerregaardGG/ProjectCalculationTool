@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Repository
 public class ProjectRepository {
     private final JdbcTemplate jdbcTemplate;
@@ -76,5 +75,9 @@ public class ProjectRepository {
     public void addEmployeeToProject(int employeeId,int projectId) {
         String sql = "INSERT INTO project_team(employee_id, project_id) VALUES (?, ?)";
         jdbcTemplate.update(sql, employeeId, projectId);
+    }
+    public List<ProjectModel> getActiveProjects(){
+        String sql = "select * from project WHERE status = false";
+        return jdbcTemplate.query(sql, projectModelRowMapper);
     }
 }

@@ -9,7 +9,7 @@ public class EmployeeModel {
     private String confirmPassword;
     private Roles roles;
 
-    public enum Roles {
+    enum Roles {
         INTERN(0),
         JUNIOR(220),
         SENIOR(320),
@@ -34,6 +34,11 @@ public class EmployeeModel {
         this.confirmPassword = confirmPassword;
         this.roles = roles;
     }
+    public EmployeeModel(int employeeID, String fullName, String email){
+        this.employeeID = employeeID;
+        this.fullName = fullName;
+        this.email = email;
+    }
     public EmployeeModel(String fullName, String email, String username, String password, Roles roles ) {
         this.fullName = fullName;
         this.email = email;
@@ -41,14 +46,18 @@ public class EmployeeModel {
         this.password = password;
         this.roles = roles;
     }
+
     public EmployeeModel() {
     }
     public int getEmployeeID() {
         return employeeID;
     }
+
     public void setEmployeeID(int employeeID) {
         this.employeeID = employeeID;
     }
+
+
     public String getFullName() {
         return fullName;
     }
@@ -61,9 +70,11 @@ public class EmployeeModel {
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String userName) {
         this.username = userName;
     }
@@ -73,16 +84,21 @@ public class EmployeeModel {
     public void setPassword(String password) {
         this.password = password;
     }
+
     public Roles getRoles() {
         return roles;
     }
+
     public void setRoles(Roles roles) {
         this.roles = roles;
     }
+
     public String getConfirmPassword() {
         return confirmPassword;
     }
+
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
+
 }

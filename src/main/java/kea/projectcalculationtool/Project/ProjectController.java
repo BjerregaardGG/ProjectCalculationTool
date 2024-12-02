@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -66,6 +67,14 @@ public class ProjectController {
         model.addAttribute("totalTime", totalTime);
         return "some-project-page";
     }
+
+    @GetMapping("/activeProjects")
+    public String getActiveProjects(Model model){
+        List<ProjectModel> activeProjects = projectService.getActiveProjects();
+        model.addAttribute("projects", activeProjects);
+        return "activeProjects";
+    }
+
 
     @GetMapping("/project/{projectId}/cost")
     public String showProjectCost(@PathVariable int projectId,Model model) {

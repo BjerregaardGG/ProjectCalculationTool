@@ -1,7 +1,6 @@
 package kea.projectcalculationtool.Project;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class ProjectModel {
 
@@ -12,8 +11,8 @@ public class ProjectModel {
     private LocalDate startDate;
     private LocalDate deadline;
     private boolean status;
-    public ProjectModel() {
 
+    public ProjectModel() {
     }
 
     public ProjectModel(String name,LocalDate startDate,LocalDate deadline ,double budget, String description,boolean status) {
@@ -23,7 +22,13 @@ public class ProjectModel {
         this.projectDescription = description;
         this.startDate = startDate;
         this.status=status;
-
+    }
+    public ProjectModel(String projectName,String projectDescription,double Budget,LocalDate startDate,LocalDate Deadline) {
+        this.projectName = projectName;
+        this.projectDescription = projectDescription;
+        this.Budget = Budget;
+        this.startDate = startDate;
+        this.deadline = Deadline;
     }
 
     public int getProjectId() {
@@ -80,14 +85,6 @@ public class ProjectModel {
 
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    public ProjectModel(String projectName,String projectDescription,double Budget,LocalDate startDate,LocalDate Deadline) {
-        this.projectName = projectName;
-        this.projectDescription = projectDescription;
-        this.Budget = Budget;
-        this.startDate = startDate;
-        this.deadline = Deadline;
     }
 
 }
