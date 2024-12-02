@@ -28,11 +28,11 @@ public class ProjectRepository {
 
     private final RowMapper<EmployeeModel> employeeModelRowMapper = (rs, rowNum) ->
             new EmployeeModel(
-                    rs.getString("username"),
-                    rs.getString("password"),
                     rs.getString("name"),
                     rs.getString("email"),
-                    rs.getString("roles"));
+                    rs.getString("username"),
+                    rs.getString("password"),
+                    EmployeeModel.Roles.valueOf(rs.getString("roles")));
 
     //Will give you a list of all projects, using the projectModelRowMapper
     public List<ProjectModel> getAllProjects() {
