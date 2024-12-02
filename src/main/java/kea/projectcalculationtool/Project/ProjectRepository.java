@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 @Repository
 public class ProjectRepository {
     private final JdbcTemplate jdbcTemplate;
@@ -46,5 +45,9 @@ public class ProjectRepository {
         //using a inner query, which first gives us the subproject id that is bound to the project id, and then the tasks that are bound to these subprojects.
         String sql = "SELECT SUM(duration) FROM task WHERE sub_project_id = (SELECT sub_project_id FROM sub_project WHERE project_id = ?)";
         return jdbcTemplate.queryForObject(sql, new Object[]{projectId}, Double.class);
+    }
+    public List<ProjectModel> getActiveProjects(){
+        String sql = "select * from project WHERE status = false";
+        return jdbcTemplate.query(sql, projectModelRowMapper);
     }
 }

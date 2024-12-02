@@ -7,13 +7,11 @@ import java.util.List;
 @Service
 public class ProjectService {
 
-
     ProjectRepository projectRepository;
 
     public ProjectService(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
-
 
     public double calculateTime(int projectId) {
         return projectRepository.calculateTime(projectId);
@@ -25,5 +23,9 @@ public class ProjectService {
 
     public List<ProjectModel> getAllProjects() {
         return projectRepository.getAllProjects();
+    }
+
+    public List<ProjectModel> getActiveProjects() {
+        return projectRepository.getActiveProjects();
     }
 }
