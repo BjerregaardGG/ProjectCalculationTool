@@ -26,13 +26,21 @@ public class ProjectController {
 
     @PostMapping("/create_project")
     public String createNewProject(@ModelAttribute ("project") ProjectModel project,
-                                   @RequestParam("employees") List<Integer> employees){
+                                   @RequestParam("employees") List<Integer> employees, Model model) {
+        List<ProjectModel> projects = projectService.getAllProjects();
+        // checks if the name exist in the projects
+        for(ProjectModel projectModel : projects){
+            if(project.getProjectName().equals(projectModel.getProjectName())){
+                System.out.println("Name Already exist," + project.getProjectName());
+                model.addAttribute("Error", true);
+                return "create_project";
+            }
+        }
         projectService.createProject(project);
         for(Integer employee : employees){
             projectService.addEmployeeToProject(employee,project.getProjectId());
         }
 
-        // insert some way to ensure person dont call project same name as one of their others
         return "redirect:/home";
     }
 

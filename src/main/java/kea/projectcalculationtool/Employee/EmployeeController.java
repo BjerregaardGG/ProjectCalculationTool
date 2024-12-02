@@ -1,5 +1,6 @@
 package kea.projectcalculationtool.Employee;
 
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
 import kea.projectcalculationtool.Project.ProjectRepository;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class EmployeeController {
     ProjectRepository projectRepository;
-
     public EmployeeController(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
