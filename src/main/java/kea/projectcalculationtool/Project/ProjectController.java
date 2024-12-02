@@ -47,10 +47,10 @@ public class ProjectController {
     }
 
     @PostMapping("/addToProject")
-    public String assignToProject(@RequestParam("employeeId") int employeeId,
-                                  @RequestParam("projectId") int projectId) {
-        projectService.addEmployeeToProject(employeeId, projectId);
+    public String assignToProject(@RequestParam("employeeId") int employeeId, @RequestParam("projectId") int projectId) {
+        projectService.addEmployeeToProject(employeeId,projectId);
         return "redirect:/home";
+    }
 
     @GetMapping("/project/{projectId}/time")
     public String showProjectTime(@PathVariable int projectId,Model model) {
@@ -67,9 +67,8 @@ public class ProjectController {
         double sum = 0;
         //Calculate total price based on job and time used.
         for(EmployeeModel employeeModel : employee){
-            Roles roles = employeeModel.getRoles();
+            EmployeeModel.Roles roles = employeeModel.getRoles();
             sum += roles.getWage() * newTime;
-
         }
         model.addAttribute("totalPrice", sum);
         return "some-project-page";
