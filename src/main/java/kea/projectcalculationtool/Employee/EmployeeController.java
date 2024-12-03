@@ -68,7 +68,7 @@ public class EmployeeController {
             session.setAttribute("employeeID", foundEmployee.getEmployeeID());
             session.setAttribute("employee", foundEmployee.getUsername());
             session.setAttribute("employeePassword", foundEmployee.getPassword());
-            return "redirect:/" + foundEmployee.getUsername();
+            return "redirect:/home";
 
         } catch (Exception e){
             model.addAttribute("error", "An unexpected error occurred. Please try again.");
