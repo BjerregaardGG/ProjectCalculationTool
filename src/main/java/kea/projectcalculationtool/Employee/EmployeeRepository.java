@@ -75,6 +75,10 @@ public class EmployeeRepository {
         return jdbcTemplate.query(query, EmployeeModelRowmapper);
 
     }
+    public List<EmployeeModel> getAllEmployeeInProject(int projectID) {
+        String query = "SELECT * e.id, e.name, e.email FROM Employee e WHERE e.projectID = ?";
+        return jdbcTemplate.query(query, EmployeeModelRowmapper, projectID);
+    }
 
     // Method to get employees based on a project and who's not assigned a task
     public List<EmployeeModel> getEmployeeByProjectMinusTask(int projectId) {

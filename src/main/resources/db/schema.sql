@@ -30,6 +30,7 @@ CREATE TABLE project
     budget DOUBLE,
     description VARCHAR(100),
     status BOOLEAN,
+    hours_per_project INTEGER,
     PRIMARY KEY (id),
     FOREIGN KEY (employee_id) REFERENCES employee (id) ON DELETE CASCADE
 );

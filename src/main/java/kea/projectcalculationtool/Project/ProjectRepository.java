@@ -1,19 +1,23 @@
 package kea.projectcalculationtool.Project;
 
 import kea.projectcalculationtool.Employee.EmployeeModel;
+import kea.projectcalculationtool.Employee.EmployeeRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class ProjectRepository {
     private final JdbcTemplate jdbcTemplate;
+    private final EmployeeRepository employeeRepository;
 
-    public ProjectRepository(JdbcTemplate jdbcTemplate) {
+    public ProjectRepository(JdbcTemplate jdbcTemplate, EmployeeRepository employeeRepository) {
         this.jdbcTemplate = jdbcTemplate;
+        this.employeeRepository = employeeRepository;
     }
     //Made a rowmapper so when SELECT is used, it ensures that all the values are added to a projectModel
     private final RowMapper<ProjectModel> projectModelRowMapper = (rs, rowNum) ->
@@ -23,7 +27,9 @@ public class ProjectRepository {
         rs.getDate("deadline").toLocalDate(),
         rs.getDouble("budget"),
         rs.getString("description"),
-        rs.getBoolean("status"));
+        rs.getBoolean("status"),
+        rs.getInt("hours_per_project"));
+
 
     private final RowMapper<EmployeeModel> employeeModelRowMapper = (rs, rowNum) ->
             new EmployeeModel(
@@ -79,5 +85,18 @@ public class ProjectRepository {
     public List<ProjectModel> getActiveProjects(){
         String sql = "select * from project WHERE status = false";
         return jdbcTemplate.query(sql, projectModelRowMapper);
+    }
+    public ProjectModel getProjectById(int projectId) {
+        String sql = "SELECT * FROM project WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, projectModelRowMapper, projectId);
+    }
+    public void getTimeForProject (Integer projectId) {
+        String sql = "UPDATE project SET hours_per_project = ? WHERE id = ?";
+        ProjectModel project = getProjectById(projectId);
+        long diffInDays = ChronoUnit.DAYS.between(project.getStartDate(),project.getDeadline());
+        long weekendDaysInProject = (diffInDays/7)*2;
+        long daysInProject = diffInDays-weekendDaysInProject;
+        long totalHoursInProject = daysInProject*8*employeeRepository.getAllEmployeeInProject(projectId).size();
+        jdbcTemplate.update(sql, totalHoursInProject, projectId);
     }
 }

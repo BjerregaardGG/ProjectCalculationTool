@@ -41,4 +41,11 @@ public class ProjectService {
     public List<ProjectModel> getActiveProjects() {
         return projectRepository.getActiveProjects();
     }
+
+    public void getProjectById(int projectId) {
+        projectRepository.getProjectById(projectId);
+    }
+    public void getTimeForProject(int projectId) {
+        projectRepository.getTimeForProject(projectId);
+    }
 }

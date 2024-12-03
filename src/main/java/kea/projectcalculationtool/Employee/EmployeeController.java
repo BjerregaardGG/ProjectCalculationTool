@@ -21,15 +21,8 @@ public class EmployeeController {
 
     ProjectRepository projectRepository;
 
-    public EmployeeController(){
-
-    }
-
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, ProjectRepository projectRepository) {
         this.employeeService = employeeService;
-    }
-
-    public EmployeeController(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
 
@@ -37,18 +30,18 @@ public class EmployeeController {
     public String createEmployee(Model model) {
         model.addAttribute("employee", new EmployeeModel());
         model.addAttribute("roles", EmployeeModel.Roles.values());
-        return "create_employee";
+        return "/create_employee";
     }
 
     @PostMapping("/create_employee")
     public String createEmployee(@ModelAttribute("employee") EmployeeModel employee, Model model) {
         if(employeeService.findByUsername(employee.getUsername()) || employeeService.findByEmail(employee.getEmail())){
             model.addAttribute("error", "username or email already exists");
-            return "create_employee";
+            return "redirect:/create_employee";
         }
         if(!employee.getPassword().equals(employee.getConfirmPassword())){
             model.addAttribute("passerror", "passwords do not match");
-            return "create_employee";
+            return "redirect:/create_employee";
         }
         employeeService.createEmployee(employee);
         model.addAttribute("sucess", true);

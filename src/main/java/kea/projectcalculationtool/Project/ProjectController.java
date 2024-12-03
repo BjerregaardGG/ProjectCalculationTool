@@ -41,7 +41,7 @@ public class ProjectController {
         for(Integer employee : employees){
             projectService.addEmployeeToProject(employee,project.getProjectId());
         }
-
+        projectService.getTimeForProject(project.getProjectId());
         return "redirect:/home";
     }
 
