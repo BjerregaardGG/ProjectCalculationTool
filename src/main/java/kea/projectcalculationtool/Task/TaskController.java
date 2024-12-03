@@ -40,11 +40,10 @@ public class TaskController {
     // creates the task and connects it to the subProjectId with @RequestParam
     @PostMapping("/create_task")
     public String createTask(@ModelAttribute TaskModel task,
-                             @RequestParam("subProjectId") int subProjectId,
-                             @RequestParam("employeeId") int employeeId, @RequestParam("projectId") int projectId) {
+                             @RequestParam int subProjectId,
+                             @RequestParam int employeeId, @RequestParam int projectId) {
 
         taskService.createTaskAndAddEmployee(task, subProjectId, employeeId);
-
 
         return "redirect:/get_task/" + projectId + '/' + subProjectId;
     }

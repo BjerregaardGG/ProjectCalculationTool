@@ -41,4 +41,8 @@ public class EmployeeService {
         return employeeRepository.getEmployeesByTaskID(taskId);
     }
 
+    public void addEmployeeToTask(int taskId, int employeeId) {
+        employeeRepository.addEmployeeToTask(taskId, employeeId);
+    }
+
 }
