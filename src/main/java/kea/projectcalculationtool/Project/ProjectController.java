@@ -94,4 +94,10 @@ public class ProjectController {
     model.addAttribute("totalPrice", sum);
     return "some-project-page";
   }
+
+  @GetMapping("/done_project/{projectid}")
+  public String doneProject(@PathVariable int projectid,Model model) {
+
+    return "done_project";
+  }
 }

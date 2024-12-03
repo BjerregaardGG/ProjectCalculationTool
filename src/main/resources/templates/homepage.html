@@ -25,7 +25,7 @@
     <tbody>
     <tr th:each="project : ${projects}" th:if="${project.status} and ${project.getProjectId()== ProjectIdFromEmployeeId}">
         <td>
-            <a th:href="${'/DoneProject/' + project.projectId}" th:text="${project.projectName}" class="custom-link"></a>
+            <a th:href="${'/done_project/' + project.projectId}" th:text="${project.projectName}" class="custom-link"></a>
         </td>
         <td th:text="${project.projectDescription}"></td>
         <td class="finished-cell">Finished</td>
