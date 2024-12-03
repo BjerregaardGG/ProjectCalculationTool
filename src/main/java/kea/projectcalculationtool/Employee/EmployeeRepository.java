@@ -43,9 +43,10 @@ public class EmployeeRepository {
     }
 
     public boolean findByUsername(String username) {
-        String queryEmployee = "SELECT COUNT(*) FROM employee WHERE username = ?";
-        Integer count = jdbcTemplate.queryForObject(queryEmployee, Integer.class, username);
-        return count > 0;
+            String queryEmployee = "SELECT COUNT(*) FROM employee WHERE username = ?";
+            Integer count = jdbcTemplate.queryForObject(queryEmployee, Integer.class, username);
+            return count > 0;
+
     }
 
     public boolean findByEmail(String email) {
@@ -97,6 +98,14 @@ public class EmployeeRepository {
                 "where task_employee.task_id = ?";
 
         return jdbcTemplate.query(query,EmployeeModelRowmapper, taskID);
+
+    }
+
+    public void addEmployeeToTask(int taskId, int employeeId) {
+
+        String query = "insert into task_employee (employee_id, task_id) values (?, ?)";
+
+        jdbcTemplate.update(query, employeeId, taskId);
 
     }
 

@@ -1,18 +1,19 @@
 package kea.projectcalculationtool.Employee;
 
 import jakarta.servlet.http.HttpSession;
+import kea.projectcalculationtool.Task.TaskModel;
 import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
 import kea.projectcalculationtool.Project.ProjectRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import kea.projectcalculationtool.Project.ProjectRepository;
 import kea.projectcalculationtool.Project.ProjectService;
+
+import java.util.List;
 
 @Controller
 public class EmployeeController {
@@ -93,4 +94,33 @@ public class EmployeeController {
         model.addAttribute("ProjectIdFromEmployeeId", projectRepository.getProjectIdFromEmployeeID(EmployeeID));
         return "homepage";
     }
+
+    @GetMapping("/add_employee_form/{projectId}/{subProjectId}/{taskId}")
+    public String addEmployeeToTaskForm(@PathVariable int projectId, @PathVariable int subProjectId,
+                                        @PathVariable int taskId, Model model) {
+
+        EmployeeModel employee = new EmployeeModel();
+        List<EmployeeModel> employeesByProject = employeeService.getAllEmployeesByProject(projectId);
+
+        model.addAttribute("employeesByProject", employeesByProject);
+        model.addAttribute("subProjectId", subProjectId);
+        model.addAttribute("taskId", taskId);
+        model.addAttribute("employee", employee);
+
+        return "employee_to_task_form";
+    }
+
+    @PostMapping("/add_employee")
+    public String addEmployeeToTask(@RequestParam("subProjectId") int subProjectId,
+                                    @RequestParam("employeeId") int employeeId,
+                                    @RequestParam("projectId") int projectId, @RequestParam("taskId") int taskId){
+
+        employeeService.addEmployeeToTask(taskId, employeeId);
+
+        return "redirect:/get_task/" + projectId + '/' + subProjectId;
+
+    }
+
+
+
 }
