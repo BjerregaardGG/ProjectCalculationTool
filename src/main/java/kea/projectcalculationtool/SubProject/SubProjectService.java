@@ -10,7 +10,7 @@ public class SubProjectService {
     public SubProjectService(SubProjectRepository subProjectRepository) {
         this.subProjectRepository = subProjectRepository;
     }
-    public void createSubproject(SubProjectModel subProject){
-        subProjectRepository.createSubproject(subProject);
+    public void createSubproject(int projectId, SubProjectModel subProject){
+        subProjectRepository.createSubproject(projectId, subProject);
     }
 }
