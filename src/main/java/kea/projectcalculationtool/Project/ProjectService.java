@@ -53,4 +53,8 @@ public class ProjectService {
   public Integer getProjectIdFromEmployeeID(Integer employeeID) {
     return projectRepository.getProjectIdFromEmployeeID(employeeID);
   }
+
+  public EmployeeModel.Roles getRoleFromId(Integer employeeID) {
+      return projectRepository.getRoleFromId(employeeID);
+  }
 }

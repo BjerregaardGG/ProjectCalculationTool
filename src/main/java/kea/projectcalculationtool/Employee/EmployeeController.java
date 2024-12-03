@@ -90,8 +90,10 @@ public class EmployeeController {
         if(EmployeeID == null){
             return "redirect:/login";
         }
+        model.addAttribute("role", projectRepository.getRoleFromId((EmployeeID)));
         model.addAttribute("projects", projectRepository.getAllProjects());
         model.addAttribute("ProjectIdFromEmployeeId", projectRepository.getProjectIdFromEmployeeID(EmployeeID));
+        model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
         return "homepage";
     }
 

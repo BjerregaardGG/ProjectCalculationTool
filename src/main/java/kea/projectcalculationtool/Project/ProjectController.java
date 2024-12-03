@@ -80,6 +80,8 @@ public class ProjectController {
     List<ProjectModel> activeProjects = projectService.getActiveProjects();
     model.addAttribute("projects", activeProjects);
     model.addAttribute("ProjectIdFromEmployeeId", projectService.getProjectIdFromEmployeeID(EmployeeID));
+    model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
+    model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
     return "activeProjects";
   }
 

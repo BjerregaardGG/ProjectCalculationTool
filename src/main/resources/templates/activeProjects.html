@@ -7,7 +7,7 @@
 </head>
 <body>
 <div id="action-links">
-        <form th:action="@{/addToProject}" method="GET">
+        <form th:if="${role == Manager}" th:action="@{/addToProject}" method="GET">
             <button type="submit" class="action-button">Add Employee to Project</button>
         </form>
 </div>
@@ -23,7 +23,7 @@
             </tr>
         </thead>
             <tbody>
-                <tr th:each="project : ${projects}" th:if="${!project.status} and ${project.getProjectId()== ProjectIdFromEmployeeId }">
+            <tr th:each="project : ${projects}" th:if="${!project.status} and (${project.getProjectId()== ProjectIdFromEmployeeId} or ${role == Manager})">
                     <td>
                         <a th:href="${'/ActiveProject/' + project.getProjectId()}" th:text="${project.getProjectName()}" class="custom-link"></a>
                     </td>
@@ -37,7 +37,7 @@
                         <a th:href="${'/ActiveProject/' + project.getProjectId()}" th:text="${project.getProjectDescription()}" class="custom-link"></a>
                     </td>
                     <td>
-                          <form th:action="@{/updateProjectStatus}" method="POST">
+                          <form th:if="${role == Manager}" th:action="@{/updateProjectStatus}" method="POST">
                                 <input type="hidden" name="projectId" th:value="${project.getProjectId()}">
                                 <button type="submit" class="action-button">Finish Project</button>
                           </form>

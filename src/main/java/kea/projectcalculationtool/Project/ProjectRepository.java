@@ -110,4 +110,9 @@ public class ProjectRepository {
     String statusSql = "UPDATE project SET status =? WHERE id =?";
     jdbcTemplate.update(statusSql, status, projectId);
   }
+  public EmployeeModel.Roles getRoleFromId(int employeeId){
+    String sql = "SELECT roles FROM employee WHERE id = ?";
+    System.out.print(jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId));
+    return jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId);
+  }
 }
