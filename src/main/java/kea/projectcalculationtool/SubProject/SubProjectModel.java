@@ -24,6 +24,10 @@ public class SubProjectModel {
         this.status = status;
     }
 
+    public int getSubProjectId() {
+        return subProjectId;
+    }
+
     public void setSubProjectId(int subProjectId) {
         this.subProjectId = subProjectId;
     }

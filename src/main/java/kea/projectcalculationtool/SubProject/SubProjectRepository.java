@@ -36,8 +36,26 @@ public class SubProjectRepository {
                 subProject.isStatus());
     }
 
-    public List<SubProjectModel> getAllSubProjects() {
-        String sql = "SELECT * FROM sub_project";
-        return jdbcTemplate.query(sql, projectModelRowMapper);
+    public List<SubProjectModel> getSubprojectsByProjectId(int projectId){
+
+        String sql = "SELECT * FROM sub_project WHERE project_id = ?";
+
+        return jdbcTemplate.query(sql, projectModelRowMapper, projectId);
     }
+
+    public void markASubprojectAsDone(int id){
+
+        String query = "UPDATE sub_project SET status = ? WHERE id = ?";
+
+        jdbcTemplate.update(query, true, id);
+
+    }
+
+    public void markASubprojectAsNotDone(int id){
+
+        String query = "UPDATE sub_project SET status = ? WHERE id = ?";
+
+        jdbcTemplate.update(query, false, id);
+    }
+
 }

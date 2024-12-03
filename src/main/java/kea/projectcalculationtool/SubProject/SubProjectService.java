@@ -16,7 +16,16 @@ public class SubProjectService {
         subProjectRepository.createSubproject(projectId, subProject);
     }
 
-    public List<SubProjectModel> getAllSubProjects() {
-        return subProjectRepository.getAllSubProjects();
+    public List<SubProjectModel> getSubProjects(int projectId){
+
+        return subProjectRepository.getSubprojectsByProjectId(projectId);
+    }
+
+    public void markSubprojetAsDone(int id){
+        subProjectRepository.markASubprojectAsDone(id);
+    }
+
+    public void markSubprojctAsNotDone(int id){
+        subProjectRepository.markASubprojectAsNotDone(id);
     }
 }
