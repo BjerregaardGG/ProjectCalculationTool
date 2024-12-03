@@ -4,6 +4,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class SubProjectRepository {
     JdbcTemplate jdbcTemplate;
@@ -32,5 +34,10 @@ public class SubProjectRepository {
                 subProject.getBudget(),
                 subProject.getSubProjectDescription(),
                 subProject.isStatus());
+    }
+
+    public List<SubProjectModel> getAllSubProjects() {
+        String sql = "SELECT * FROM sub_project";
+        return jdbcTemplate.query(sql, projectModelRowMapper);
     }
 }
