@@ -1,9 +1,11 @@
 package kea.projectcalculationtool.Project;
 
+import kea.projectcalculationtool.Employee.EmployeeModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -22,6 +24,14 @@ public class ProjectRepository {
         rs.getDouble("budget"),
         rs.getString("description"),
         rs.getBoolean("status"));
+
+    private final RowMapper<EmployeeModel> employeeModelRowMapper = (rs, rowNum) ->
+            new EmployeeModel(
+                    rs.getString("name"),
+                    rs.getString("email"),
+                    rs.getString("username"),
+                    rs.getString("password"),
+                    EmployeeModel.Roles.valueOf(rs.getString("roles")));
 
     //Will give you a list of all projects, using the projectModelRowMapper
     public List<ProjectModel> getAllProjects() {
@@ -45,6 +55,26 @@ public class ProjectRepository {
         //using a inner query, which first gives us the subproject id that is bound to the project id, and then the tasks that are bound to these subprojects.
         String sql = "SELECT SUM(duration) FROM task WHERE sub_project_id = (SELECT sub_project_id FROM sub_project WHERE project_id = ?)";
         return jdbcTemplate.queryForObject(sql, new Object[]{projectId}, Double.class);
+    }
+
+    public List<EmployeeModel> getAllEmployeesInTask(int taskId) {
+        String sql = "SELECT * FROM employee WHERE id = (SELECT employee_id FROM task_employee WHERE task_id = ?) ";
+        return jdbcTemplate.query(sql, employeeModelRowMapper, taskId);
+    }
+
+    public Integer getProjectIdFromEmployeeID(Integer employeeID) {
+        String sql = "SELECT project_id FROM project_team WHERE employee_id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{employeeID}, Integer.class);
+    }
+
+    public List<EmployeeModel> getAllEmployees() {
+        String queryEmployee = "SELECT * FROM employee";
+        return jdbcTemplate.query(queryEmployee,employeeModelRowMapper);
+    }
+
+    public void addEmployeeToProject(int employeeId,int projectId) {
+        String sql = "INSERT INTO project_team(employee_id, project_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, employeeId, projectId);
     }
     public List<ProjectModel> getActiveProjects(){
         String sql = "select * from project WHERE status = false";

@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Task </title>
+    <link rel="stylesheet" th:href="@{/create_project.css}">
 </head>
 <body>
 
 <form th:action="@{/create_task}" th:object="${task}" method="POST">
-    <h2> Add a Task to the project </h2>
+    <h2> Add a Task to the Subproject </h2>
 
     <input type="hidden" name="subProjectId" th:value="${subProjectId}" />
+    <input type="hidden" name="projectId" th:value="${projectId}"/>
 
     <div>
         <label> Task Name: </label>
@@ -33,14 +35,19 @@
 
     <div>
         <label> Description: </label>
-        <input id="description" type="text" th:field="*{taskDescription}">
+        <textarea id="description" type="text" th:field="*{taskDescription}"></textarea>
     </div>
 
     <div>
         <label> Add employee: </label>
         <select id="employeeId" name="employeeId">
-            <option th:each="employee : ${employees}" th:value = "*{emp}"
+            <option th:each="employee : ${employeesByProject}" th:value= "${employee.employeeID}" th:text="${employee.fullName}"></option>
         </select>
+    </div>
+
+    <div>
+        <label> Priority (1 for low - 5 for high): </label>
+        <input id="priority" type="number" th:field="*{priority}" min="1" max="5" required>
     </div>
 
     <button type="submit">Add task to project </button>
