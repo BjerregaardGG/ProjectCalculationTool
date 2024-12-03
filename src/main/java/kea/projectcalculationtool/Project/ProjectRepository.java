@@ -1,6 +1,7 @@
 package kea.projectcalculationtool.Project;
 
 import kea.projectcalculationtool.Employee.EmployeeModel;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -72,9 +73,13 @@ public class ProjectRepository {
 
   public Integer getProjectIdFromEmployeeID(Integer employeeID) {
     String sql = "SELECT project_id FROM project_team WHERE employee_id = ?";
-    return jdbcTemplate.queryForObject(sql, new Object[] { employeeID }, Integer.class);
+    try {
+      return jdbcTemplate.queryForObject(sql, Integer.class, employeeID);
+    }
+    catch(EmptyResultDataAccessException e) {
+      return null;
+    }
   }
-
   public List<EmployeeModel> getAllEmployees() {
     String queryEmployee = "SELECT * FROM employee";
     return jdbcTemplate.query(queryEmployee, employeeModelRowMapper);

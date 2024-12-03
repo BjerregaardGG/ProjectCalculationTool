@@ -80,13 +80,13 @@ public class EmployeeController {
         session.invalidate();
         return "redirect:/login";
     }
-    //Adding session and the two models to get all projects and to get projectid from employee so it will only
+    // Adding session and the two models to get all projects and to get projectid from employee so it will only
     // show projects that the employee are bound too.
     @GetMapping("/home")
     public String ShowHomepage(Model model,HttpSession session) {
         Integer EmployeeID = (Integer) session.getAttribute("employeeID");
         model.addAttribute("projects", projectRepository.getAllProjects());
-        model.addAttribute("ProjectOwner", projectRepository.getProjectIdFromEmployeeID(EmployeeID));
+        model.addAttribute("ProjectIdFromEmployeeId", projectRepository.getProjectIdFromEmployeeID(EmployeeID));
         return "homepage";
     }
 }
