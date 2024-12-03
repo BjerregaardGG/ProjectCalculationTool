@@ -36,6 +36,8 @@
                     <td>
                         <a th:href="${'/ActiveProject/' + project.getProjectId()}" th:text="${project.getProjectDescription()}" class="custom-link"></a>
                     </td>
+                    <!--  This td is only visible if user is manager, and then it give option to complete project -->
+                    <!--  some of this code is inspired by chatgpt and claude-->
                     <td>
                           <form th:if="${role == Manager}" th:action="@{/updateProjectStatus}" method="POST">
                                 <input type="hidden" name="projectId" th:value="${project.getProjectId()}">

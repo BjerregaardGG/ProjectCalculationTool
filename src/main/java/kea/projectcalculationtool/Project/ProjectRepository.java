@@ -105,11 +105,12 @@ public class ProjectRepository {
     return jdbcTemplate.queryForList(sql, Integer.class);
 
   }
-
+    // Used to complete a project
   public void updateProjectStatus(Integer projectId, boolean status) {
     String statusSql = "UPDATE project SET status =? WHERE id =?";
     jdbcTemplate.update(statusSql, status, projectId);
   }
+    // gives us the role of the employee.
   public EmployeeModel.Roles getRoleFromId(int employeeId){
     String sql = "SELECT roles FROM employee WHERE id = ?";
     System.out.print(jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId));
