@@ -80,11 +80,11 @@ public class ProjectRepository {
     String sql = "SELECT project_id FROM project_team WHERE employee_id = ?";
     try {
       return jdbcTemplate.queryForObject(sql, Integer.class, employeeID);
-    }
-    catch(EmptyResultDataAccessException e) {
+    } catch (EmptyResultDataAccessException e) {
       return null;
     }
   }
+
   public List<EmployeeModel> getAllEmployees() {
     String queryEmployee = "SELECT * FROM employee";
     return jdbcTemplate.query(queryEmployee, employeeModelRowMapper);
@@ -99,9 +99,15 @@ public class ProjectRepository {
     String sql = "select * from project WHERE status = false";
     return jdbcTemplate.query(sql, projectModelRowMapper);
   }
+
   public List<Integer> getEmployeesFromProjectTeam() {
     String sql = "SELECT employee_id FROM project_team";
     return jdbcTemplate.queryForList(sql, Integer.class);
 
+  }
+
+  public void updateProjectStatus(Integer projectId, boolean status) {
+    String statusSql = "UPDATE project SET status =? WHERE id =?";
+    jdbcTemplate.update(statusSql, status, projectId);
   }
 }

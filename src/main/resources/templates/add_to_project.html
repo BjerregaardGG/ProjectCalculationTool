@@ -2,34 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Add Employee to Project</title>
+  <link rel="stylesheet" th:href="@{/homepage.css}">
 </head>
 <body>
 <h1>Assign Employee to Project</h1>
 
 <form th:action="@{/addToProject}" method="post">
-  <!-- Select Employee -->
+  <!-- Here you choose Employee -->
   <label for="employee">Choose an Employee:</label>
   <select id="employee" name="employeeId">
     <option value="" disabled selected>Select an Employee</option>
     <th:block th:each="employee : ${employees}">
-      <option th:value="${employee.id}" th:text="${employee.name}"></option>
+      <option th:value="${employee.employeeID}" th:text="${employee.fullName}"></option>
     </th:block>
   </select>
 
   <br><br>
 
-  <!-- Select Project -->
+  <!-- this is where you choose project -->
   <label for="project">Choose a Project:</label>
   <select id="project" name="projectId">
     <option value="" disabled selected>Select a Project</option>
     <th:block th:each="project : ${projects}">
-      <option th:value="${project.id}" th:text="${project.name}"></option>
+      <option th:value="${project.projectId}" th:text="${project.projectName}"></option>
     </th:block>
   </select>
 
   <br><br>
 
-  <!-- Submit Button -->
   <button type="submit">Assign</button>
 </form>
 </body>
