@@ -17,6 +17,7 @@
 
 
 <!-- Form to create a new project -->
+<p th:if="${Error == true}" style="color: red" > Project name already taken </p>
 <form th:action="@{/create_project}" method="post" th:object="${project}">
     <div>
         <label for="projectName">Project Name:</label>

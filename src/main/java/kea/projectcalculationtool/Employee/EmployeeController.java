@@ -85,6 +85,10 @@ public class EmployeeController {
     @GetMapping("/home")
     public String ShowHomepage(Model model,HttpSession session) {
         Integer EmployeeID = (Integer) session.getAttribute("employeeID");
+        // Check if a value was adding with session, if not, no session and therefor you return to login page.
+        if(EmployeeID == null){
+            return "redirect:/login";
+        }
         model.addAttribute("projects", projectRepository.getAllProjects());
         model.addAttribute("ProjectIdFromEmployeeId", projectRepository.getProjectIdFromEmployeeID(EmployeeID));
         return "homepage";

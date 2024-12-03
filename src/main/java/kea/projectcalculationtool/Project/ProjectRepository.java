@@ -63,7 +63,12 @@ public class ProjectRepository {
     // using a inner query, which first gives us the subproject id that is bound to
     // the project id, and then the tasks that are bound to these subprojects.
     String sql = "SELECT SUM(duration) FROM task WHERE sub_project_id = (SELECT sub_project_id FROM sub_project WHERE project_id = ?)";
-    return jdbcTemplate.queryForObject(sql, new Object[] { projectId }, Double.class);
+    try {
+      return jdbcTemplate.queryForObject(sql, Double.class, projectId);
+    } catch (EmptyResultDataAccessException e) {
+      // Return 0.0 if no result is found or no durations exist
+      return 0.0;
+    }
   }
 
   public List<EmployeeModel> getAllEmployeesInTask(int taskId) {

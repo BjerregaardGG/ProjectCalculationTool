@@ -4,6 +4,7 @@ import kea.projectcalculationtool.Employee.EmployeeModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,19 +29,19 @@ public class ProjectController {
 
   @PostMapping("/create_project")
   public String createNewProject(@ModelAttribute("project") ProjectModel project,
-      @RequestParam("employees") List<Integer> employees, Model model) {
+                                 @RequestParam("employees") List<Integer> employees,Model model,RedirectAttributes redirectAttributes) {
     List<ProjectModel> projects = projectService.getAllProjects();
-    ProjectModel projectm = projectService.createProject(project);
     // checks if the name exist in the projects
     System.out.println(employees.get(0));
-    System.out.println(projectm.getProjectId());
     for (ProjectModel projectModel : projects) {
       if (project.getProjectName().equals(projectModel.getProjectName())) {
         System.out.println("Name Already exist," + project.getProjectName());
-        model.addAttribute("Error", true);
-        return "create_project";
+        redirectAttributes.addFlashAttribute("Error", true);
+        return "redirect:/create_project";
       }
     }
+    ProjectModel projectm = projectService.createProject(project);
+    System.out.println(projectm.getProjectId());
     for (Integer employee : employees) {
       projectService.addEmployeeToProject(employee, projectm.getProjectId());
     }
