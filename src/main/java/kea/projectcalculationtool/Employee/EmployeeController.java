@@ -19,14 +19,14 @@ import java.util.List;
 public class EmployeeController {
 
     EmployeeService employeeService;
-
     ProjectRepository projectRepository;
-    private int subProjectId;
+
 
     public EmployeeController(EmployeeService employeeService, ProjectRepository projectRepository) {
         this.employeeService = employeeService;
         this.projectRepository = projectRepository;
     }
+
 
     @GetMapping("/create_employee")
     public String createEmployee(Model model) {
@@ -66,10 +66,10 @@ public class EmployeeController {
             }
             System.out.println("hej");
             Integer EmployeeID = employee.getEmployeeID();
-            session.setAttribute("employeeID", EmployeeID);
+            session.setAttribute("employeeID", foundEmployee.getEmployeeID());
             session.setAttribute("employee", foundEmployee.getUsername());
-            session.setAttribute("employeePassword", employee.getPassword());
-            return "redirect:/" + foundEmployee.getUsername();
+            session.setAttribute("employeePassword", foundEmployee.getPassword());
+            return "redirect:/home";
 
         } catch (Exception e){
             model.addAttribute("error", "An unexpected error occurred. Please try again.");
@@ -81,13 +81,17 @@ public class EmployeeController {
         session.invalidate();
         return "redirect:/login";
     }
-    //Adding session and the two models to get all projects and to get projectid from employee so it will only
+    // Adding session and the two models to get all projects and to get projectid from employee so it will only
     // show projects that the employee are bound too.
     @GetMapping("/home")
     public String ShowHomepage(Model model,HttpSession session) {
-        Integer EmployeeID = (Integer) session.getAttribute("EmployeeID");
+        Integer EmployeeID = (Integer) session.getAttribute("employeeID");
+        // Check if a value was adding with session, if not, no session and therefor you return to login page.
+        if(EmployeeID == null){
+            return "redirect:/login";
+        }
         model.addAttribute("projects", projectRepository.getAllProjects());
-        model.addAttribute("ProjectOwner", projectRepository.getProjectIdFromEmployeeID(EmployeeID));
+        model.addAttribute("ProjectIdFromEmployeeId", projectRepository.getProjectIdFromEmployeeID(EmployeeID));
         return "homepage";
     }
 

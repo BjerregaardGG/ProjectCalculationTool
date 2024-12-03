@@ -17,6 +17,7 @@
 
 
 <!-- Form to create a new project -->
+<p th:if="${Error == true}" style="color: red" > Project name already taken </p>
 <form th:action="@{/create_project}" method="post" th:object="${project}">
     <div>
         <label for="projectName">Project Name:</label>
@@ -40,8 +41,10 @@
     </div>
     <div>
         <label for="employees">Assign Employees:</label>
-        <select id="employees" name="employees" multiple>
+        <select id="employees" name="employees[]" multiple>
+            <!--This ensures that if the id isnt inside the list it will be shown -->
             <option th:each="employee : ${employees}"
+                    th:if="${!EmpOnProjects.contains(employee.employeeID)}"
                     th:value="${employee.employeeID}"
                     th:text="${employee.fullName}">
             </option>
@@ -49,7 +52,7 @@
         <small>Hold Ctrl (Windows) or Command (Mac) to select multiple employees.</small>
     </div>
 
-    <input type="hidden" th:field="*{status}" value="true">
+    <input type="hidden" th:field="*{status}" value="false">
 
     <div>
         <button type="submit">Create Project</button>

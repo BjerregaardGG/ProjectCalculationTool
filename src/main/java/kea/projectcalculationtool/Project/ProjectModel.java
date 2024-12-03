@@ -4,87 +4,91 @@ import java.time.LocalDate;
 
 public class ProjectModel {
 
-    private int projectId;
-    private String projectName;
-    private String projectDescription;
-    private double Budget;
-    private LocalDate startDate;
-    private LocalDate deadline;
-    private boolean status;
+  private int projectId;
+  private String projectName;
+  private String projectDescription;
+  private double Budget;
+  private LocalDate startDate;
+  private LocalDate deadline;
+  private boolean status;
 
-    public ProjectModel() {
-    }
+  public ProjectModel() {
+  }
 
-    public ProjectModel(String name,LocalDate startDate,LocalDate deadline ,double budget, String description,boolean status) {
-        this.projectName = name;
-        this.deadline = deadline;
-        this.Budget = budget;
-        this.projectDescription = description;
-        this.startDate = startDate;
-        this.status=status;
-    }
-    public ProjectModel(String projectName,String projectDescription,double Budget,LocalDate startDate,LocalDate Deadline) {
-        this.projectName = projectName;
-        this.projectDescription = projectDescription;
-        this.Budget = Budget;
-        this.startDate = startDate;
-        this.deadline = Deadline;
-    }
+  public ProjectModel(int projectId, String name, LocalDate startDate, LocalDate deadline, double budget,
+      String description, boolean status) {
+    this.projectId = projectId;
+    this.projectName = name;
+    this.deadline = deadline;
+    this.Budget = budget;
+    this.projectDescription = description;
+    this.startDate = startDate;
+    this.status = status;
+  }
 
-    public int getProjectId() {
-        return projectId;
-    }
+  public ProjectModel(String projectName, String projectDescription, double Budget, LocalDate startDate,
+      LocalDate Deadline) {
+    this.projectName = projectName;
+    this.projectDescription = projectDescription;
+    this.Budget = Budget;
+    this.startDate = startDate;
+    this.deadline = Deadline;
+  }
 
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
-    }
+  public int getProjectId() {
+    return projectId;
+  }
 
-    public String getProjectName() {
-        return projectName;
-    }
+  public void setProjectId(int projectId) {
+    this.projectId = projectId;
+  }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
+  public String getProjectName() {
+    return projectName;
+  }
 
-    public String getProjectDescription() {
-        return projectDescription;
-    }
+  public void setProjectName(String projectName) {
+    this.projectName = projectName;
+  }
 
-    public void setProjectDescription(String projectDescription) {
-        this.projectDescription = projectDescription;
-    }
+  public String getProjectDescription() {
+    return projectDescription;
+  }
 
-    public double getBudget() {
-        return Budget;
-    }
+  public void setProjectDescription(String projectDescription) {
+    this.projectDescription = projectDescription;
+  }
 
-    public void setBudget(double budget) {
-        Budget = budget;
-    }
+  public double getBudget() {
+    return Budget;
+  }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
+  public void setBudget(double budget) {
+    Budget = budget;
+  }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
+  public LocalDate getStartDate() {
+    return startDate;
+  }
 
-    public LocalDate getDeadline() {
-        return deadline;
-    }
+  public void setStartDate(LocalDate startDate) {
+    this.startDate = startDate;
+  }
 
-    public void setDeadline(LocalDate deadline) {
-        this.deadline = deadline;
-    }
+  public LocalDate getDeadline() {
+    return deadline;
+  }
 
-    public boolean getStatus() {
-        return status;
-    }
+  public void setDeadline(LocalDate deadline) {
+    this.deadline = deadline;
+  }
 
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
+  public boolean getStatus() {
+    return status;
+  }
+
+  public void setStatus(boolean status) {
+    this.status = status;
+  }
 
 }

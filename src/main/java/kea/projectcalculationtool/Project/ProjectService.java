@@ -8,37 +8,41 @@ import java.util.List;
 @Service
 public class ProjectService {
 
-    ProjectRepository projectRepository;
+  ProjectRepository projectRepository;
 
-    public ProjectService(ProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
-    }
+  public ProjectService(ProjectRepository projectRepository) {
+    this.projectRepository = projectRepository;
+  }
 
-    public double calculateTime(int projectId) {
-        return projectRepository.calculateTime(projectId);
-    }
+  public double calculateTime(int projectId) {
+    return projectRepository.calculateTime(projectId);
+  }
 
-    public void createProject(ProjectModel project) {
-        projectRepository.createProject(project);
-    }
+  public ProjectModel createProject(ProjectModel project) {
+    return projectRepository.createProject(project);
+  }
 
-    public List<ProjectModel> getAllProjects() {
-        return projectRepository.getAllProjects();
-    }
+  public List<ProjectModel> getAllProjects() {
+    return projectRepository.getAllProjects();
+  }
 
-    public List<EmployeeModel> getAllEmployeesInTask(int taskId) {
-        return projectRepository.getAllEmployeesInTask(taskId);
-    }
+  public List<EmployeeModel> getAllEmployeesInTask(int taskId) {
+    return projectRepository.getAllEmployeesInTask(taskId);
+  }
 
-    public List<EmployeeModel> getAllEmployees() {
-        return projectRepository.getAllEmployees();
-    }
+  public List<EmployeeModel> getAllEmployees() {
+    return projectRepository.getAllEmployees();
+  }
 
-    public void addEmployeeToProject(int employeeId,int projectId) {
-        projectRepository.addEmployeeToProject(employeeId,projectId);
-    }
+  public void addEmployeeToProject(int employeeId, int projectId) {
+    projectRepository.addEmployeeToProject(employeeId, projectId);
+  }
 
-    public List<ProjectModel> getActiveProjects() {
-        return projectRepository.getActiveProjects();
-    }
+  public List<ProjectModel> getActiveProjects() {
+    return projectRepository.getActiveProjects();
+  }
+
+  public List<Integer> getEmployeesFromProjectTeam() {
+    return projectRepository.getEmployeesFromProjectTeam();
+  }
 }
