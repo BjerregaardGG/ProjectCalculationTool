@@ -29,7 +29,7 @@
             <a th:href="${'/done_project/' + project.projectId}" th:text="${project.projectName}" class="custom-link"></a>
         </td>
         <td th:text="${project.projectDescription}"></td>
-        <td th:text="${cost}"></td>
+        <td th:text="${projectRepo.calculateCost(project.getProjectId())}"></td>
         <td class="finished-cell">Finished</td>
     </tr>
 

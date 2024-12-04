@@ -91,7 +91,7 @@ public class EmployeeController {
             return "redirect:/login";
         }
         Integer projectIdBoundToEmployee = projectRepository.getProjectIdFromEmployeeID(EmployeeID);
-        model.addAttribute("cost", projectRepository.calculateCost(projectIdBoundToEmployee));
+        model.addAttribute("projectRepo", projectRepository);
         model.addAttribute("role", projectRepository.getRoleFromId((EmployeeID)));
         model.addAttribute("projects", projectRepository.getAllProjects());
         model.addAttribute("ProjectIdFromEmployeeId", projectIdBoundToEmployee);
