@@ -13,7 +13,7 @@
   <select id="employee" name="employeeId">
     <option value="" disabled selected>Select an Employee</option>
     <th:block th:each="employee : ${employees}">
-      <option th:value="${employee.employeeID}" th:text="${employee.fullName}"></option>
+      <option th:if="${!IdList.contains(employee.getEmployeeID())}" th:value="${employee.getEmployeeID()}" th:text="${employee.fullName}"></option>
     </th:block>
   </select>
 

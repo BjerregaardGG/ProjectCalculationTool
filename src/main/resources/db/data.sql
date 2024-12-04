@@ -1,7 +1,7 @@
 INSERT INTO Employee(name, email, username, password, roles)
 VALUES ('Hannibal Vestergaard', 'Hannibal24@gmail.com', 'Hannimal', 'pass1234','MANAGER');
 INSERT INTO project (name, start_date, deadline, budget, description, status)
-VALUES ('Project Omega', '2024-01-15', '2024-12-15', 75000.50, 'An innovative project to enhance AI capabilities.', FALSE),
+VALUES ('Project Omega', '2024-01-15', '2024-12-15', 2000, 'An innovative project to enhance AI capabilities.', FALSE),
        ('FlyHigh', '1999-01-01', '2099-12-12',5000,'Deport dwarfs to mars', FALSE),
        ('Hell', '1029-12-12', '2000-12-12', 50000, 'find nemo', FALSE );
 

@@ -65,7 +65,7 @@ public class ProjectRepository {
     String sql = "SELECT SUM(duration) FROM task WHERE sub_project_id IN (SELECT id FROM sub_project WHERE project_id = ?)";
     try {
       return jdbcTemplate.queryForObject(sql, Double.class, projectId);
-    } catch (EmptyResultDataAccessException e) {
+    } catch (Exception e) {
       // Return 0.0 if no result is found or no durations exist
       return 0.0;
     }

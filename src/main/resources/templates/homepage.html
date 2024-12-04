@@ -19,8 +19,10 @@
     <tr>
         <th>Project Name</th>
         <th>Project Description</th>
+        <th>Budget</th>
         <th>Cost</th>
-        <th>Status</th>
+        <th>Variance</th>
+        <th>Hours Used</th>
     </tr>
     </thead>
     <tbody>
@@ -29,8 +31,12 @@
             <a th:href="${'/done_project/' + project.projectId}" th:text="${project.projectName}" class="custom-link"></a>
         </td>
         <td th:text="${project.projectDescription}"></td>
+        <td th:text="${project.getBudget()}"></td>
         <td th:text="${projectRepo.calculateCost(project.getProjectId())}"></td>
-        <td class="finished-cell">Finished</td>
+        <td th:text="${project.getBudget() - projectRepo.calculateCost(project.getProjectId())}"
+            th:class="${project.getBudget() - projectRepo.calculateCost(project.getProjectId()) >= 0 ? 'text-green' : 'text-red'}">
+        </td>
+        <td th:text="${projectRepo.calculateTime(project.projectId)}"></td>
     </tr>
 
     </tbody>

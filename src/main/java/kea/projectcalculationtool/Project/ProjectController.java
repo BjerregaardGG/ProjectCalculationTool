@@ -53,9 +53,11 @@ public class ProjectController {
   // will get a List of employees and Projects to choose from, and values from
   // those will be combinded to add to project_team
   @GetMapping("/addToProject")
-  public String addToProject(Model model) {
+  public String addToProject(Model model, HttpSession session) {
+    Integer EmployeeId = (Integer) session.getAttribute("employeeId");
     List<EmployeeModel> employees = projectService.getAllEmployees();
     List<ProjectModel> projects = projectService.getAllProjects();
+    model.addAttribute("IdList", projectService.getEmployeesFromProjectTeam());
     model.addAttribute("employees", employees);
     model.addAttribute("projects", projects);
     return "add_to_project";
@@ -84,22 +86,6 @@ public class ProjectController {
     model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
     return "activeProjects";
   }
-/*
-  @GetMapping("/project/{projectId}/cost")
-  public String showProjectCost(@PathVariable int projectId, Model model) {
-    double totalTime = projectService.calculateTime(projectId);
-    List<EmployeeModel> employee = projectService.getAllEmployeesInTask(projectId);
-    double newTime = totalTime / employee.size();
-    double sum = 0;
-    // Calculate total price based on job and time used.
-    for (EmployeeModel employeeModel : employee) {
-      EmployeeModel.Roles roles = employeeModel.getRoles();
-      sum += roles.getWage() * newTime;
-    }
-    model.addAttribute("totalPrice", sum);
-    return "/home";
-  }
-*/
   @GetMapping("/done_project/{projectid}")
   public String doneProject(@PathVariable int projectid, Model model) {
 

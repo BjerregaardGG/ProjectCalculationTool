@@ -22,10 +22,18 @@
 
     <tbody>
     <tr th:each="sub : ${allSubprojects}">
-        <td th:text="${sub.subProjectName}"></td>
-        <td th:text="${sub.subProjectDescription}"></td>
-        <td th:text="${sub.startDate}"></td>
-        <td th:text="${sub.deadline}"></td>
+        <td>
+            <a th:href="${'/get_task/'+ sub.projectId + '/' + sub.getSubProjectId()}" th:text="${sub.getSubProjectName()}" class="custom-link"></a>
+        </td>
+        <td>
+            <a th:href="${'/get_task/'+ sub.projectId + '/' + sub.getSubProjectId()}"  th:text="${sub.getSubProjectDescription()}" class="custom-link"></a>
+        </td>
+        <td>
+            <a th:href="${'/get_task/'+ sub.projectId + '/' + sub.getSubProjectId()}" th:text="${sub.getStartDate()}" class="custom-link"></a>
+        </td>
+        <td>
+            <a th:href="${'/get_task/'+ sub.projectId + '/' + sub.getSubProjectId()}"  th:text="${sub.getDeadline()}" class="custom-link"></a>
+        </td>
         <td>
             <form th:if="${sub.status}" th:action="@{'/subProject_not_done/' + ${projectId}}" method="POST">
                 <input type="hidden" name="subProjectId" th:value="${sub.subProjectId}"/>
@@ -37,6 +45,7 @@
                 <input type="hidden" name="projectId" th:value="${projectId}"/>
                 <button type="submit" class="button_done">✖</button>
             </form>
+        </td>
         <td th:text="${sub.budget}"></td>
     </tr>
     </tbody>
