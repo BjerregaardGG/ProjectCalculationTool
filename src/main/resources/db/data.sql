@@ -1,8 +1,9 @@
 INSERT INTO Employee(name, email, username, password, roles)
 VALUES ('Hannibal Vestergaard', 'Hannibal24@gmail.com', 'Hannimal', 'pass1234','MANAGER');
 INSERT INTO project (name, start_date, deadline, budget, description, status)
-VALUES ('Project Omega', '2024-01-15', '2024-12-15', 75000.50, 'An innovative project to enhance AI capabilities.', TRUE),
-       ('FlyHigh', '1999-01-01', '2099-12-12',5000,'Deport dwarfs to mars', FALSE);
+VALUES ('Project Omega', '2024-01-15', '2024-12-15', 75000.50, 'An innovative project to enhance AI capabilities.', FALSE),
+       ('FlyHigh', '1999-01-01', '2099-12-12',5000,'Deport dwarfs to mars', FALSE),
+       ('Hell', '1029-12-12', '2000-12-12', 50000, 'find nemo', FALSE );
 
 INSERT INTO sub_project(project_id, name, start_date, deadline, budget, description, status)
 VALUES(1, 'codelab', '2000-12-02', '2002-02-02', 4500, 'codelab lets go', FALSE);
@@ -13,11 +14,22 @@ VALUES ('niko123', 'nikoniko', 'Nikolaj Panema', 'niko1234@gmail.com', 'INTERN')
        ('LarsOG', 'larsmedhars', 'Lars Adelsborg', 'Lars1234@gmail.com', 'INTERN'),
        ('Mads', 'MadsAttack', 'Mads Olufsen', 'Mads1234@gmail.com', 'INTERN');
 
+INSERT INTO employee (username, password, name, email, roles)
+VALUES
+    ('jdoe', 'password123', 'John Doe', 'jdoe@example.com', 'JUNIOR'),
+    ('asmith', 'passw0rd', 'Alice Smith', 'asmith@example.com', 'SENIOR'),
+    ('bwhite', '12345pass', 'Bob White', 'bwhite@example.com', 'INTERN'),
+    ('123', '123', 'Kate Martin', 'kmartin@example.com', 'MANAGER'),
+    ('ltaylor', 'taylor!123', 'Liam Taylor', 'ltaylor@example.com', 'SENIOR'),
+    ('hgrace', 'securePass1', 'Hannah Grace', 'hgrace@example.com', 'JUNIOR');
+
 INSERT INTO project_team (project_id, employee_id)
 VALUES (1, 1),
        (1, 2),
        (1, 3),
-       (1, 4);
+       (1, 4),
+       (2,5),
+       (3,6);
 
 
 
@@ -36,11 +48,3 @@ VALUES (1,1),
 
 
 
-INSERT INTO employee (username, password, name, email, roles)
-VALUES
-    ('jdoe', 'password123', 'John Doe', 'jdoe@example.com', 'JUNIOR'),
-    ('asmith', 'passw0rd', 'Alice Smith', 'asmith@example.com', 'SENIOR'),
-    ('bwhite', '12345pass', 'Bob White', 'bwhite@example.com', 'INTERN'),
-    ('kmartin', 'martinK@!', 'Kate Martin', 'kmartin@example.com', 'MANAGER'),
-    ('ltaylor', 'taylor!123', 'Liam Taylor', 'ltaylor@example.com', 'SENIOR'),
-    ('hgrace', 'securePass1', 'Hannah Grace', 'hgrace@example.com', 'JUNIOR');

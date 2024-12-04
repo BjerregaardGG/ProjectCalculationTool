@@ -1,5 +1,6 @@
 package kea.projectcalculationtool.Project;
 
+import jakarta.servlet.http.HttpSession;
 import kea.projectcalculationtool.Employee.EmployeeModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +30,7 @@ public class ProjectController {
 
   @PostMapping("/create_project")
   public String createNewProject(@ModelAttribute("project") ProjectModel project,
-                                 @RequestParam("employees") List<Integer> employees,Model model,RedirectAttributes redirectAttributes) {
+      @RequestParam("employees") List<Integer> employees, Model model, RedirectAttributes redirectAttributes) {
     List<ProjectModel> projects = projectService.getAllProjects();
     // checks if the name exist in the projects
     System.out.println(employees.get(0));
@@ -63,7 +64,7 @@ public class ProjectController {
   @PostMapping("/addToProject")
   public String assignToProject(@RequestParam("employeeId") int employeeId, @RequestParam("projectId") int projectId) {
     projectService.addEmployeeToProject(employeeId, projectId);
-    return "redirect:/home";
+    return "redirect:/activeProjects";
   }
 
   @GetMapping("/project/{projectId}/time")
@@ -74,12 +75,16 @@ public class ProjectController {
   }
 
   @GetMapping("/activeProjects")
-  public String getActiveProjects(Model model) {
+  public String getActiveProjects(Model model,HttpSession session) {
+    Integer EmployeeID = (Integer) session.getAttribute("employeeID");
     List<ProjectModel> activeProjects = projectService.getActiveProjects();
     model.addAttribute("projects", activeProjects);
+    model.addAttribute("ProjectIdFromEmployeeId", projectService.getProjectIdFromEmployeeID(EmployeeID));
+    model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
+    model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
     return "activeProjects";
   }
-
+/*
   @GetMapping("/project/{projectId}/cost")
   public String showProjectCost(@PathVariable int projectId, Model model) {
     double totalTime = projectService.calculateTime(projectId);
@@ -92,6 +97,19 @@ public class ProjectController {
       sum += roles.getWage() * newTime;
     }
     model.addAttribute("totalPrice", sum);
-    return "some-project-page";
+    return "/home";
+  }
+*/
+  @GetMapping("/done_project/{projectid}")
+  public String doneProject(@PathVariable int projectid, Model model) {
+
+    return "done_project";
+  }
+
+  @PostMapping("/updateProjectStatus")
+  public String updateProjectStatus(@RequestParam("projectId") Integer projectid) {
+    projectService.updateProjectStatus(projectid, true);
+
+    return "redirect:/activeProjects";
   }
 }
