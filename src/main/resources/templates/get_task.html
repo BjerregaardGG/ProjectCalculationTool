@@ -64,9 +64,17 @@
     </form>
 </div>
 
+<div id="hours-pr-employee">
+    <span class="total-hours-button"
+          th:classappend="${hoursPrEmployee > 20} ? ' bad-workload' : ' good-workload'"
+          th:text="'Average workload per Employee: ' + ${hoursPrEmployee} + ' hours'"></span>
+</div>
+
 <div id="hours">
     <span class="total-hours-button" th:text="'Hours to go: ' + ${totalHours}"></span>
 </div>
+
+
 
 </body>
 </html>

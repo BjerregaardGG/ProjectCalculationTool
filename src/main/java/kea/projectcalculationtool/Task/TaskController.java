@@ -63,16 +63,27 @@ public class TaskController {
 
         // total hours for a subproject
         int totalHours = 0;
+        // total employees for a task
+        int employees = 0;
+        //hours pr employee
+        int hoursPrEmployee = 0;
 
         for(TaskModel task : priorityTasks) {
-            if(!task.getTaskStatus()){
-                totalHours += task.getDuration();
+            if(!task.getTaskStatus()) {
+                totalHours += task.getDuration(); // number of hours on active projects
+
+                List<EmployeeModel> employees2 = employeeService.getAllEmployeesByTask(task.getTaskId());
+                employees += employees2.size(); // number of employees on active projects
             }
         }
+            if(employees > 0) {
+                hoursPrEmployee = totalHours / employees; // average workload
+            }
 
         model.addAttribute("priorityTasks", priorityTasks);
         model.addAttribute("employeesByTask", employeesByTask);
         model.addAttribute("totalHours", totalHours);
+        model.addAttribute("hoursPrEmployee", hoursPrEmployee);
 
         return "get_task";
     }
