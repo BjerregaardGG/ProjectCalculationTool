@@ -29,8 +29,8 @@ CREATE TABLE project
     budget DOUBLE,
     description VARCHAR(100),
     status BOOLEAN,
-    hours_per_project INTEGER,
-    PRIMARY KEY (id),
+    work_hours_per_project INTEGER,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE sub_project

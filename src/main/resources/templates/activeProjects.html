@@ -19,6 +19,7 @@
                 <th>Start Date</th>
                 <th>Deadline</th>
                 <th>Description</th>
+                <th>Daily Hours for Project</th>
                 <th>           </th>
             </tr>
         </thead>
@@ -35,6 +36,9 @@
                     </td>
                     <td>
                         <a th:href="${'/ActiveProject/' + project.getProjectId()}" th:text="${project.getProjectDescription()}" class="custom-link"></a>
+                    </td>
+                    <td>
+                        <a th:href="${'/ActiveProject/' + project.getProjectId()}" th:text="${projectrepo.getTimeForProject(project.projectId)}" class="custom-link"></a>
                     </td>
                     <!--  This td is only visible if user is manager, and then it give option to complete project -->
                     <!--  some of this code is inspired by chatgpt and claude-->

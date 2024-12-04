@@ -1,9 +1,11 @@
 package kea.projectcalculationtool.Project;
 
+import jakarta.servlet.http.HttpSession;
 import kea.projectcalculationtool.Employee.EmployeeModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +13,12 @@ import java.util.List;
 @Controller
 public class ProjectController {
 
+  private final ProjectRepository projectRepository;
   ProjectService projectService;
 
-  public ProjectController(ProjectService projectService) {
+  public ProjectController(ProjectService projectService, ProjectRepository projectRepository) {
     this.projectService = projectService;
+    this.projectRepository = projectRepository;
   }
 
   @GetMapping("/create_project")
@@ -73,13 +77,15 @@ public class ProjectController {
   }
 
   @GetMapping("/activeProjects")
-  public String getActiveProjects(Model model,HttpSession session) {
+  public String getActiveProjects(Model model, HttpSession session) {
     Integer EmployeeID = (Integer) session.getAttribute("employeeID");
+    Integer ProjectId = projectService.getProjectIdFromEmployeeID(EmployeeID);
     List<ProjectModel> activeProjects = projectService.getActiveProjects();
+    model.addAttribute("projectrepo", projectRepository);
     model.addAttribute("projects", activeProjects);
-    model.addAttribute("ProjectIdFromEmployeeId", projectService.getProjectIdFromEmployeeID(EmployeeID));
+    model.addAttribute("ProjectIdFromEmployeeId", ProjectId);
     model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
-    model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
+    model.addAttribute("role", projectService.getRoleFromId(EmployeeID));
     return "activeProjects";
   }
 /*

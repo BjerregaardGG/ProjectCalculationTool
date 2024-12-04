@@ -46,7 +46,6 @@ public class EmployeeRepository {
             String queryEmployee = "SELECT COUNT(*) FROM employee WHERE username = ?";
             Integer count = jdbcTemplate.queryForObject(queryEmployee, Integer.class, username);
             return count > 0;
-
     }
 
     public boolean findByEmail(String email) {
@@ -76,9 +75,14 @@ public class EmployeeRepository {
         return jdbcTemplate.query(query, EmployeeModelRowmapper);
 
     }
-    public List<EmployeeModel> getAllEmployeeInProject(int projectID) {
-        String query = "SELECT * e.id, e.name, e.email FROM Employee e WHERE e.projectID = ?";
-        return jdbcTemplate.query(query, EmployeeModelRowmapper, projectID);
+    public List<Integer> getAllEmployeeInProject(int projectID) {
+        try{
+            String query = "SELECT employee_id FROM project_team WHERE project_id = ?";
+            return jdbcTemplate.queryForList(query, Integer.class, projectID);
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     // Method to get employees based on a project and who's not assigned a task

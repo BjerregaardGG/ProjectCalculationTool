@@ -18,8 +18,8 @@ public class ProjectService {
         return projectRepository.calculateTime(projectId);
     }
 
-    public void createProject(ProjectModel project) {
-        projectRepository.createProject(project);
+    public ProjectModel createProject(ProjectModel project) {
+        return projectRepository.createProject(project);
     }
 
     public List<ProjectModel> getAllProjects() {
@@ -45,12 +45,10 @@ public class ProjectService {
     public void getProjectById(int projectId) {
         projectRepository.getProjectById(projectId);
     }
-    public void getTimeForProject(int projectId) {
-        projectRepository.getTimeForProject(projectId);
+
+    public long getTimeForProject(int projectId) {
+        return projectRepository.getTimeForProject(projectId);
     }
-  public List<ProjectModel> getActiveProjects() {
-    return projectRepository.getActiveProjects();
-  }
 
   public List<Integer> getEmployeesFromProjectTeam() {
     return projectRepository.getEmployeesFromProjectTeam();
