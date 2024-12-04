@@ -62,7 +62,7 @@ public class ProjectRepository {
   public double calculateTime(int projectId) {
     // using a inner query, which first gives us the subproject id that is bound to
     // the project id, and then the tasks that are bound to these subprojects.
-    String sql = "SELECT SUM(duration) FROM task WHERE sub_project_id = (SELECT sub_project_id FROM sub_project WHERE project_id = ?)";
+    String sql = "SELECT SUM(duration) FROM task WHERE sub_project_id IN (SELECT id FROM sub_project WHERE project_id = ?)";
     try {
       return jdbcTemplate.queryForObject(sql, Double.class, projectId);
     } catch (EmptyResultDataAccessException e) {
@@ -72,8 +72,13 @@ public class ProjectRepository {
   }
 
   public List<EmployeeModel> getAllEmployeesInTask(int taskId) {
-    String sql = "SELECT * FROM employee WHERE id = (SELECT employee_id FROM task_employee WHERE task_id = ?) ";
+    String sql = "SELECT * FROM employee WHERE id IN (SELECT employee_id FROM task_employee WHERE task_id = ?)";
     return jdbcTemplate.query(sql, employeeModelRowMapper, taskId);
+  }
+  public List<Integer> getTaskId(Integer projectId) {
+    //String sql = "SELECT * FROM employee WHERE id = (SELECT id FROM task_employee WHERE task_id = ?) ";
+    String sql ="SELECT id FROM task WHERE sub_project_id IN (SELECT id FROM sub_project WHERE project_id = ?)";
+    return jdbcTemplate.queryForList(sql,Integer.class, projectId);
   }
 
   public Integer getProjectIdFromEmployeeID(Integer employeeID) {
@@ -115,5 +120,34 @@ public class ProjectRepository {
     String sql = "SELECT roles FROM employee WHERE id = ?";
     System.out.print(jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId));
     return jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId);
+  }
+
+  public double calculateCost(Integer projectId){
+    try {
+      // Adding two array list, so we have the id and a list of employees
+      List<Integer> task_ids = getTaskId(projectId);
+      System.out.println(task_ids.size());
+      List<EmployeeModel> employee = new ArrayList<>();
+      System.out.println(employee.size());
+      double totalTime = calculateTime(projectId);
+      // in this loop every task/task_id will be iterated and for each task all employees bound to it will be added to employeelist
+      for(Integer task_id : task_ids){
+          employee.addAll(getAllEmployeesInTask(task_id));
+      }
+      System.out.println(employee.size());
+      // based on the size the total time will change.
+      double newTime = totalTime / employee.size();
+      double sum = 0;
+      // Calculate total price based on job and time used.
+      for (EmployeeModel employeeModel : employee) {
+        EmployeeModel.Roles roles = employeeModel.getRoles();
+        sum += roles.getWage() * newTime;
+      }
+      return sum;
+    }
+    catch(NullPointerException e){
+      System.out.println(e.getMessage());
+      return 0.0;
+    }
   }
 }

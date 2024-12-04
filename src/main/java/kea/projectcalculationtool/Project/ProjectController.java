@@ -84,7 +84,7 @@ public class ProjectController {
     model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
     return "activeProjects";
   }
-
+/*
   @GetMapping("/project/{projectId}/cost")
   public String showProjectCost(@PathVariable int projectId, Model model) {
     double totalTime = projectService.calculateTime(projectId);
@@ -97,9 +97,9 @@ public class ProjectController {
       sum += roles.getWage() * newTime;
     }
     model.addAttribute("totalPrice", sum);
-    return "some-project-page";
+    return "/home";
   }
-
+*/
   @GetMapping("/done_project/{projectid}")
   public String doneProject(@PathVariable int projectid, Model model) {
 
