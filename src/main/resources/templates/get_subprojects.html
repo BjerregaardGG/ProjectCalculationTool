@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get Subprojects</title>
+    <link rel="stylesheet" th:href="@{/homepage.css}">
+</head>
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th>Subproject</th>
+        <th>Description</th>
+        <th>Start Date</th>
+        <th>Deadline</th>
+        <th>Status</th>
+        <th>Budget</th>
+        <th></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="sub : ${allSubprojects}">
+        <td th:text="${sub.subProjectName}"></td>
+        <td th:text="${sub.subProjectDescription}"></td>
+        <td th:text="${sub.startDate}"></td>
+        <td th:text="${sub.deadline}"></td>
+        <td>
+            <form th:if="${sub.status}" th:action="@{'/subProject_not_done/' + ${projectId}}" method="POST">
+                <input type="hidden" name="subProjectId" th:value="${sub.subProjectId}"/>
+                <input type="hidden" name="projectId" th:value="${projectId}"/>
+                <button type="submit" class="button_done">✔️</button>
+            </form>
+            <form th:if="${!sub.status}" th:action="@{'/subProject_done/' + ${projectId}}" method="POST">
+                <input type="hidden" name="subProjectId" th:value="${sub.subProjectId}"/>
+                <input type="hidden" name="projectId" th:value="${projectId}"/>
+                <button type="submit" class="button_done">✖</button>
+            </form>
+        <td th:text="${sub.budget}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div id="action-links">
+    <form th:action="@{'/create_subProjectForm/' + ${projectId}}" method="GET">
+        <button type="submit">Add another Sub Project</button>
+    </form>
+</div>
+
+</body>
+</html>

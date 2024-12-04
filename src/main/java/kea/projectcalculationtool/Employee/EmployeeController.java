@@ -21,10 +21,12 @@ public class EmployeeController {
 
     ProjectRepository projectRepository;
 
+
     public EmployeeController(EmployeeService employeeService, ProjectRepository projectRepository) {
         this.employeeService = employeeService;
         this.projectRepository = projectRepository;
     }
+
 
     @GetMapping("/create_employee")
     public String createEmployee(Model model) {
@@ -64,10 +66,10 @@ public class EmployeeController {
             }
             System.out.println("hej");
             Integer EmployeeID = employee.getEmployeeID();
-            session.setAttribute("employeeID", EmployeeID);
+            session.setAttribute("employeeID", foundEmployee.getEmployeeID());
             session.setAttribute("employee", foundEmployee.getUsername());
-            session.setAttribute("employeePassword", employee.getPassword());
-            return "redirect:/" + foundEmployee.getUsername();
+            session.setAttribute("employeePassword", foundEmployee.getPassword());
+            return "redirect:/home";
 
         } catch (Exception e){
             model.addAttribute("error", "An unexpected error occurred. Please try again.");
@@ -79,13 +81,50 @@ public class EmployeeController {
         session.invalidate();
         return "redirect:/login";
     }
-    //Adding session and the two models to get all projects and to get projectid from employee so it will only
+    // Adding session and the two models to get all projects and to get projectid from employee so it will only
     // show projects that the employee are bound too.
     @GetMapping("/home")
     public String ShowHomepage(Model model,HttpSession session) {
-        Integer EmployeeID = (Integer) session.getAttribute("EmployeeID");
+        Integer EmployeeID = (Integer) session.getAttribute("employeeID");
+        // Check if a value was adding with session, if not, no session and therefor you return to login page.
+        if(EmployeeID == null){
+            return "redirect:/login";
+        }
+        Integer projectIdBoundToEmployee = projectRepository.getProjectIdFromEmployeeID(EmployeeID);
+        model.addAttribute("projectRepo", projectRepository);
+        model.addAttribute("role", projectRepository.getRoleFromId((EmployeeID)));
         model.addAttribute("projects", projectRepository.getAllProjects());
-        model.addAttribute("ProjectOwner", projectRepository.getProjectIdFromEmployeeID(EmployeeID));
+        model.addAttribute("ProjectIdFromEmployeeId", projectIdBoundToEmployee);
+        model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
         return "homepage";
     }
+
+    @GetMapping("/add_employee_form/{projectId}/{subProjectId}/{taskId}")
+    public String addEmployeeToTaskForm(@PathVariable int projectId, @PathVariable int subProjectId,
+                                        @PathVariable int taskId, Model model) {
+
+        EmployeeModel employee = new EmployeeModel();
+        List<EmployeeModel> employeesByProject = employeeService.getAllEmployeesByProject(projectId);
+
+        model.addAttribute("employeesByProject", employeesByProject);
+        model.addAttribute("subProjectId", subProjectId);
+        model.addAttribute("taskId", taskId);
+        model.addAttribute("employee", employee);
+
+        return "employee_to_task_form";
+    }
+
+    @PostMapping("/add_employee")
+    public String addEmployeeToTask(@RequestParam("subProjectId") int subProjectId,
+                                    @RequestParam("employeeId") int employeeId,
+                                    @RequestParam("projectId") int projectId, @RequestParam("taskId") int taskId){
+
+        employeeService.addEmployeeToTask(taskId, employeeId);
+
+        return "redirect:/get_task/" + projectId + '/' + subProjectId;
+
+    }
+
+
+
 }

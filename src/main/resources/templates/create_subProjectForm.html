@@ -2,9 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create subProject</title>
+    <title>Create subproject</title>
+    <link rel="stylesheet" th:href="@{/create_project.css}">
 </head>
 <body>
+<div id="top-button">
+    <a th:href="@{/home}"><button>Home</button></a>
+</div>
 
+<h1>Create a New Subproject</h1>
+
+<form th:action="@{/create_subProject}" method="post" th:object="${subProject}">
+
+    <input type="hidden" name="projectId" th:value="${projectId}" />
+    <input type="hidden" name="subprojectId" th:value="${sub}" />
+
+
+    <div>
+        <label for="subProjectName">Subproject Name:</label>
+        <input type="text" id="subProjectName" th:field="*{subProjectName}" placeholder="Enter subproject name">
+    </div>
+
+    <div>
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" th:field="*{startDate}">
+    </div>
+    <div>
+        <label for="deadline">Deadline:</label>
+        <input type="date" id="deadline" th:field="*{deadline}">
+    </div>
+    <div>
+        <label for="budget">Budget:</label>
+        <input type="number" id="budget" th:field="*{budget}" placeholder="Enter budget">
+    </div>
+    <div>
+        <label for="subProjectDescription">Subproject Description:</label>
+        <textarea id="subProjectDescription" th:field="*{subProjectDescription}" placeholder="Enter subproject description"></textarea>
+    </div>
+    <div>
+        <label for="status">Status:</label>
+        <input type="checkbox" id="status" th:field="*{status}"> Active
+    </div>
+    <div>
+        <button type="submit">Create subproject</button>
+        <button type="button" onclick="history.back()"> Back </button>
+    </div>
+</form>
 </body>
 </html>

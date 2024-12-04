@@ -13,10 +13,11 @@ public class ProjectModel {
     private boolean status;
     private int hoursPerProject;
 
-    public ProjectModel() {
-    }
+  public ProjectModel() {
+  }
 
-    public ProjectModel(String name,LocalDate startDate,LocalDate deadline ,double budget, String description,boolean status, int hoursPerProject) {
+    public ProjectModel(int projecId,String name,LocalDate startDate,LocalDate deadline ,double budget, String description,boolean status, int hoursPerProject) {
+        this.projectId = projecId;
         this.projectName = name;
         this.deadline = deadline;
         this.Budget = budget;
@@ -33,21 +34,21 @@ public class ProjectModel {
         this.deadline = Deadline;
     }
 
-    public int getProjectId() {
-        return projectId;
-    }
+  public int getProjectId() {
+    return projectId;
+  }
 
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
-    }
+  public void setProjectId(int projectId) {
+    this.projectId = projectId;
+  }
 
-    public String getProjectName() {
-        return projectName;
-    }
+  public String getProjectName() {
+    return projectName;
+  }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
+  public void setProjectName(String projectName) {
+    this.projectName = projectName;
+  }
 
     public String getProjectDescription() {
         return projectDescription;
