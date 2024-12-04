@@ -1,5 +1,3 @@
-INSERT INTO Employee(name, email, username, password, roles)
-VALUES ('Hannibal Vestergaard', 'Hannibal24@gmail.com', 'Hannimal', 'pass1234','MANAGER');
 INSERT INTO project (name, start_date, deadline, budget, description, status)
 VALUES ('Project Omega', '2024-01-15', '2024-12-15', 75000.50, 'An innovative project to enhance AI capabilities.', FALSE),
        ('FlyHigh', '1999-01-01', '2099-12-12',5000,'Deport dwarfs to mars', FALSE),
@@ -21,7 +19,8 @@ VALUES
     ('bwhite', '12345pass', 'Bob White', 'bwhite@example.com', 'INTERN'),
     ('123', '123', 'Kate Martin', 'kmartin@example.com', 'MANAGER'),
     ('ltaylor', 'taylor!123', 'Liam Taylor', 'ltaylor@example.com', 'SENIOR'),
-    ('hgrace', 'securePass1', 'Hannah Grace', 'hgrace@example.com', 'JUNIOR');
+    ('hgrace', 'securePass1', 'Hannah Grace', 'hgrace@example.com', 'JUNIOR'),
+    ('Hannibal Vestergaard', 'Hannibal24@gmail.com', 'Hannimal', 'pass1234','MANAGER');
 
 INSERT INTO project_team (project_id, employee_id)
 VALUES (1, 1),
@@ -38,8 +37,8 @@ VALUES ('Fix Deployment', '2024-01-02', '2024-12-18', 100.000, 'FIx the deployme
 
 INSERT INTO task (sub_project_id, name, start_date, deadline, duration, description, status, priority)
 VALUES (1, 'Meeting', '2024-01-12', '2024-04-12', 6, 'Get together', false, 1),
-(1,'Debugging', '2024-01-12', '2024-02-12', 6, 'Current branch', true, 5),
-       (1,'Controller class', '2024-01-12', '2024-01-12', 6, 'Current branch', true, 5);
+       (1,'Debugging', '2024-01-12', '2024-02-12', 6, 'Current branch', true, 5),
+       (2,'Controller class', '2024-01-12', '2024-01-12', 6, 'Current branch', true, 1);
 
 INSERT INTO task_employee (task_id, employee_id)
 VALUES (1,1),
