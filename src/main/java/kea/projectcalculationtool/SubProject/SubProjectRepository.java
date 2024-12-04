@@ -4,6 +4,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class SubProjectRepository {
     JdbcTemplate jdbcTemplate;
@@ -33,4 +35,27 @@ public class SubProjectRepository {
                 subProject.getSubProjectDescription(),
                 subProject.isStatus());
     }
+
+    public List<SubProjectModel> getSubprojectsByProjectId(int projectId){
+
+        String sql = "SELECT * FROM sub_project WHERE project_id = ?";
+
+        return jdbcTemplate.query(sql, projectModelRowMapper, projectId);
+    }
+
+    public void markASubprojectAsDone(int id){
+
+        String query = "UPDATE sub_project SET status = ? WHERE id = ?";
+
+        jdbcTemplate.update(query, true, id);
+
+    }
+
+    public void markASubprojectAsNotDone(int id){
+
+        String query = "UPDATE sub_project SET status = ? WHERE id = ?";
+
+        jdbcTemplate.update(query, false, id);
+    }
+
 }
