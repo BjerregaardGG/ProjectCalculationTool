@@ -19,19 +19,38 @@
             <tbody>
                 <tr th:each="project : ${projects}" th:if="${!project.status}">
                     <td>
-                        <a th:href="${'/ActiveProject/' + project.getProjectId()}" th:text="${project.getProjectName()}" class="custom-link"></a>
+                        <a
+                           th:href="@{'/get_subprojects/' + ${project.getProjectId()}}"
+                           th:text="${project.getProjectName()}"
+                           class="custom-link"
+                        >
+                        </a>
                     </td>
                     <td>
-                        <a th:href="${'/ActiveProject/' + project.getProjectId()}" th:text="${project.getStartDate()}" class="custom-link"></a>
+                        <a
+                           th:href="@{'/get_subprojects/' + ${project.getProjectId()}}"
+                           th:text="${project.getStartDate()}"
+                           class="custom-link"
+                        >
+                        </a>
                     </td>
                     <td>
-                        <a th:href="${'/ActiveProject/' + project.getProjectId()}" th:text="${project.getDeadline()}" class="custom-link"></a>
+                        <a
+                           th:href="@{'/get_subprojects/' + ${project.getProjectId()}}"
+                           th:text="${project.getDeadline()}"
+                           class="custom-link"
+                        >
+                        </a>
                     </td>
                     <td>
-                        <a th:href="${'/ActiveProject/' + project.getProjectId()}" th:text="${project.getProjectDescription()}" class="custom-link"></a>
-                    </td>
+                        <a
+                           th:href="@{'/get_subprojects/' + ${project.getProjectId()}}"
+                           th:text="${project.getProjectDescription()}"
+                           class="custom-link"
+                        >
+                        </a>
                 </tr>
-               </tbody>
+            </tbody>
     </table>
         <div>
             <button type="button" class="action-button" onclick="history.back()"> Back </button>
