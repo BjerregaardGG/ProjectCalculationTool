@@ -6,6 +6,11 @@
     <link rel="stylesheet" th:href="@{/homepage.css}">
 </head>
 <body>
+<div id="action-links">
+        <form th:if="${role == Manager}" th:action="@{/addToProject}" method="GET">
+            <button type="submit" class="action-button">Add Employee to Project</button>
+        </form>
+</div>
 <h1>Active projects</h1>
     <table>
         <thead>
@@ -14,10 +19,11 @@
                 <th>Start Date</th>
                 <th>Deadline</th>
                 <th>Description</th>
+                <th>           </th>
             </tr>
         </thead>
             <tbody>
-                <tr th:each="project : ${projects}" th:if="${!project.status}">
+            <tr th:each="project : ${projects}" th:if="${!project.status} and (${project.getProjectId()== ProjectIdFromEmployeeId} or ${role == Manager})">
                     <td>
                         <a
                            th:href="@{'/get_subprojects/' + ${project.getProjectId()}}"
@@ -49,11 +55,21 @@
                            class="custom-link"
                         >
                         </a>
+                        <a th:href="${'/ActiveProject/' + project.getProjectId()}" th:text="${project.getProjectDescription()}" class="custom-link"></a>
+                    </td>
+                    <!--  This td is only visible if user is manager, and then it give option to complete project -->
+                    <!--  some of this code is inspired by chatgpt and claude-->
+                    <td>
+                          <form th:if="${role == Manager}" th:action="@{/updateProjectStatus}" method="POST">
+                                <input type="hidden" name="projectId" th:value="${project.getProjectId()}">
+                                <button type="submit" class="action-button">Finish Project</button>
+                          </form>
+                    </td>
                 </tr>
             </tbody>
     </table>
         <div>
-            <button type="button" class="action-button" onclick="history.back()"> Back </button>
+            <a href="/home"><button class="action-button">Back</button></a>
         </div>
 </body>
 </html>

@@ -45,4 +45,16 @@ public class ProjectService {
   public List<Integer> getEmployeesFromProjectTeam() {
     return projectRepository.getEmployeesFromProjectTeam();
   }
+
+  public void updateProjectStatus(Integer projectid, boolean status) {
+    projectRepository.updateProjectStatus(projectid, status);
+  }
+
+  public Integer getProjectIdFromEmployeeID(Integer employeeID) {
+    return projectRepository.getProjectIdFromEmployeeID(employeeID);
+  }
+
+  public EmployeeModel.Roles getRoleFromId(Integer employeeID) {
+      return projectRepository.getRoleFromId(employeeID);
+  }
 }
