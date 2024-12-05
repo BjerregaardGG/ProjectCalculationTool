@@ -1,13 +1,16 @@
 package kea.projectcalculationtool.Project;
 
 import kea.projectcalculationtool.Employee.EmployeeModel;
+import kea.projectcalculationtool.Task.TaskModel;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ProjectRepository {
@@ -75,10 +78,16 @@ public class ProjectRepository {
     String sql = "SELECT * FROM employee WHERE id IN (SELECT employee_id FROM task_employee WHERE task_id = ?)";
     return jdbcTemplate.query(sql, employeeModelRowMapper, taskId);
   }
+
   public List<Integer> getTaskId(Integer projectId) {
     //String sql = "SELECT * FROM employee WHERE id = (SELECT id FROM task_employee WHERE task_id = ?) ";
     String sql ="SELECT id FROM task WHERE sub_project_id IN (SELECT id FROM sub_project WHERE project_id = ?)";
     return jdbcTemplate.queryForList(sql,Integer.class, projectId);
+  }
+
+  public TaskModel getTaskFromId(Integer taskid){
+    String sql = "SELECT * FROM task WHERE id =?";
+    return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(TaskModel.class), taskid);
   }
 
   public Integer getProjectIdFromEmployeeID(Integer employeeID) {
@@ -121,31 +130,42 @@ public class ProjectRepository {
     System.out.print(jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId));
     return jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId);
   }
+  public double getTaskTime(Integer task_id){
+      TaskModel task = getTaskFromId(task_id);
 
-  public double calculateCost(Integer projectId){
+      if(task != null){
+        return task.getDuration();
+      }
+      else {
+        return 0.0;
+      }
+  }
+  // this method was sponsored by tutor alexander and chatgpt
+  public double calculateCost(Integer projectId) {
     try {
-      // Adding two array list, so we have the id and a list of employees
       List<Integer> task_ids = getTaskId(projectId);
-      System.out.println(task_ids.size());
-      List<EmployeeModel> employee = new ArrayList<>();
-      System.out.println(employee.size());
-      double totalTime = calculateTime(projectId);
-      // in this loop every task/task_id will be iterated and for each task all employees bound to it will be added to employeelist
-      for(Integer task_id : task_ids){
-          employee.addAll(getAllEmployeesInTask(task_id));
+      double totalCost = 0.0;
+
+      // Iterate over each task
+      for (Integer task_id : task_ids) {
+        double taskTime = getTaskTime(task_id); // Method to get the time for a task
+        List<EmployeeModel> employeeList = getAllEmployeesInTask(task_id);
+
+        if (employeeList.isEmpty()) {
+          continue; // Skip tasks with no assigned employees
+        }
+
+        double timePerEmployee = taskTime / employeeList.size();
+
+        // Calculate cost for each employee assigned to the task
+        for (EmployeeModel employeeModel : employeeList) {
+          EmployeeModel.Roles roles = employeeModel.getRoles();
+          totalCost += roles.getWage() * timePerEmployee;
+        }
       }
-      System.out.println(employee.size());
-      // based on the size the total time will change.
-      double newTime = totalTime / employee.size();
-      double sum = 0;
-      // Calculate total price based on job and time used.
-      for (EmployeeModel employeeModel : employee) {
-        EmployeeModel.Roles roles = employeeModel.getRoles();
-        sum += roles.getWage() * newTime;
-      }
-      return sum;
-    }
-    catch(NullPointerException e){
+      return totalCost;
+
+    } catch (NullPointerException e) {
       System.out.println(e.getMessage());
       return 0.0;
     }
