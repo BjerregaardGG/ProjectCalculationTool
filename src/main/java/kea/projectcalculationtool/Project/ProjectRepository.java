@@ -48,16 +48,20 @@ public class ProjectRepository {
   // Will insert the new project into the database.
   public ProjectModel createProject(ProjectModel project) {
     String sql = "INSERT INTO project(name, start_date, deadline, budget, description, status ) VALUES (?, ?, ?, ?, ?, ?)";
-    jdbcTemplate.update(sql,
-        project.getProjectName(),
-        project.getStartDate(),
-        project.getDeadline(),
-        project.getBudget(),
-        project.getProjectDescription(),
-        project.getStatus());
+    try {
+      jdbcTemplate.update(sql,
+              project.getProjectName(),
+              project.getStartDate(),
+              project.getDeadline(),
+              project.getBudget(),
+              project.getProjectDescription(),
+              project.getStatus());
 
-    String select = "SELECT * FROM project WHERE name =?";
-    return jdbcTemplate.queryForObject(select, projectModelRowMapper, project.getProjectName());
+      String select = "SELECT * FROM project WHERE name =?";
+      return jdbcTemplate.queryForObject(select,projectModelRowMapper,project.getProjectName());
+    }catch (Exception e) {
+      return null;
+    }
   }
 
   // Ensures that all tasks duration is added together when they belong to a
@@ -117,7 +121,6 @@ public class ProjectRepository {
   public List<Integer> getEmployeesFromProjectTeam() {
     String sql = "SELECT employee_id FROM project_team";
     return jdbcTemplate.queryForList(sql, Integer.class);
-
   }
     // Used to complete a project
   public void updateProjectStatus(Integer projectId, boolean status) {
