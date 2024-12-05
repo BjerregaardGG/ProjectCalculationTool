@@ -46,7 +46,7 @@ public class ProjectService {
         projectRepository.getProjectById(projectId);
     }
 
-    public long getTimeForProject(int projectId) {
+    public double getTimeForProject(int projectId) {
         return projectRepository.getTimeForProject(projectId);
     }
 

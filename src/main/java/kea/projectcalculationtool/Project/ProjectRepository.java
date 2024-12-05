@@ -159,29 +159,53 @@ public class ProjectRepository {
     return jdbcTemplate.queryForObject(sql, projectModelRowMapper, projectId);
   }
   //
+  public double getTimeFromTaskNotDone(int projectId){
+    String sql = "SELECT SUM(duration) FROM task WHERE status = false AND sub_project_id IN (SELECT id FROM sub_project WHERE project_id = ?)";
+    try {
+      return jdbcTemplate.queryForObject(sql, Double.class, projectId);
+    } catch (Exception e) {
+      // Return 0.0 if no result is found or no durations exist
+      return 0.0;
+    }
+  }
 
-  public long getTimeForProject (Integer projectId){
+  public double daysLeftInProject (int projectId){
     ProjectModel project = getProjectById(projectId);
+
     long daysInAWeek = 7;
     long weekendDays = 2;
-    int workHoursPerDay = project.getWorkHoursPerProject();
-    int employeeCount = employeeRepository.getAllEmployeeInProject(projectId).size();
+    long differenceInDays;
+
+    LocalDate currentDate = LocalDate.now();
     LocalDate startDate = project.getStartDate();
     LocalDate deadline = project.getDeadline();
-    long timeUsedOnTask = (long)calculateTime(projectId);
-    // finds the difference in days between the start date and deadline
-    long diffInDays = ChronoUnit.DAYS.between(startDate, deadline);
-    System.out.println(diffInDays);
-    System.out.println(diffInDays);
-    // finds how many weekend days there are in the time frame between the start date and deadline
-    long weekendDaysInProject = diffInDays/daysInAWeek*weekendDays;
-    System.out.println(weekendDaysInProject);
-    long daysInProject = diffInDays - weekendDaysInProject;
-    System.out.println(daysInProject);
-    long totalHoursInProject = daysInProject * workHoursPerDay;
-    System.out.println(totalHoursInProject);
-    long possibleWorkHoursPerDay = totalHoursInProject / daysInProject;
-    System.out.println(possibleWorkHoursPerDay);
-    return possibleWorkHoursPerDay-timeUsedOnTask;
+
+    if(currentDate.isAfter(startDate)){
+      differenceInDays = ChronoUnit.DAYS.between(currentDate, deadline);
+    } else {
+      differenceInDays = ChronoUnit.DAYS.between(startDate, deadline);
+    }
+
+    double weekendDaysInProject = ((double) differenceInDays / daysInAWeek) * weekendDays;
+    double daysInProject = differenceInDays - weekendDaysInProject;
+
+    if(daysInProject <= 0){
+      return -1;
+    }
+
+    return daysInProject;
+  }
+
+  public double getTimeForProject (Integer projectId){
+    ProjectModel project = getProjectById(projectId);
+
+    double workHoursPerDay = project.getWorkHoursPerProject();
+    double employeeCount = employeeRepository.getAllEmployeeInProject(projectId).size();
+    double taskTimeLeft = getTimeFromTaskNotDone(projectId);
+    double daysInAWeek = daysLeftInProject(projectId);
+
+    double hoursPerDayPerEmployee = taskTimeLeft / (employeeCount*daysInAWeek);
+
+    return Math.ceil(hoursPerDayPerEmployee);
   }
 }
