@@ -85,7 +85,7 @@ public class ProjectRepository {
     String sql = "SELECT project_id FROM project_team WHERE employee_id = ?";
     try {
       return jdbcTemplate.queryForObject(sql, Integer.class, employeeID);
-    } catch (EmptyResultDataAccessException e) {
+    } catch (Exception e) {
       return null;
     }
   }

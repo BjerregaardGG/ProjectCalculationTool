@@ -95,7 +95,8 @@ class TaskControllerTest {
 
         mockMvc.perform(post("/task_not_done/{taskId}", taskId)
                         .param("taskId", "1")
-                        .param("subProjectId", "1").param("projectId", "1")
+                        .param("subProjectId", "1")
+                        .param("projectId", "1")
                         .param("employeeId", "1")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection())
