@@ -23,6 +23,10 @@ jobs:
           distribution: 'microsoft'
 
       - name: Build with Maven
+        env:
+          MYSQL_URL: ${{ secrets.MYSQL_URL }}
+          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
         run: mvn clean install
 
       - name: Upload artifact for deployment job
