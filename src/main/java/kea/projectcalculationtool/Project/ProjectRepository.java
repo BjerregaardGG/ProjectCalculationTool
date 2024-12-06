@@ -63,7 +63,23 @@ public class ProjectRepository {
       return null;
     }
   }
-
+  public void deleteProject(int projectid){
+    String deleteEmpOnPro="DELETE FROM project_team WHERE project_id = ?";
+    jdbcTemplate.update(deleteEmpOnPro,projectid);
+    String deleteProj ="DELETE FROM project WHERE id = ?";
+    jdbcTemplate.update(deleteProj,projectid);
+    String deleteSub = "DELETE FROM subproject WHERE project_id = ?";
+    jdbcTemplate.update(deleteSub,projectid);
+    List<Integer> task_ids = getTaskId(projectid);
+    String deleteTaskFromTaskEmp = "DELETE FROM task_employee WHERE task_id = ?";
+    for(Integer id : task_ids) {
+      jdbcTemplate.update(deleteTaskFromTaskEmp,id);
+    }
+    String deleteTasks ="DELETE FROM task WHERE id=?";
+    for(Integer id : task_ids) {
+      jdbcTemplate.update(deleteTasks,id);
+    }
+  }
   // Ensures that all tasks duration is added together when they belong to a
   // certain project/projectId
   public double calculateTime(int projectId) {

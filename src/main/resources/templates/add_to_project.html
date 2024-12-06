@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Add Employee to Project</title>
-  <link rel="stylesheet" th:href="@{/homepage.css}">
+  <link rel="stylesheet" th:href="@{/create_project.css}">
 </head>
 <body>
 <h1>Assign Employee to Project</h1>
 
 <form th:action="@{/addToProject}" method="post">
-  <!-- Here you choose Employee -->
+  <div>
   <label for="employee">Choose an Employee:</label>
   <select id="employee" name="employeeId">
     <option value="" disabled selected>Select an Employee</option>
@@ -18,8 +18,8 @@
   </select>
 
   <br><br>
-
-  <!-- this is where you choose project -->
+  </div>
+  <div>
   <label for="project">Choose a Project:</label>
   <select id="project" name="projectId">
     <option value="" disabled selected>Select a Project</option>
@@ -29,8 +29,11 @@
   </select>
 
   <br><br>
-
-  <button type="submit">Assign</button>
+  </div>
+  <button class="action-button"  type="submit">Assign</button>
 </form>
+<div>
+  <a href="/activeProjects"><button class="action-button">Back</button></a>
+</div>
 </body>
 </html>

@@ -49,7 +49,11 @@ public class ProjectController {
 
     return "redirect:/home";
   }
-
+  @PostMapping("/delete/{projectId}")
+  public String deleteProject(@PathVariable("projectId") Integer projectid){
+    projectService.deleteProject(projectid);
+    return "redirect:/home";
+  }
   // will get a List of employees and Projects to choose from, and values from
   // those will be combinded to add to project_team
   @GetMapping("/addToProject")
@@ -79,6 +83,9 @@ public class ProjectController {
   @GetMapping("/activeProjects")
   public String getActiveProjects(Model model,HttpSession session) {
     Integer EmployeeID = (Integer) session.getAttribute("employeeID");
+    if(EmployeeID == null){
+      return "redirect:/login";
+    }
     List<ProjectModel> activeProjects = projectService.getActiveProjects();
     model.addAttribute("projects", activeProjects);
     model.addAttribute("ProjectIdFromEmployeeId", projectService.getProjectIdFromEmployeeID(EmployeeID));

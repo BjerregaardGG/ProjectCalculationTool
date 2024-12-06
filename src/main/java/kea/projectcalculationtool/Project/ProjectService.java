@@ -57,4 +57,8 @@ public class ProjectService {
   public EmployeeModel.Roles getRoleFromId(Integer employeeID) {
       return projectRepository.getRoleFromId(employeeID);
   }
+
+  public void deleteProject(Integer projectId) {
+    projectRepository.deleteProject(projectId);
+  }
 }

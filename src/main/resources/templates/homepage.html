@@ -23,6 +23,7 @@
         <th>Cost</th>
         <th>Variance</th>
         <th>Hours Used</th>
+        <th>    </th>
     </tr>
     </thead>
     <tbody>
@@ -37,6 +38,11 @@
             th:class="${project.getBudget() - projectRepo.calculateCost(project.getProjectId()) >= 0 ? 'text-green' : 'text-red'}">
         </td>
         <td th:text="${projectRepo.calculateTime(project.projectId)}"></td>
+        <td th:if="${role == Manager}">
+            <form th:action="@{/delete/{projectId}(projectId=${project.projectId})}" method="POST">
+                <button class="action-button" type="submit">Delete Project</button>
+            </form>
+        </td>
     </tr>
 
     </tbody>
