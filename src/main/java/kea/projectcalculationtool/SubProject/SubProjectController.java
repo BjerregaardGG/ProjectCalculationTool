@@ -5,6 +5,7 @@ import kea.projectcalculationtool.Project.ProjectService;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -22,33 +23,34 @@ public class SubProjectController {
     }
 
     @GetMapping("/create_subProjectForm/{projectId}")
-    public String createSubProjectForm(Model model, @PathVariable int projectId) {
+    public String createSubProjectForm(Model model, @PathVariable int projectId, RedirectAttributes redirectAttributes) {
 
         ProjectModel project = projectService.getProjectById(projectId);
         SubProjectModel subproject = new SubProjectModel();
 
         model.addAttribute("subProject", subproject);
         model.addAttribute("projectBudget", project.getBudget());
+
+        // redirectAttributes only occurs after a redirect
+        redirectAttributes.addFlashAttribute("errorMessage", "Subproject budget cannot exceed project budget!");
         return "create_subProjectForm";
     }
 
     @PostMapping("/create_subProject")
     public String createSubProject(@RequestParam int projectId,
                                    @ModelAttribute("subProject") SubProjectModel subProject,
-                                   Model model) {
+                                   RedirectAttributes redirectAttributes) {
 
         ProjectModel project = projectService.getProjectById(projectId);
         double projectBudget = project.getBudget();
 
-        // Hvis subproject budget er større end project budget, send en fejl
+        // if the subproject budget is bigger than project budget, then redirect
         if (subProject.getBudget() > projectBudget) {
-            model.addAttribute("errorMessage", "Subproject budget cannot exceed project budget!");
-            model.addAttribute("subProject", subProject);
-            model.addAttribute("projectBudget", projectBudget);
-            return "create_subProjectForm";
+            redirectAttributes.addFlashAttribute("errorMessage", "Subproject budget cannot exceed project budget!");
+            return "redirect:/create_subProjectForm/" + projectId;
         }
 
-        // Hvis budgettet er ok, opret subproject
+        // if the budget is lower than the project budget, then create subproject
         subProjectService.createSubproject(projectId, subProject);
         return "redirect:/get_subprojects/" + projectId;
     }
