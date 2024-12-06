@@ -71,7 +71,14 @@ public class ProjectService {
   }
 
   public void deleteProject(Integer projectId) {
+    projectRepository.deleteProjectTeam(projectId);
     projectRepository.deleteProject(projectId);
+    projectRepository.deleteSubProject(projectId);
+    List<Integer> taskIds = projectRepository.getTaskId(projectId);
+    for (Integer taskId : taskIds) {
+      projectRepository.deleteFromTaskEmployee(taskId);
+      projectRepository.deleteTask(taskId);
+    }
   }
   public double getTaskTime(Integer task_id){
     TaskModel task = projectRepository.getTaskFromId(task_id);

@@ -65,26 +65,25 @@ public class ProjectRepository {
     }
   }
   // Delete method, that deletes, project, Subproject,task and from task_employee and project_team
-  public void deleteProject(int projectid){
-    String deleteEmpOnPro="DELETE FROM project_team WHERE project_id = ?";
+  public void deleteProjectTeam(int projectid) {
+    String deleteEmpOnPro = "DELETE FROM project_team WHERE project_id = ?";
     jdbcTemplate.update(deleteEmpOnPro,projectid);
-
-    String deleteProj ="DELETE FROM project WHERE id = ?";
+  }
+  public void deleteProject(int projectid) {
+    String deleteProj = "DELETE FROM project WHERE id = ?";
     jdbcTemplate.update(deleteProj,projectid);
-
+  }
+  public void deleteSubProject(int projectid) {
     String deleteSub = "DELETE FROM sub_project WHERE project_id = ?";
     jdbcTemplate.update(deleteSub,projectid);
-
-    List<Integer> task_ids = getTaskId(projectid);
+  }
+  public void deleteFromTaskEmployee(int taskId) {
     String deleteTaskFromTaskEmp = "DELETE FROM task_employee WHERE task_id = ?";
-    for(Integer id : task_ids) {
-      jdbcTemplate.update(deleteTaskFromTaskEmp,id);
-    }
-
+      jdbcTemplate.update(deleteTaskFromTaskEmp,taskId);
+  }
+  public void deleteTask(int taskId) {
     String deleteTasks ="DELETE FROM task WHERE id=?";
-    for(Integer id : task_ids) {
-      jdbcTemplate.update(deleteTasks,id);
-    }
+      jdbcTemplate.update(deleteTasks,taskId);
   }
   // Ensures that all tasks duration is added together when they belong to a
   // certain project/projectId
