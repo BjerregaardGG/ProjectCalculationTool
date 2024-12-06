@@ -19,12 +19,12 @@ import java.util.List;
 public class EmployeeController {
 
     EmployeeService employeeService;
-    ProjectRepository projectRepository;
+    ProjectService projectService;
 
 
-    public EmployeeController(EmployeeService employeeService, ProjectRepository projectRepository) {
+    public EmployeeController(EmployeeService employeeService, ProjectService projectService) {
         this.employeeService = employeeService;
-        this.projectRepository = projectRepository;
+        this.projectService = projectService;
     }
 
 
@@ -90,10 +90,10 @@ public class EmployeeController {
         if(EmployeeID == null){
             return "redirect:/login";
         }
-        Integer projectIdBoundToEmployee = projectRepository.getProjectIdFromEmployeeID(EmployeeID);
-        model.addAttribute("projectRepo", projectRepository);
-        model.addAttribute("role", projectRepository.getRoleFromId((EmployeeID)));
-        model.addAttribute("projects", projectRepository.getAllProjects());
+        Integer projectIdBoundToEmployee = projectService.getProjectIdFromEmployeeID(EmployeeID);
+        model.addAttribute("projectServ", projectService);
+        model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
+        model.addAttribute("projects", projectService.getAllProjects());
         model.addAttribute("ProjectIdFromEmployeeId", projectIdBoundToEmployee);
         model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
         return "homepage";

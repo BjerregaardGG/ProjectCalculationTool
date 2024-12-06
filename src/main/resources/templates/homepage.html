@@ -33,11 +33,11 @@
         </td>
         <td th:text="${project.projectDescription}"></td>
         <td th:text="${project.getBudget()}"></td>
-        <td th:text="${projectRepo.calculateCost(project.getProjectId())}"></td>
-        <td th:text="${project.getBudget() - projectRepo.calculateCost(project.getProjectId())}"
-            th:class="${project.getBudget() - projectRepo.calculateCost(project.getProjectId()) >= 0 ? 'text-green' : 'text-red'}">
+        <td th:text="${projectServ.calculateCost(project.getProjectId())}"></td>
+        <td th:text="${project.getBudget() - projectServ.calculateCost(project.getProjectId())}"
+            th:class="${project.getBudget() - projectServ.calculateCost(project.getProjectId()) >= 0 ? 'text-green' : 'text-red'}">
         </td>
-        <td th:text="${projectRepo.calculateTime(project.projectId)}"></td>
+        <td th:text="${projectServ.calculateTime(project.projectId)}"></td>
         <td th:if="${role == Manager}">
             <form th:action="@{/delete/{projectId}(projectId=${project.projectId})}" method="POST">
                 <button class="action-button" type="submit">Delete Project</button>

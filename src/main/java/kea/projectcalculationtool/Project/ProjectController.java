@@ -22,33 +22,24 @@ public class ProjectController {
   @GetMapping("/create_project")
   public String createProject(Model model) {
     model.addAttribute("project", new ProjectModel());
-    List<EmployeeModel> employees = projectService.getAllEmployees();
-    model.addAttribute("employees", employees);
+    model.addAttribute("employees", projectService.getAllEmployees());
     model.addAttribute("EmpOnProjects", projectService.getEmployeesFromProjectTeam());
     return "create_project";
   }
 
   @PostMapping("/create_project")
   public String createNewProject(@ModelAttribute("project") ProjectModel project,
-      @RequestParam("employees") List<Integer> employees, Model model, RedirectAttributes redirectAttributes) {
-    List<ProjectModel> projects = projectService.getAllProjects();
-    // checks if the name exist in the projects
-    System.out.println(employees.get(0));
-    for (ProjectModel projectModel : projects) {
-      if (project.getProjectName().equals(projectModel.getProjectName())) {
-        System.out.println("Name Already exist," + project.getProjectName());
-        redirectAttributes.addFlashAttribute("Error", true);
-        return "redirect:/create_project";
-      }
-    }
-    ProjectModel projectm = projectService.createProject(project);
-    System.out.println(projectm.getProjectId());
-    for (Integer employee : employees) {
-      projectService.addEmployeeToProject(employee, projectm.getProjectId());
+      @RequestParam("employees") List<Integer> employees, RedirectAttributes redirectAttributes) {
+    try {
+      projectService.createProject(project, employees);
+      return "redirect:/home";
+    }catch(Exception e){
+      redirectAttributes.addFlashAttribute("Error", "true");
+      return "redirect:/create_project";
     }
 
-    return "redirect:/home";
   }
+
   @PostMapping("/delete/{projectId}")
   public String deleteProject(@PathVariable("projectId") Integer projectid){
     projectService.deleteProject(projectid);
@@ -59,18 +50,21 @@ public class ProjectController {
   @GetMapping("/addToProject")
   public String addToProject(Model model, HttpSession session) {
     Integer EmployeeId = (Integer) session.getAttribute("employeeId");
-    List<EmployeeModel> employees = projectService.getAllEmployees();
-    List<ProjectModel> projects = projectService.getAllProjects();
     model.addAttribute("IdList", projectService.getEmployeesFromProjectTeam());
-    model.addAttribute("employees", employees);
-    model.addAttribute("projects", projects);
+    model.addAttribute("employees", projectService.getAllEmployees());
+    model.addAttribute("projects", projectService.getAllProjects());
     return "add_to_project";
   }
 
   @PostMapping("/addToProject")
   public String assignToProject(@RequestParam("employeeId") int employeeId, @RequestParam("projectId") int projectId) {
-    projectService.addEmployeeToProject(employeeId, projectId);
-    return "redirect:/activeProjects";
+    try {
+      projectService.addEmployeeToProject(employeeId,projectId);
+      return "redirect:/activeProjects";
+    }catch (Exception e){
+      System.out.println(e.getMessage());
+      return "redirect:/addToProject";
+    }
   }
 
   @GetMapping("/project/{projectId}/time")

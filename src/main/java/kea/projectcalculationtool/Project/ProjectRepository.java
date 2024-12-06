@@ -60,6 +60,7 @@ public class ProjectRepository {
       String select = "SELECT * FROM project WHERE name =?";
       return jdbcTemplate.queryForObject(select,projectModelRowMapper,project.getProjectName());
     }catch (Exception e) {
+      System.out.println(e.getMessage());
       return null;
     }
   }
@@ -153,44 +154,5 @@ public class ProjectRepository {
     System.out.print(jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId));
     return jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId);
   }
-  public double getTaskTime(Integer task_id){
-      TaskModel task = getTaskFromId(task_id);
 
-      if(task != null){
-        return task.getDuration();
-      }
-      else {
-        return 0.0;
-      }
-  }
-  // this method was sponsored by tutor alexander and chatgpt
-  public double calculateCost(Integer projectId) {
-    try {
-      List<Integer> task_ids = getTaskId(projectId);
-      double totalCost = 0.0;
-
-      // Iterate over each task
-      for (Integer task_id : task_ids) {
-        double taskTime = getTaskTime(task_id); // Method to get the time for a task
-        List<EmployeeModel> employeeList = getAllEmployeesInTask(task_id);
-
-        if (employeeList.isEmpty()) {
-          continue; // Skip tasks with no assigned employees
-        }
-
-        double timePerEmployee = taskTime / employeeList.size();
-
-        // Calculate cost for each employee assigned to the task
-        for (EmployeeModel employeeModel : employeeList) {
-          EmployeeModel.Roles roles = employeeModel.getRoles();
-          totalCost += roles.getWage() * timePerEmployee;
-        }
-      }
-      return totalCost;
-
-    } catch (NullPointerException e) {
-      System.out.println(e.getMessage());
-      return 0.0;
-    }
-  }
 }
