@@ -197,8 +197,8 @@ public class ProjectRepository {
   }
 
   public double getTimeForProject (Integer projectId){
-    ProjectModel project = getProjectById(projectId);
 
+    ProjectModel project = getProjectById(projectId);
     double workHoursPerDay = project.getWorkHoursPerProject();
     double employeeCount = employeeRepository.getAllEmployeeInProject(projectId).size();
     double taskTimeLeft = getTimeFromTaskNotDone(projectId);
