@@ -68,7 +68,7 @@ public class ProjectRepository {
     jdbcTemplate.update(deleteEmpOnPro,projectid);
     String deleteProj ="DELETE FROM project WHERE id = ?";
     jdbcTemplate.update(deleteProj,projectid);
-    String deleteSub = "DELETE FROM subproject WHERE project_id = ?";
+    String deleteSub = "DELETE FROM sub_project WHERE project_id = ?";
     jdbcTemplate.update(deleteSub,projectid);
     List<Integer> task_ids = getTaskId(projectid);
     String deleteTaskFromTaskEmp = "DELETE FROM task_employee WHERE task_id = ?";
