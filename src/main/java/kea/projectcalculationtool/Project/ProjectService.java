@@ -57,4 +57,9 @@ public class ProjectService {
   public EmployeeModel.Roles getRoleFromId(Integer employeeID) {
       return projectRepository.getRoleFromId(employeeID);
   }
+
+  public ProjectModel getProjectById(Integer projectId) {
+    return projectRepository.findProjectById(projectId);
+  }
+
 }

@@ -150,4 +150,9 @@ public class ProjectRepository {
       return 0.0;
     }
   }
+
+  public ProjectModel findProjectById(int projectId) {
+    String sql = "SELECT * FROM project WHERE id = ?";
+    return jdbcTemplate.queryForObject(sql, projectModelRowMapper, projectId);
+  }
 }

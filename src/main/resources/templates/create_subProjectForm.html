@@ -15,8 +15,7 @@
 <form th:action="@{/create_subProject}" method="post" th:object="${subProject}">
 
     <input type="hidden" name="projectId" th:value="${projectId}" />
-    <input type="hidden" name="subprojectId" th:value="${sub}" />
-
+    <input type="hidden" name="subprojectId" th:value="*{subProjectId}">
 
     <div>
         <label for="subProjectName">Subproject Name:</label>
@@ -35,6 +34,16 @@
         <label for="budget">Budget:</label>
         <input type="number" id="budget" th:field="*{budget}" placeholder="Enter budget">
     </div>
+
+    <div>
+        <label for="projectBudget">Project Budget:</label>
+        <input type="number" id="projectBudget" th:value="${projectBudget}" readonly>
+    </div>
+
+    <div th:if="${errorMessage != null}" style="color: red;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
     <div>
         <label for="subProjectDescription">Subproject Description:</label>
         <textarea id="subProjectDescription" th:field="*{subProjectDescription}" placeholder="Enter subproject description"></textarea>
@@ -47,6 +56,7 @@
         <button type="submit">Create subproject</button>
         <button type="button" onclick="history.back()"> Back </button>
     </div>
+
 </form>
 </body>
 </html>
