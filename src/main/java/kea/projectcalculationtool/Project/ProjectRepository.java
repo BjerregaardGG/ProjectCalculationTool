@@ -63,18 +63,23 @@ public class ProjectRepository {
       return null;
     }
   }
+  // Delete method, that deletes, project, Subproject,task and from task_employee and project_team
   public void deleteProject(int projectid){
     String deleteEmpOnPro="DELETE FROM project_team WHERE project_id = ?";
     jdbcTemplate.update(deleteEmpOnPro,projectid);
+
     String deleteProj ="DELETE FROM project WHERE id = ?";
     jdbcTemplate.update(deleteProj,projectid);
+
     String deleteSub = "DELETE FROM sub_project WHERE project_id = ?";
     jdbcTemplate.update(deleteSub,projectid);
+
     List<Integer> task_ids = getTaskId(projectid);
     String deleteTaskFromTaskEmp = "DELETE FROM task_employee WHERE task_id = ?";
     for(Integer id : task_ids) {
       jdbcTemplate.update(deleteTaskFromTaskEmp,id);
     }
+
     String deleteTasks ="DELETE FROM task WHERE id=?";
     for(Integer id : task_ids) {
       jdbcTemplate.update(deleteTasks,id);
@@ -100,7 +105,6 @@ public class ProjectRepository {
   }
 
   public List<Integer> getTaskId(Integer projectId) {
-    //String sql = "SELECT * FROM employee WHERE id = (SELECT id FROM task_employee WHERE task_id = ?) ";
     String sql ="SELECT id FROM task WHERE sub_project_id IN (SELECT id FROM sub_project WHERE project_id = ?)";
     return jdbcTemplate.queryForList(sql,Integer.class, projectId);
   }
