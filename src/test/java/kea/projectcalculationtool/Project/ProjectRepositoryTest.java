@@ -127,9 +127,4 @@ class ProjectRepositoryTest {
         Object object = jdbcTemplate.queryForObject(Sql, Object.class, testProjectId);
         assertEquals(testProjectStatus, object);
     }
-
-    @Test
-    void getRoleFromId() {
-
-    }
 }

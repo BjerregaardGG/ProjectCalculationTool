@@ -67,19 +67,23 @@ public class ProjectService {
   }
 
   public EmployeeModel.Roles getRoleFromId(Integer employeeID) {
-      return projectRepository.getRoleFromId(employeeID);
+    return projectRepository.getRoleFromId(employeeID);
   }
 
   public void deleteProject(Integer projectId) {
+    // Deletes everything connect to the project and the task bound to it.
     projectRepository.deleteProjectTeam(projectId);
     projectRepository.deleteProject(projectId);
     projectRepository.deleteSubProject(projectId);
+    //Get all ids from task connected to project.
     List<Integer> taskIds = projectRepository.getTaskId(projectId);
+    //uses task ids to delete from Task employee table and task table.
     for (Integer taskId : taskIds) {
       projectRepository.deleteFromTaskEmployee(taskId);
       projectRepository.deleteTask(taskId);
     }
   }
+
   public double getTaskTime(Integer task_id){
     TaskModel task = projectRepository.getTaskFromId(task_id);
 
@@ -90,7 +94,8 @@ public class ProjectService {
       return 0.0;
     }
   }
-  // this method was sponsored by tutor alexander and chatgpt
+
+  // this method was sponsored by tutor alexander and chatgpt based on own original work.
   public double calculateCost(Integer projectId) {
     try {
       List<Integer> task_ids = projectRepository.getTaskId(projectId);

@@ -30,7 +30,7 @@ public class ProjectRepository {
       rs.getDouble("budget"),
       rs.getString("description"),
       rs.getBoolean("status"));
-
+  //Taken from chatgpt, mostly enum part.
   private final RowMapper<EmployeeModel> employeeModelRowMapper = (rs, rowNum) -> new EmployeeModel(
       rs.getInt("id"),
       rs.getString("name"),
