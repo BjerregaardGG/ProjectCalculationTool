@@ -52,38 +52,13 @@ public class TaskController {
     @GetMapping("/get_task/{projectId}/{subProjectId}")
     public String getTaskBasedOnSubprojectId(@PathVariable int projectId, @PathVariable int subProjectId, Model model) {
 
-        List<TaskModel> priorityTasks = taskService.getTasksSortedByPriority(subProjectId);
+        Map<String, Object> taskData = taskService.getTaskSortedByPriority(subProjectId);
 
-        Map<Integer, List<EmployeeModel>> employeesByTask = new HashMap<>();
-
-        for(TaskModel task : priorityTasks) {
-            List<EmployeeModel> employees = employeeService.getAllEmployeesByTask(task.getTaskId());
-            employeesByTask.put(task.getTaskId(), employees);
-        }
-
-        // total hours for a subproject
-        int totalHours = 0;
-        // total employees for a task
-        int employees = 0;
-        //hours pr employee
-        int hoursPrEmployee = 0;
-
-        for(TaskModel task : priorityTasks) {
-            if(!task.getTaskStatus()) {
-                totalHours += task.getDuration(); // number of hours on active projects
-
-                List<EmployeeModel> employees2 = employeeService.getAllEmployeesByTask(task.getTaskId());
-                employees += employees2.size(); // number of employees on active projects
-            }
-        }
-            if(employees > 0) {
-                hoursPrEmployee = totalHours / employees; // average workload
-            }
-
-        model.addAttribute("priorityTasks", priorityTasks);
-        model.addAttribute("employeesByTask", employeesByTask);
-        model.addAttribute("totalHours", totalHours);
-        model.addAttribute("hoursPrEmployee", hoursPrEmployee);
+        // Tilføj dataene til model
+        model.addAttribute("totalHours", taskData.get("totalHours"));
+        model.addAttribute("priorityTasks", taskData.get("priorityTasks"));
+        model.addAttribute("employeesByTask", taskData.get("employeesByTask"));
+        model.addAttribute("hoursPrEmployee", taskData.get("hoursPrEmployee"));
 
         return "get_task";
     }
