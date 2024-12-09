@@ -142,10 +142,9 @@ public class TaskRepository {
 
     public void markATaskAsDone(int id){
 
-        String query = "update task set status = ? where id = ?";
+            String query = "update task set status = ? where id = ?";
 
-        jdbcTemplate.update(query, true, id);
-
+            jdbcTemplate.update(query, true, id);
     }
 
     public void markATaskAsNotDone(int id){
