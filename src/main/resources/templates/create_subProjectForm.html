@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Create subproject</title>
-    <link rel="stylesheet" th:href="@{/create_project.css}">
+    <link rel="stylesheet" th:href="@{/form.css}">
 </head>
 <body>
 <div id="top-button">
@@ -19,7 +19,7 @@
 
     <div>
         <label for="subProjectName">Subproject Name:</label>
-        <input type="text" id="subProjectName" th:field="*{subProjectName}" placeholder="Enter subproject name">
+        <input type="text" id="subProjectName" th:field="*{subProjectName}" placeholder="Enter subproject name" required>
     </div>
 
     <div>
@@ -32,7 +32,7 @@
     </div>
     <div>
         <label for="budget">Budget:</label>
-        <input type="number" id="budget" th:field="*{budget}" placeholder="Enter budget">
+        <input type="number" id="budget" th:field="*{budget}" placeholder="Enter budget" required>
     </div>
 
     <!-- checks if errorMessage is in the model -->

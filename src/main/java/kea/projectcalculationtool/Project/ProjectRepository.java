@@ -1,6 +1,8 @@
 package kea.projectcalculationtool.Project;
 
 import kea.projectcalculationtool.Employee.EmployeeModel;
+import kea.projectcalculationtool.Employee.EmployeeRepository;
+import kea.projectcalculationtool.Task.TaskModel;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,7 +18,7 @@ import java.util.Map;
 @Repository
 public class ProjectRepository {
   private final JdbcTemplate jdbcTemplate;
-  private final EmployeeRepository employeeRepository;
+  EmployeeRepository employeeRepository;
 
   public ProjectRepository(JdbcTemplate jdbcTemplate, EmployeeRepository employeeRepository) {
     this.jdbcTemplate = jdbcTemplate;
