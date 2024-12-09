@@ -20,17 +20,17 @@
 
     <div>
         <label> Start date: </label>
-        <input id="startDate" type="date" th:field="*{taskStartDate}">
+        <input id="startDate" type="date" th:field="*{taskStartDate}" required>
     </div>
 
     <div>
         <label> Deadline: </label>
-        <input id="deadline" type="date" th:field="*{taskDeadline}">
+        <input id="deadline" type="date" th:field="*{taskDeadline}" required>
     </div>
 
     <div>
         <label> Duration (in hours):  </label>
-        <input id="duration" type="number" th:field="*{duration}">
+        <input id="duration" type="number" th:field="*{duration}" required>
     </div>
 
     <div>
