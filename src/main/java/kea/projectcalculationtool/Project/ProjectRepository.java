@@ -56,18 +56,19 @@ public class ProjectRepository {
   // Will insert the new project into the database.
   public ProjectModel createProject(ProjectModel project) {
     String sql = "INSERT INTO project(name, start_date, deadline, budget, description, status, work_hours_per_project ) VALUES (?, ?, ?, ?, ?, ?)";
-    jdbcTemplate.update(sql,
-            project.getProjectName(),
-            project.getStartDate(),
-            project.getDeadline(),
-            project.getBudget(),
-            project.getProjectDescription(),
-            project.getStatus(),
-            project.getWorkHoursPerProject());
+    try {
+      jdbcTemplate.update(sql,
+              project.getProjectName(),
+              project.getStartDate(),
+              project.getDeadline(),
+              project.getBudget(),
+              project.getProjectDescription(),
+              project.getStatus(),
+              project.getWorkHoursPerProject());
 
       String select = "SELECT * FROM project WHERE name =?";
       return jdbcTemplate.queryForObject(select,projectModelRowMapper,project.getProjectName());
-    }catch (Exception e) {
+    } catch (Exception e) {
       System.out.println(e.getMessage());
       return null;
     }
@@ -159,8 +160,6 @@ public class ProjectRepository {
     System.out.print(jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId));
     return jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId);
   }
-
-}
 
   public double daysLeftInProject (int projectId){
     ProjectModel project = getProjectById(projectId);
