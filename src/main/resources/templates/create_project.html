@@ -53,7 +53,10 @@
         </select>
         <small>Hold Ctrl (Windows) or Command (Mac) to select multiple employees.</small>
     </div>
-
+    <div>
+        <label for="workHoursPerProject">Maximum hours per day</label>
+        <input type="number" id="workHoursPerProject" th:field="*{workHoursPerProject}">
+    </div>
     <input type="hidden" th:field="*{status}" value="false">
 
     <div>

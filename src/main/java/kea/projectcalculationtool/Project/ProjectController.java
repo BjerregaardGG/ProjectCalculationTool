@@ -75,7 +75,7 @@ public class ProjectController {
   }
 
   @GetMapping("/activeProjects")
-  public String getActiveProjects(Model model,HttpSession session) {
+  public String getActiveProjects(Model model, HttpSession session) {
     Integer EmployeeID = (Integer) session.getAttribute("employeeID");
     if(EmployeeID == null){
       return "redirect:/login";
@@ -84,7 +84,7 @@ public class ProjectController {
     model.addAttribute("projects", activeProjects);
     model.addAttribute("ProjectIdFromEmployeeId", projectService.getProjectIdFromEmployeeID(EmployeeID));
     model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
-    model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
+    model.addAttribute("role", projectService.getRoleFromId(EmployeeID));
     return "activeProjects";
   }
   @GetMapping("/done_project/{projectid}")

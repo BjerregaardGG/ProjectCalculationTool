@@ -1,5 +1,7 @@
 package kea.projectcalculationtool.Project;
 
+import kea.projectcalculationtool.Task.TaskModel;
+import kea.projectcalculationtool.Employee.EmployeeRepository;
 import kea.projectcalculationtool.Employee.EmployeeModel;
 import kea.projectcalculationtool.Task.TaskModel;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -8,6 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,47 +19,51 @@ import java.util.Map;
 @Repository
 public class ProjectRepository {
   private final JdbcTemplate jdbcTemplate;
+  private final EmployeeRepository employeeRepository;
 
-  public ProjectRepository(JdbcTemplate jdbcTemplate) {
+  public ProjectRepository(JdbcTemplate jdbcTemplate, EmployeeRepository employeeRepository) {
     this.jdbcTemplate = jdbcTemplate;
+    this.employeeRepository = employeeRepository;
   }
 
-  // Made a rowmapper so when SELECT is used, it ensures that all the values are
-  // added to a projectModel
-  private final RowMapper<ProjectModel> projectModelRowMapper = (rs, rowNum) -> new ProjectModel(
-      rs.getInt("id"),
-      rs.getString("name"),
-      rs.getDate("start_date").toLocalDate(),
-      rs.getDate("deadline").toLocalDate(),
-      rs.getDouble("budget"),
-      rs.getString("description"),
-      rs.getBoolean("status"));
-  //Taken from chatgpt, mostly enum part.
+  //Made a rowmapper so when SELECT is used, it ensures that all the values are added to a projectModel
+  private final RowMapper<ProjectModel> projectModelRowMapper = (rs, rowNum) ->
+          new ProjectModel(
+                  rs.getInt("id"),
+                  rs.getString("name"),
+                  rs.getDate("start_date").toLocalDate(),
+                  rs.getDate("deadline").toLocalDate(),
+                  rs.getDouble("budget"),
+                  rs.getString("description"),
+                  rs.getBoolean("status"),
+                  rs.getInt("work_hours_per_project"));
+
+
   private final RowMapper<EmployeeModel> employeeModelRowMapper = (rs, rowNum) -> new EmployeeModel(
-      rs.getInt("id"),
-      rs.getString("name"),
-      rs.getString("email"),
-      rs.getString("username"),
-      rs.getString("password"),
-      EmployeeModel.Roles.valueOf(rs.getString("roles")));
+          rs.getInt("id"),
+          rs.getString("name"),
+          rs.getString("email"),
+          rs.getString("username"),
+          rs.getString("password"),
+          EmployeeModel.Roles.valueOf(rs.getString("roles")));
 
   // Will give you a list of all projects, using the projectModelRowMapper
   public List<ProjectModel> getAllProjects() {
-    String sql = "SELECT id, name, start_date, deadline, budget, description, status FROM project";
+    String sql = "SELECT id, name, start_date, deadline, budget, description, status,work_hours_per_project FROM project";
     return jdbcTemplate.query(sql, projectModelRowMapper);
   }
 
   // Will insert the new project into the database.
   public ProjectModel createProject(ProjectModel project) {
-    String sql = "INSERT INTO project(name, start_date, deadline, budget, description, status ) VALUES (?, ?, ?, ?, ?, ?)";
-    try {
-      jdbcTemplate.update(sql,
-              project.getProjectName(),
-              project.getStartDate(),
-              project.getDeadline(),
-              project.getBudget(),
-              project.getProjectDescription(),
-              project.getStatus());
+    String sql = "INSERT INTO project(name, start_date, deadline, budget, description, status, work_hours_per_project ) VALUES (?, ?, ?, ?, ?, ?)";
+    jdbcTemplate.update(sql,
+            project.getProjectName(),
+            project.getStartDate(),
+            project.getDeadline(),
+            project.getBudget(),
+            project.getProjectDescription(),
+            project.getStatus(),
+            project.getWorkHoursPerProject());
 
       String select = "SELECT * FROM project WHERE name =?";
       return jdbcTemplate.queryForObject(select,projectModelRowMapper,project.getProjectName());
@@ -98,8 +106,7 @@ public class ProjectRepository {
       return 0.0;
     }
   }
-
-  public List<EmployeeModel> getAllEmployeesInTask(int taskId) {
+  public List<EmployeeModel> getAllEmployeesInTask (int taskId){
     String sql = "SELECT * FROM employee WHERE id IN (SELECT employee_id FROM task_employee WHERE task_id = ?)";
     return jdbcTemplate.query(sql, employeeModelRowMapper, taskId);
   }
@@ -122,36 +129,76 @@ public class ProjectRepository {
       return null;
     }
   }
-
-  public List<EmployeeModel> getAllEmployees() {
+  public List<EmployeeModel> getAllEmployees () {
     String queryEmployee = "SELECT * FROM employee";
     return jdbcTemplate.query(queryEmployee, employeeModelRowMapper);
   }
 
-  public void addEmployeeToProject(int employeeId, int projectId) {
+  public void addEmployeeToProject ( int employeeId, int projectId) {
     String sql = "INSERT INTO project_team(employee_id, project_id) VALUES (?, ?)";
     jdbcTemplate.update(sql, employeeId, projectId);
   }
 
-  public List<ProjectModel> getActiveProjects() {
+  public List<ProjectModel> getActiveProjects () {
     String sql = "select * from project WHERE status = false";
     return jdbcTemplate.query(sql, projectModelRowMapper);
   }
 
-  public List<Integer> getEmployeesFromProjectTeam() {
+  public List<Integer> getEmployeesFromProjectTeam () {
     String sql = "SELECT employee_id FROM project_team";
     return jdbcTemplate.queryForList(sql, Integer.class);
   }
-    // Used to complete a project
-  public void updateProjectStatus(Integer projectId, boolean status) {
+  // Used to complete a project
+  public void updateProjectStatus (Integer projectId,boolean status){
     String statusSql = "UPDATE project SET status =? WHERE id =?";
     jdbcTemplate.update(statusSql, status, projectId);
   }
-    // gives us the role of the employee.
-  public EmployeeModel.Roles getRoleFromId(int employeeId){
+      // gives us the role of the employee.
+  public EmployeeModel.Roles getRoleFromId ( int employeeId){
     String sql = "SELECT roles FROM employee WHERE id = ?";
     System.out.print(jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId));
     return jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId);
   }
 
+}
+
+  public double daysLeftInProject (int projectId){
+    ProjectModel project = getProjectById(projectId);
+
+    long daysInAWeek = 7;
+    long weekendDays = 2;
+    long differenceInDays;
+
+    LocalDate currentDate = LocalDate.now();
+    LocalDate startDate = project.getStartDate();
+    LocalDate deadline = project.getDeadline();
+
+    if(currentDate.isAfter(startDate)){
+      differenceInDays = ChronoUnit.DAYS.between(currentDate, deadline);
+    } else {
+      differenceInDays = ChronoUnit.DAYS.between(startDate, deadline);
+    }
+
+    double weekendDaysInProject = ((double) differenceInDays / daysInAWeek) * weekendDays;
+    double daysInProject = differenceInDays - weekendDaysInProject;
+
+    if(daysInProject <= 0){
+      return -1;
+    }
+
+    return daysInProject;
+  }
+
+  public double getTimeForProject (Integer projectId){
+
+    ProjectModel project = getProjectById(projectId);
+    double workHoursPerDay = project.getWorkHoursPerProject();
+    double employeeCount = employeeRepository.getAllEmployeeInProject(projectId).size();
+    double taskTimeLeft = getTimeFromTaskNotDone(projectId);
+    double daysInAWeek = daysLeftInProject(projectId);
+
+    double hoursPerDayPerEmployee = taskTimeLeft / (employeeCount*daysInAWeek);
+
+    return Math.ceil(hoursPerDayPerEmployee);
+  }
 }

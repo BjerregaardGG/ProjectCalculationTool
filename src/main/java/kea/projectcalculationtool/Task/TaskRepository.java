@@ -131,5 +131,4 @@ public class TaskRepository {
         jdbcTemplate.update(query, false, id);
     }
 
-
 }

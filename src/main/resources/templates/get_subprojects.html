@@ -23,16 +23,32 @@
     <tbody>
     <tr th:each="sub : ${allSubprojects}">
         <td>
-            <a th:href="${'/get_task/'+ sub.projectId + '/' + sub.getSubProjectId()}" th:text="${sub.getSubProjectName()}" class="custom-link"></a>
+            <a
+                th:href="@{'/get_task/' + ${sub.getProjectId()} + '/' + ${sub.getSubProjectId()}}"
+                th:text="${sub.subProjectName}"
+                class="custom-link">
+            </a>
         </td>
         <td>
-            <a th:href="${'/get_task/'+ sub.projectId + '/' + sub.getSubProjectId()}"  th:text="${sub.getSubProjectDescription()}" class="custom-link"></a>
+            <a
+                th:href="@{'/get_task/' + ${sub.getProjectId()} + '/' + ${sub.getSubProjectId()}}"
+                th:text="${sub.subProjectDescription}"
+                class="custom-link">
+            </a>
         </td>
         <td>
-            <a th:href="${'/get_task/'+ sub.projectId + '/' + sub.getSubProjectId()}" th:text="${sub.getStartDate()}" class="custom-link"></a>
+            <a
+                th:href="@{'/get_task/' + ${sub.getProjectId()} + '/' + ${sub.getSubProjectId()}}"
+                th:text="${sub.startDate}"
+                class="custom-link">
+            </a>
         </td>
         <td>
-            <a th:href="${'/get_task/'+ sub.projectId + '/' + sub.getSubProjectId()}"  th:text="${sub.getDeadline()}" class="custom-link"></a>
+            <a
+                th:href="@{'/get_task/' + ${sub.getProjectId()} + '/' + ${sub.getSubProjectId()}}"
+                th:text="${sub.deadline}"
+                class="custom-link">
+            </a>
         </td>
         <td>
             <form th:if="${sub.status}" th:action="@{'/subProject_not_done/' + ${projectId}}" method="POST">

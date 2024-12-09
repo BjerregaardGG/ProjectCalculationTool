@@ -1,7 +1,6 @@
 package kea.projectcalculationtool.Employee;
 
 import jakarta.servlet.http.HttpSession;
-import kea.projectcalculationtool.Task.TaskModel;
 import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
@@ -39,11 +38,11 @@ public class EmployeeController {
     public String createEmployee(@ModelAttribute("employee") EmployeeModel employee, Model model) {
         if(employeeService.findByUsername(employee.getUsername()) || employeeService.findByEmail(employee.getEmail())){
             model.addAttribute("error", "username or email already exists");
-            return "create_employee";
+            return "redirect:/create_employee";
         }
         if(!employee.getPassword().equals(employee.getConfirmPassword())){
             model.addAttribute("passerror", "passwords do not match");
-            return "create_employee";
+            return "redirect:/create_employee";
         }
         employeeService.createEmployee(employee);
         model.addAttribute("sucess", true);
