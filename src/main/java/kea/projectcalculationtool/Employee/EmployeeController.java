@@ -18,13 +18,12 @@ import java.util.List;
 public class EmployeeController {
 
     EmployeeService employeeService;
+    ProjectService projectService;
 
-    ProjectRepository projectRepository;
 
-
-    public EmployeeController(EmployeeService employeeService, ProjectRepository projectRepository) {
+    public EmployeeController(EmployeeService employeeService, ProjectService projectService) {
         this.employeeService = employeeService;
-        this.projectRepository = projectRepository;
+        this.projectService = projectService;
     }
 
 
@@ -32,7 +31,7 @@ public class EmployeeController {
     public String createEmployee(Model model) {
         model.addAttribute("employee", new EmployeeModel());
         model.addAttribute("roles", EmployeeModel.Roles.values());
-        return "/create_employee";
+        return "create_employee";
     }
 
     @PostMapping("/create_employee")
@@ -90,10 +89,10 @@ public class EmployeeController {
         if(EmployeeID == null){
             return "redirect:/login";
         }
-        Integer projectIdBoundToEmployee = projectRepository.getProjectIdFromEmployeeID(EmployeeID);
-        model.addAttribute("projectRepo", projectRepository);
-        model.addAttribute("role", projectRepository.getRoleFromId((EmployeeID)));
-        model.addAttribute("projects", projectRepository.getAllProjects());
+        Integer projectIdBoundToEmployee = projectService.getProjectIdFromEmployeeID(EmployeeID);
+        model.addAttribute("projectServ", projectService);
+        model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
+        model.addAttribute("projects", projectService.getAllProjects());
         model.addAttribute("ProjectIdFromEmployeeId", projectIdBoundToEmployee);
         model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
         return "homepage";
@@ -124,4 +123,7 @@ public class EmployeeController {
         return "redirect:/get_task/" + projectId + '/' + subProjectId;
 
     }
+
+
+
 }

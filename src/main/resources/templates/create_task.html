@@ -30,7 +30,7 @@
 
     <div>
         <label> Duration (in hours):  </label>
-        <input id="duration" type="number" th:field="*{duration}"required>
+        <input id="duration" type="number" th:field="*{duration}" required>
     </div>
 
     <div>
@@ -40,15 +40,17 @@
 
     <div>
         <label> Add employee: </label>
-        <select id="employeeId" name="employeeId">
+        <select id="employeeId" name="employeeId" multiple>
             <option th:each="employee : ${employeesByProject}" th:value= "${employee.employeeID}" th:text="${employee.fullName}"></option>
         </select>
+        <small>Hold Ctrl (Windows) or Command (Mac) to select multiple employees.</small>
     </div>
 
     <div>
         <label> Priority (1 for low - 5 for high): </label>
         <input id="priority" type="number" th:field="*{priority}" min="1" max="5" required>
     </div>
+
     <button type="submit">Add task to project </button>
     <button type="button" onclick="history.back()">Back</button>
 </form>

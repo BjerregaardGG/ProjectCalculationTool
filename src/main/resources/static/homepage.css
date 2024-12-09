@@ -145,7 +145,7 @@ div#action-links {
     display: flex;
     gap: 10px; /* Adds space between elements in the container */
     justify-content: flex-start; /* Aligns the button to the left */
-    margin-bottom: 40px; /* Adds space below the container */
+    margin-bottom: 20px; /* Adds space below the container */
 }
 
 /* Button styling inside action-links */
@@ -169,7 +169,32 @@ div#action-links button:hover {
 #hours span.total-hours-button {
     background-color: #4ecdc4; /* Background color */
     color: white; /* Text color */
-    padding: 10px 15px; /* Padding */
+    padding: 6px 15px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    font-weight: bold; /* Makes the text bold */
+    cursor: pointer; /* Pointer cursor */
+    display: inline-block; /* Makes it behave like a button */
+    text-align: center; /* Centers the text */
+    margin-top: 20px; /* Adds space above the table */
+}
+
+#hours span.total-hours-button:hover {
+    background-color: #45b7aa; /* Changes background on hover */
+}
+.text-green {
+    color: green;
+}
+
+.text-red {
+    color: red;
+}
+
+
+/* Styling the 'Total hours' text as a button-like element */
+#hours-pr-employee span.total-hours-button {
+    background-color: #4ecdc4; /* Background color */
+    color: white; /* Text color */
+    padding: 8px 10px; /* Padding */
     border-radius: 5px; /* Rounded corners */
     font-weight: bold; /* Makes the text bold */
     cursor: pointer; /* Pointer cursor */
@@ -177,6 +202,14 @@ div#action-links button:hover {
     text-align: center; /* Centers the text */
 }
 
-#hours span.total-hours-button:hover {
+#hours-pr-employee span.total-hours-button:hover {
     background-color: #45b7aa; /* Changes background on hover */
+}
+
+#hours-pr-employee .total-hours-button.bad-workload {
+    color: red;
+}
+
+#hours-pr-employee .total-hours-button.good-workload {
+    color: green;
 }
