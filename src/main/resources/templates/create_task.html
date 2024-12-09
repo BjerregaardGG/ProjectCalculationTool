@@ -12,6 +12,7 @@
 
     <input type="hidden" name="subProjectId" th:value="${subProjectId}" />
     <input type="hidden" name="projectId" th:value="${projectId}"/>
+    <input type="hidden" name="taskId" th:value="*{taskId}" />
 
     <div>
         <label> Task Name: </label>
@@ -52,6 +53,11 @@
     </div>
 
     <button type="submit">Add task to project </button>
+
+    <div>
+
+        <button type="button" onclick="history.back()"> Back </button>
+    </div>
 </form>
 </body>
 </html>

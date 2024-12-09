@@ -55,8 +55,18 @@ public class EmployeeControllerTest {
 
     @Test
     void createEmployee() throws Exception {
-        mockMvc.perform(post("/create_employee"))
-                .andExpect(status().is3xxRedirection())
+        EmployeeModel employee = new EmployeeModel();
+        employee.setUsername("Lasse");
+        employee.setEmail("lasse@example.com");
+        employee.setPassword("password");
+        employee.setConfirmPassword("password");
+
+        mockMvc.perform(post("/create_employee")
+                        .param("username", employee.getUsername())
+                        .param("email", employee.getEmail())
+                        .param("password", employee.getPassword())
+                        .param("confirmPassword",employee.getConfirmPassword()))
+                .andExpect(status().isOk())
                 .andExpect(view().name("create_employee"));
     }
 
