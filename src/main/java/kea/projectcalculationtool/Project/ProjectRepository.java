@@ -1,8 +1,11 @@
 package kea.projectcalculationtool.Project;
 
-import kea.projectcalculationtool.Employee.EmployeeModel;
+import kea.projectcalculationtool.Task.TaskModel;
 import kea.projectcalculationtool.Employee.EmployeeRepository;
+import kea.projectcalculationtool.Employee.EmployeeModel;
+import kea.projectcalculationtool.Task.TaskModel;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -11,6 +14,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ProjectRepository {
@@ -52,19 +56,44 @@ public class ProjectRepository {
   // Will insert the new project into the database.
   public ProjectModel createProject(ProjectModel project) {
     String sql = "INSERT INTO project(name, start_date, deadline, budget, description, status, work_hours_per_project ) VALUES (?, ?, ?, ?, ?, ?)";
-    jdbcTemplate.update(sql,
-            project.getProjectName(),
-            project.getStartDate(),
-            project.getDeadline(),
-            project.getBudget(),
-            project.getProjectDescription(),
-            project.getStatus(),
-            project.getWorkHoursPerProject());
+    try {
+      jdbcTemplate.update(sql,
+              project.getProjectName(),
+              project.getStartDate(),
+              project.getDeadline(),
+              project.getBudget(),
+              project.getProjectDescription(),
+              project.getStatus(),
+              project.getWorkHoursPerProject());
 
-    String select = "SELECT * FROM project WHERE name =?";
-    return jdbcTemplate.queryForObject(select, projectModelRowMapper, project.getProjectName());
+      String select = "SELECT * FROM project WHERE name =?";
+      return jdbcTemplate.queryForObject(select,projectModelRowMapper,project.getProjectName());
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return null;
+    }
   }
-
+  // Delete method, that deletes, project, Subproject,task and from task_employee and project_team
+  public void deleteProjectTeam(int projectid) {
+    String deleteEmpOnPro = "DELETE FROM project_team WHERE project_id = ?";
+    jdbcTemplate.update(deleteEmpOnPro,projectid);
+  }
+  public void deleteProject(int projectid) {
+    String deleteProj = "DELETE FROM project WHERE id = ?";
+    jdbcTemplate.update(deleteProj,projectid);
+  }
+  public void deleteSubProject(int projectid) {
+    String deleteSub = "DELETE FROM sub_project WHERE project_id = ?";
+    jdbcTemplate.update(deleteSub,projectid);
+  }
+  public void deleteFromTaskEmployee(int taskId) {
+    String deleteTaskFromTaskEmp = "DELETE FROM task_employee WHERE task_id = ?";
+      jdbcTemplate.update(deleteTaskFromTaskEmp,taskId);
+  }
+  public void deleteTask(int taskId) {
+    String deleteTasks ="DELETE FROM task WHERE id=?";
+      jdbcTemplate.update(deleteTasks,taskId);
+  }
   // Ensures that all tasks duration is added together when they belong to a
   // certain project/projectId
   public double calculateTime(int projectId) {
@@ -82,13 +111,18 @@ public class ProjectRepository {
     String sql = "SELECT * FROM employee WHERE id IN (SELECT employee_id FROM task_employee WHERE task_id = ?)";
     return jdbcTemplate.query(sql, employeeModelRowMapper, taskId);
   }
-  public List<Integer> getTaskId (Integer projectId){
-    //String sql = "SELECT * FROM employee WHERE id = (SELECT id FROM task_employee WHERE task_id = ?) ";
-    String sql = "SELECT id FROM task WHERE sub_project_id IN (SELECT id FROM sub_project WHERE project_id = ?)";
-    return jdbcTemplate.queryForList(sql, Integer.class, projectId);
+
+  public List<Integer> getTaskId(Integer projectId) {
+    String sql ="SELECT id FROM task WHERE sub_project_id IN (SELECT id FROM sub_project WHERE project_id = ?)";
+    return jdbcTemplate.queryForList(sql,Integer.class, projectId);
   }
 
-  public Integer getProjectIdFromEmployeeID (Integer employeeID){
+  public TaskModel getTaskFromId(Integer taskid){
+    String sql = "SELECT * FROM task WHERE id =?";
+    return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(TaskModel.class), taskid);
+  }
+
+  public Integer getProjectIdFromEmployeeID(Integer employeeID) {
     String sql = "SELECT project_id FROM project_team WHERE employee_id = ?";
     try {
       return jdbcTemplate.queryForObject(sql, Integer.class, employeeID);
@@ -126,34 +160,6 @@ public class ProjectRepository {
     System.out.print(jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId));
     return jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId);
   }
-
-  public double calculateCost (Integer projectId){
-    try {
-    // Adding two array list, so we have the id and a list of employees
-      List<Integer> task_ids = getTaskId(projectId);
-      System.out.println(task_ids.size());
-      List<EmployeeModel> employee = new ArrayList<>();
-      System.out.println(employee.size());
-      double totalTime = calculateTime(projectId);
-      // in this loop every task/task_id will be iterated and for each task all employees bound to it will be added to employeelist
-      for (Integer task_id : task_ids) {
-        employee.addAll(getAllEmployeesInTask(task_id));
-      }
-      System.out.println(employee.size());
-      // based on the size the total time will change.
-      double newTime = totalTime / employee.size();
-      double sum = 0;
-      // Calculate total price based on job and time used.
-      for (EmployeeModel employeeModel : employee) {
-        EmployeeModel.Roles roles = employeeModel.getRoles();
-        sum += roles.getWage() * newTime;
-      }
-      return sum;
-      } catch (NullPointerException e) {
-        System.out.println(e.getMessage());
-        return 0.0;
-      }
-  }
   public ProjectModel getProjectById ( int projectId){
     String sql = "SELECT * FROM project WHERE id = ?";
     return jdbcTemplate.queryForObject(sql, projectModelRowMapper, projectId);
@@ -168,7 +174,6 @@ public class ProjectRepository {
       return 0.0;
     }
   }
-
   public double daysLeftInProject (int projectId){
     ProjectModel project = getProjectById(projectId);
 

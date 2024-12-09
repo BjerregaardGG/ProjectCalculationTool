@@ -33,7 +33,9 @@
     </div>
     <div>
         <label for="deadline">Deadline:</label>
-        <input type="date" id="deadline" th:field="*{deadline}">
+        <input type="date" id="deadline"
+               th:attr="min = *{startDate}"
+               th:field="*{deadline}">
     </div>
     <div>
         <label for="budget">Budget:</label>

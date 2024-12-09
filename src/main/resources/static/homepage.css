@@ -180,3 +180,10 @@ div#action-links button:hover {
 #hours span.total-hours-button:hover {
     background-color: #45b7aa; /* Changes background on hover */
 }
+.text-green {
+    color: green;
+}
+
+.text-red {
+    color: red;
+}
