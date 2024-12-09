@@ -160,7 +160,20 @@ public class ProjectRepository {
     System.out.print(jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId));
     return jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId);
   }
-
+  public ProjectModel getProjectById ( int projectId){
+    String sql = "SELECT * FROM project WHERE id = ?";
+    return jdbcTemplate.queryForObject(sql, projectModelRowMapper, projectId);
+  }
+  //
+  public double getTimeFromTaskNotDone(int projectId){
+    String sql = "SELECT SUM(duration) FROM task WHERE status = false AND sub_project_id IN (SELECT id FROM sub_project WHERE project_id = ?)";
+    try {
+      return jdbcTemplate.queryForObject(sql, Double.class, projectId);
+    } catch (Exception e) {
+      // Return 0.0 if no result is found or no durations exist
+      return 0.0;
+    }
+  }
   public double daysLeftInProject (int projectId){
     ProjectModel project = getProjectById(projectId);
 
