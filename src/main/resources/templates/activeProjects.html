@@ -56,13 +56,14 @@
                            class="custom-link"
                         >
                         </a>
-                        <a th:href="${'/ActiveProject/' + project.getProjectId()}" th:text="${project.getProjectDescription()}" class="custom-link"></a>
+                        <a th:href="${'/get_subprojects/' + project.getProjectId()}"
+                           th:text="${project.getProjectDescription()}"
+                           class="custom-link"></a>
                     </td>
                     <td>
-                        <a th:href="${'/ActiveProject/' + project.getProjectId()}"
-                           th:text="${projectrepo.getTimeForProject(project.projectId)}"
-                           th:class="${project.getWorkHoursPerProject() < projectrepo.getTimeForProject(project.projectId) ? 'text-red' : 'text-green'}"
-                           class="custom-link"></a>
+                        <span th:text="${projectrepo.getTimeForProject(project.projectId)}"
+                              th:class="${project.getWorkHoursPerProject() < projectrepo.getTimeForProject(project.projectId) ? 'status-not-done' : 'status-done'}">
+                        </span>
                     </td>
                     <!--  This td is only visible if user is manager, and then it give option to complete project -->
                     <!--  some of this code is inspired by chatgpt and claude-->
