@@ -10,7 +10,7 @@
     <a th:href="@{/logout}"><button>Logout</button></a>
 </div>
 <div id="action-links">
-    <a href="/create_project"><button>Create Project</button></a>
+      <a th:if="${role== Manager}" href="/create_project"><button>Create Project</button></a>
     <a href="/activeProjects"><button>View Current Project</button></a>
 </div>
 <p>Completed Projects</p>
@@ -19,20 +19,31 @@
     <tr>
         <th>Project Name</th>
         <th>Project Description</th>
+        <th>Budget</th>
         <th>Cost</th>
-        <th>Status</th>
+        <th>Variance</th>
+        <th>Hours Used</th>
+        <th>    </th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="project : ${projects}" th:if="${project.status} and (${project.getProjectId()== ProjectIdFromEmployeeId} or ${role == Manager})">
         <td>
-            <a th:href="${'/done_project/' + project.projectId}" th:text="${project.projectName}" class="custom-link"></a>
+            <a th:href="${'/get_subproject/' + project.projectId}" th:text="${project.projectName}" class="custom-link"></a>
         </td>
         <td th:text="${project.projectDescription}"></td>
-        <td th:text="${projectRepo.calculateCost(project.getProjectId())}"></td>
-        <td class="finished-cell">Finished</td>
+        <td th:text="${project.getBudget()}"></td>
+        <td th:text="${projectServ.calculateCost(project.getProjectId())}"></td>
+        <td th:text="${project.getBudget() - projectServ.calculateCost(project.getProjectId())}"
+            th:class="${project.getBudget() - projectServ.calculateCost(project.getProjectId()) >= 0 ? 'text-green' : 'text-red'}">
+        </td>
+        <td th:text="${projectServ.calculateTime(project.projectId)}"></td>
+        <td th:if="${role == Manager}">
+            <form th:action="@{/delete/{projectId}(projectId=${project.projectId})}" method="POST">
+                <button class="action-button" type="submit">Delete Project</button>
+            </form>
+        </td>
     </tr>
-
     </tbody>
 </table>
 </body>

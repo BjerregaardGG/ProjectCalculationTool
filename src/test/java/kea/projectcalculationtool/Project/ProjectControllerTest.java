@@ -71,7 +71,6 @@ class ProjectControllerTest {
     @Test
     void assignToProject() throws Exception {
         mockMvc.perform(post("/addToProject"))
-
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("/redirect:/home"));
     }

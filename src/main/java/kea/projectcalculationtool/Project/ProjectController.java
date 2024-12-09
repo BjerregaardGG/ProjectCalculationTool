@@ -22,49 +22,49 @@ public class ProjectController {
   @GetMapping("/create_project")
   public String createProject(Model model) {
     model.addAttribute("project", new ProjectModel());
-    List<EmployeeModel> employees = projectService.getAllEmployees();
-    model.addAttribute("employees", employees);
+    model.addAttribute("employees", projectService.getAllEmployees());
     model.addAttribute("EmpOnProjects", projectService.getEmployeesFromProjectTeam());
     return "create_project";
   }
 
   @PostMapping("/create_project")
   public String createNewProject(@ModelAttribute("project") ProjectModel project,
-      @RequestParam("employees") List<Integer> employees, Model model, RedirectAttributes redirectAttributes) {
-    List<ProjectModel> projects = projectService.getAllProjects();
-    // checks if the name exist in the projects
-    System.out.println(employees.get(0));
-    for (ProjectModel projectModel : projects) {
-      if (project.getProjectName().equals(projectModel.getProjectName())) {
-        System.out.println("Name Already exist," + project.getProjectName());
-        redirectAttributes.addFlashAttribute("Error", true);
-        return "redirect:/create_project";
-      }
-    }
-    ProjectModel projectm = projectService.createProject(project);
-    System.out.println(projectm.getProjectId());
-    for (Integer employee : employees) {
-      projectService.addEmployeeToProject(employee, projectm.getProjectId());
+      @RequestParam("employees") List<Integer> employees, RedirectAttributes redirectAttributes) {
+    try {
+      projectService.createProject(project, employees);
+      return "redirect:/home";
+    }catch(Exception e){
+      redirectAttributes.addFlashAttribute("Error", "true");
+      return "redirect:/create_project";
     }
 
-    return "redirect:/home";
   }
 
+  @PostMapping("/delete/{projectId}")
+  public String deleteProject(@PathVariable("projectId") Integer projectid){
+    projectService.deleteProject(projectid);
+    return "redirect:/home";
+  }
   // will get a List of employees and Projects to choose from, and values from
   // those will be combinded to add to project_team
   @GetMapping("/addToProject")
-  public String addToProject(Model model) {
-    List<EmployeeModel> employees = projectService.getAllEmployees();
-    List<ProjectModel> projects = projectService.getAllProjects();
-    model.addAttribute("employees", employees);
-    model.addAttribute("projects", projects);
+  public String addToProject(Model model, HttpSession session) {
+    Integer EmployeeId = (Integer) session.getAttribute("employeeId");
+    model.addAttribute("IdList", projectService.getEmployeesFromProjectTeam());
+    model.addAttribute("employees", projectService.getAllEmployees());
+    model.addAttribute("projects", projectService.getAllProjects());
     return "add_to_project";
   }
 
   @PostMapping("/addToProject")
   public String assignToProject(@RequestParam("employeeId") int employeeId, @RequestParam("projectId") int projectId) {
-    projectService.addEmployeeToProject(employeeId, projectId);
-    return "redirect:/activeProjects";
+    try {
+      projectService.addEmployeeToProject(employeeId,projectId);
+      return "redirect:/activeProjects";
+    }catch (Exception e){
+      System.out.println(e.getMessage());
+      return "redirect:/addToProject";
+    }
   }
 
   @GetMapping("/project/{projectId}/time")
@@ -75,31 +75,19 @@ public class ProjectController {
   }
 
   @GetMapping("/activeProjects")
-  public String getActiveProjects(Model model,HttpSession session) {
+  public String getActiveProjects(Model model, HttpSession session) {
     Integer EmployeeID = (Integer) session.getAttribute("employeeID");
+    if(EmployeeID == null){
+      return "redirect:/login";
+    }
     List<ProjectModel> activeProjects = projectService.getActiveProjects();
+    model.addAttribute("projectService", projectService);
     model.addAttribute("projects", activeProjects);
     model.addAttribute("ProjectIdFromEmployeeId", projectService.getProjectIdFromEmployeeID(EmployeeID));
     model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
-    model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
+    model.addAttribute("role", projectService.getRoleFromId(EmployeeID));
     return "activeProjects";
   }
-/*
-  @GetMapping("/project/{projectId}/cost")
-  public String showProjectCost(@PathVariable int projectId, Model model) {
-    double totalTime = projectService.calculateTime(projectId);
-    List<EmployeeModel> employee = projectService.getAllEmployeesInTask(projectId);
-    double newTime = totalTime / employee.size();
-    double sum = 0;
-    // Calculate total price based on job and time used.
-    for (EmployeeModel employeeModel : employee) {
-      EmployeeModel.Roles roles = employeeModel.getRoles();
-      sum += roles.getWage() * newTime;
-    }
-    model.addAttribute("totalPrice", sum);
-    return "/home";
-  }
-*/
   @GetMapping("/done_project/{projectid}")
   public String doneProject(@PathVariable int projectid, Model model) {
 

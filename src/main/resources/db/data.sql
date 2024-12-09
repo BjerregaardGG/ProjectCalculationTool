@@ -1,9 +1,7 @@
-INSERT INTO Employee(name, email, username, password, roles)
-VALUES ('Hannibal Vestergaard', 'Hannibal24@gmail.com', 'Hannimal', 'pass1234','MANAGER');
-INSERT INTO project (name, start_date, deadline, budget, description, status)
-VALUES ('Project Omega', '2024-01-15', '2024-12-15', 75000.50, 'An innovative project to enhance AI capabilities.', FALSE),
-       ('FlyHigh', '1999-01-01', '2099-12-12',5000,'Deport dwarfs to mars', FALSE),
-       ('Hell', '1029-12-12', '2000-12-12', 50000, 'find nemo', FALSE );
+INSERT INTO project (name, start_date, deadline, budget, description, status,work_hours_per_project)
+VALUES ('Project Omega', '2024-01-15', '2024-12-15', 75000.50, 'An innovative project to enhance AI capabilities.', FALSE, 4),
+       ('FlyHigh', '1999-01-01', '2099-12-12',5000,'Deport dwarfs to mars', FALSE, 8),
+       ('Hell', '1029-12-12', '2000-12-12', 50000, 'find nemo', FALSE, 8 );
 
 INSERT INTO sub_project(project_id, name, start_date, deadline, budget, description, status)
 VALUES(1, 'codelab', '2000-12-02', '2002-02-02', 4500, 'codelab lets go', FALSE);
@@ -21,7 +19,8 @@ VALUES
     ('bwhite', '12345pass', 'Bob White', 'bwhite@example.com', 'INTERN'),
     ('123', '123', 'Kate Martin', 'kmartin@example.com', 'MANAGER'),
     ('ltaylor', 'taylor!123', 'Liam Taylor', 'ltaylor@example.com', 'SENIOR'),
-    ('hgrace', 'securePass1', 'Hannah Grace', 'hgrace@example.com', 'JUNIOR');
+    ('hgrace', 'securePass1', 'Hannah Grace', 'hgrace@example.com', 'JUNIOR'),
+    ('Hannibal Vestergaard', 'Hannibal24@gmail.com', 'Hannimal', 'pass1234','MANAGER');
 
 INSERT INTO project_team (project_id, employee_id)
 VALUES (1, 1),

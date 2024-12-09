@@ -181,6 +181,14 @@ div#action-links button:hover {
 #hours span.total-hours-button:hover {
     background-color: #45b7aa; /* Changes background on hover */
 }
+.text-green {
+    color: green;
+}
+
+.text-red {
+    color: red;
+}
+
 
 /* Styling the 'Total hours' text as a button-like element */
 #hours-pr-employee span.total-hours-button {
