@@ -62,6 +62,7 @@
     <form th:action="@{'/task_form/project/' + ${projectId} + '/' + ${subProjectId}}" method="GET">
         <button type="submit">Add a task to the current Sub Project</button>
     </form>
+    <a th:href="'/get_subprojects/' + ${projectId}"><button class="action-button">Back</button></a>
 </div>
 
 <div id="hours">
