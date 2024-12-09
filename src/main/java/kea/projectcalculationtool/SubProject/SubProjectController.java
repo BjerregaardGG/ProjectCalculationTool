@@ -31,14 +31,11 @@ public class SubProjectController {
     @GetMapping("/get_subprojects/{projectId}")
     public String getSubProjects(@PathVariable int projectId, Model model) {
 
-        // SubProjectModel subProjectModel = new SubProjectModel();
         List<SubProjectModel> allSubprojects = subProjectService.getSubProjects(projectId);
 
-       // model.addAttribute("subProject",subProjectModel);
         model.addAttribute("allSubprojects",allSubprojects);
 
         return "get_subprojects";
-
     }
 
     @PostMapping("/subProject_done/{subprojectId}")

@@ -124,7 +124,4 @@ public class EmployeeController {
         return "redirect:/get_task/" + projectId + '/' + subProjectId;
 
     }
-
-
-
 }
