@@ -1,9 +1,6 @@
 package kea.projectcalculationtool.Project;
 
-import kea.projectcalculationtool.Task.TaskModel;
-import kea.projectcalculationtool.Employee.EmployeeRepository;
 import kea.projectcalculationtool.Employee.EmployeeModel;
-import kea.projectcalculationtool.Task.TaskModel;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -113,6 +110,7 @@ public class ProjectRepository {
   }
 
   public List<Integer> getTaskId(Integer projectId) {
+    //String sql = "SELECT * FROM employee WHERE id = (SELECT id FROM task_employee WHERE task_id = ?) ";
     String sql ="SELECT id FROM task WHERE sub_project_id IN (SELECT id FROM sub_project WHERE project_id = ?)";
     return jdbcTemplate.queryForList(sql,Integer.class, projectId);
   }
@@ -148,6 +146,7 @@ public class ProjectRepository {
   public List<Integer> getEmployeesFromProjectTeam () {
     String sql = "SELECT employee_id FROM project_team";
     return jdbcTemplate.queryForList(sql, Integer.class);
+
   }
   // Used to complete a project
   public void updateProjectStatus (Integer projectId,boolean status){
@@ -212,5 +211,10 @@ public class ProjectRepository {
     double hoursPerDayPerEmployee = taskTimeLeft / (employeeCount*daysInAWeek);
 
     return Math.ceil(hoursPerDayPerEmployee);
+  }
+
+  public ProjectModel findProjectById(int projectId) {
+    String sql = "SELECT * FROM project WHERE id = ?";
+    return jdbcTemplate.queryForObject(sql, projectModelRowMapper, projectId);
   }
 }
