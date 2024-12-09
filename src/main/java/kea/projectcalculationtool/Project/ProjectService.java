@@ -133,4 +133,10 @@ public class ProjectService {
       return 0.0;
     }
   }
+  public double getTimeForProject (Integer projectId){
+      return projectRepository.getTimeForProject(projectId);
+  }
+  public double daysLeftInProject (int projectId){
+      return projectRepository.daysLeftInProject(projectId);
+  }
 }

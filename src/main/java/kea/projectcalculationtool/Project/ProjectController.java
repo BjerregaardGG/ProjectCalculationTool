@@ -81,6 +81,7 @@ public class ProjectController {
       return "redirect:/login";
     }
     List<ProjectModel> activeProjects = projectService.getActiveProjects();
+    model.addAttribute("projectService", projectService);
     model.addAttribute("projects", activeProjects);
     model.addAttribute("ProjectIdFromEmployeeId", projectService.getProjectIdFromEmployeeID(EmployeeID));
     model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);

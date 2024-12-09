@@ -61,8 +61,8 @@
                            class="custom-link"></a>
                     </td>
                     <td>
-                        <span th:text="${projectrepo.getTimeForProject(project.projectId)}"
-                              th:class="${project.getWorkHoursPerProject() < projectrepo.getTimeForProject(project.projectId) ? 'status-not-done' : 'status-done'}">
+                        <span th:text="${projectService.getTimeForProject(project.projectId)}"
+                              th:class="${project.getWorkHoursPerProject() < projectService.getTimeForProject(project.projectId) ? 'status-not-done' : 'status-done'}">
                         </span>
                     </td>
                     <!--  This td is only visible if user is manager, and then it give option to complete project -->
