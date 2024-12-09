@@ -14,7 +14,7 @@
         <th>Description</th>
         <th>Start Date</th>
         <th>Deadline</th>
-        <th>Status</th>
+        <th th:if="${project.status == false}">Status</th>
         <th>Budget</th>
         <th></th>
     </tr>
@@ -50,7 +50,7 @@
                 class="custom-link">
             </a>
         </td>
-        <td>
+        <td th:if="${(project.status == false)}">
             <form th:if="${sub.status}" th:action="@{'/subProject_not_done/' + ${projectId}}" method="POST">
                 <input type="hidden" name="subProjectId" th:value="${sub.subProjectId}"/>
                 <input type="hidden" name="projectId" th:value="${projectId}"/>
@@ -67,7 +67,7 @@
     </tbody>
 </table>
 
-<div id="action-links">
+<div th:if="${project.status == false}" id="action-links">
     <form th:action="@{'/create_subProjectForm/' + ${projectId}}" method="GET">
         <button type="submit">Add another Sub Project</button>
     </form>

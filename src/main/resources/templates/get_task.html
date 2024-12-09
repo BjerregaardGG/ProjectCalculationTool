@@ -14,7 +14,7 @@
         <th>Description</th>
         <th>Deadline</th>
         <th>Priority</th>
-        <th>Status</th>
+        <th th:if="${project.status == false}" >Status</th>
         <th>Hours</th>
         <th>Employees</th>
         <th></th>
@@ -27,7 +27,7 @@
         <td th:text="${task.taskDescription}"></td>
         <td th:text="${task.taskDeadline}"></td>
         <td th:text="${task.priority}"></td>
-        <td>
+        <td th:if="${project.status == false}" >
             <form th:if="${task.taskStatus}" th:action="@{'/task_not_done/' + ${task.taskId}}" method="POST">
                 <input type="hidden" name="subProjectId" th:value="${subProjectId}"/>
                 <input type="hidden" name="projectId" th:value="${projectId}"/>
@@ -47,7 +47,7 @@
             </ul>
         </td>
         <td>
-            <div id="action-links">
+            <div th:if="${project.status == false}" id="action-links">
             <form th:action="@{'/add_employee_form/' + ${projectId} + '/' + ${subProjectId} + '/' + ${task.taskId}}" method="GET">
                 <button type="submit">Add Employee</button>
             </form>
@@ -58,13 +58,13 @@
     </tbody>
 </table>
 
-<div id="action-links">
+<div th:if="${project.status == false}"  id="action-links">
     <form th:action="@{'/task_form/project/' + ${projectId} + '/' + ${subProjectId}}" method="GET">
         <button type="submit">Add a task to the current Sub Project</button>
     </form>
 </div>
 
-<div id="hours">
+<div th:if="${project.status == false}" id="hours">
     <span class="total-hours-button" th:text="'Hours to go: ' + ${totalHours}"></span>
 </div>
 

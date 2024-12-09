@@ -1,5 +1,7 @@
 package kea.projectcalculationtool.SubProject;
 
+import kea.projectcalculationtool.Project.ProjectModel;
+import kea.projectcalculationtool.Project.ProjectService;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +13,10 @@ import java.util.List;
 public class SubProjectController {
 
     SubProjectService subProjectService;
-
-    public SubProjectController(SubProjectService subProjectService) {
+    ProjectService projectService;
+    public SubProjectController(SubProjectService subProjectService, ProjectService projectService) {
         this.subProjectService = subProjectService;
+        this.projectService = projectService;
     }
 
     @GetMapping("/create_subProjectForm/{projectId}")
@@ -33,7 +36,11 @@ public class SubProjectController {
 
         List<SubProjectModel> allSubprojects = subProjectService.getSubProjects(projectId);
 
+        ProjectModel project = projectService.getProjectById(projectId);
+
         model.addAttribute("allSubprojects",allSubprojects);
+
+        model.addAttribute("project",project);
 
         return "get_subprojects";
     }

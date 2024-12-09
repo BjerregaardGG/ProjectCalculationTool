@@ -2,6 +2,8 @@ package kea.projectcalculationtool.Task;
 
 import kea.projectcalculationtool.Employee.EmployeeModel;
 import kea.projectcalculationtool.Employee.EmployeeService;
+import kea.projectcalculationtool.Project.ProjectModel;
+import kea.projectcalculationtool.Project.ProjectService;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +19,12 @@ public class TaskController {
 
     TaskService taskService;
     EmployeeService employeeService;
+    ProjectService projectService;
 
-    public TaskController(TaskService taskService, EmployeeService employeeService) {
+    public TaskController(TaskService taskService, EmployeeService employeeService, ProjectService projectService) {
         this.employeeService = employeeService;
         this.taskService = taskService;
+        this.projectService = projectService;
     }
 
     // shows the task form for a given subProject
@@ -54,6 +58,9 @@ public class TaskController {
 
         List<TaskModel> priorityTasks = taskService.getTasksSortedByPriority(subProjectId);
 
+        ProjectModel project = projectService.getProjectById(projectId);
+
+
         Map<Integer, List<EmployeeModel>> employeesByTask = new HashMap<>();
 
         for(TaskModel task : priorityTasks) {
@@ -70,6 +77,7 @@ public class TaskController {
             }
         }
 
+        model.addAttribute("project", project);
         model.addAttribute("priorityTasks", priorityTasks);
         model.addAttribute("employeesByTask", employeesByTask);
         model.addAttribute("totalHours", totalHours);
