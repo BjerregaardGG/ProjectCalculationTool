@@ -130,6 +130,12 @@ table thead tr:hover {
     color: red;
     font-weight: bold;
 }
+.text-red {
+    color: red;
+}
+.text-green {
+    color: green;
+}
 
 ul {
     list-style-type: none;
