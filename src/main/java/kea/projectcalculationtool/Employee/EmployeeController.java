@@ -64,7 +64,6 @@ public class EmployeeController {
                 return "login";
             }
             System.out.println("hej");
-            Integer EmployeeID = employee.getEmployeeID();
             session.setAttribute("employeeID", foundEmployee.getEmployeeID());
             session.setAttribute("employee", foundEmployee.getUsername());
             session.setAttribute("employeePassword", foundEmployee.getPassword());

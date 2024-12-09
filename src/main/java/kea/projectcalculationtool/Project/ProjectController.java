@@ -88,16 +88,26 @@ public class ProjectController {
     model.addAttribute("role", projectService.getRoleFromId(EmployeeID));
     return "activeProjects";
   }
-  @GetMapping("/done_project/{projectid}")
-  public String doneProject(@PathVariable int projectid, Model model) {
-
-    return "done_project";
-  }
 
   @PostMapping("/updateProjectStatus")
-  public String updateProjectStatus(@RequestParam("projectId") Integer projectid) {
-    projectService.updateProjectStatus(projectid, true);
-
+  public String updateProjectStatus(@RequestParam("projectId") Integer projectId) {
+    projectService.updateProjectStatus(projectId, true);
+    return "redirect:/activeProjects";
+  }
+  @GetMapping("/updateproject")
+  public String updateProject(Model model, HttpSession session) {
+    Integer EmployeeID = (Integer) session.getAttribute("employeeID");
+    if(EmployeeID == null){
+      return "redirect:/login";
+    }
+    model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
+    model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
+    projectService.updateProjectStatus(projectService.getProjectIdFromEmployeeID(EmployeeID), false);
+    return "redirect:/updateproject";
+  }
+  @PostMapping("/updateproject")
+  public String updateProject(@RequestParam("projectId") Integer projectId) {
+    projectService.updateProjectStatus(projectId, false);
     return "redirect:/activeProjects";
   }
 }
