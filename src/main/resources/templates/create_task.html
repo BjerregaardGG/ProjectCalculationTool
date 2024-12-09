@@ -40,9 +40,10 @@
 
     <div>
         <label> Add employee: </label>
-        <select id="employeeId" name="employeeId">
+        <select id="employeeId" name="employeeId" multiple>
             <option th:each="employee : ${employeesByProject}" th:value= "${employee.employeeID}" th:text="${employee.fullName}"></option>
         </select>
+        <small>Hold Ctrl (Windows) or Command (Mac) to select multiple employees.</small>
     </div>
 
     <div>

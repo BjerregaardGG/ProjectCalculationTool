@@ -155,5 +155,13 @@ public class TaskRepository {
         jdbcTemplate.update(query, false, id);
     }
 
+    // delete from task_employee
+
+    public void deleteEmployeeFromTask(int taskId){
+        String query = "delete from task_employee where task_id = ?";
+
+        jdbcTemplate.update(query, taskId);
+    }
+
 
 }

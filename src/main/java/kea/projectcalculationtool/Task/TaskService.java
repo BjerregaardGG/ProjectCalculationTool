@@ -73,7 +73,10 @@ public class TaskService {
 
         }
 
+    public void deleteEmployeeFromTask(int taskId) {
 
+        taskRepository.deleteEmployeeFromTask(taskId);
+    }
 
     public void markTaskAsDone(int id){
         taskRepository.markATaskAsDone(id);
@@ -81,6 +84,10 @@ public class TaskService {
 
     public void markTaskAsNotDone(int id){
         taskRepository.markATaskAsNotDone(id);
+    }
+
+    public TaskModel getTask(int taskId) {
+        return taskRepository.getTask(taskId);
     }
 
 }

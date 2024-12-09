@@ -69,6 +69,12 @@ public class TaskController {
 
         taskService.markTaskAsDone(taskId);
 
+        TaskModel task = taskService.getTask(taskId);
+
+        if(task.getTaskStatus()) {
+            taskService.deleteEmployeeFromTask(taskId);
+        }
+
         return "redirect:/get_task/" + projectId + '/' + subProjectId;
 
     }
