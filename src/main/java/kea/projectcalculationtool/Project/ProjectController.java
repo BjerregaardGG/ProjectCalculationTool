@@ -13,10 +13,12 @@ import java.util.List;
 @Controller
 public class ProjectController {
 
+  private final ProjectRepository projectRepository;
   ProjectService projectService;
 
-  public ProjectController(ProjectService projectService) {
+  public ProjectController(ProjectService projectService, ProjectRepository projectRepository) {
     this.projectService = projectService;
+    this.projectRepository = projectRepository;
   }
 
   @GetMapping("/create_project")
@@ -75,13 +77,15 @@ public class ProjectController {
   }
 
   @GetMapping("/activeProjects")
-  public String getActiveProjects(Model model,HttpSession session) {
+  public String getActiveProjects(Model model, HttpSession session) {
     Integer EmployeeID = (Integer) session.getAttribute("employeeID");
+    Integer ProjectId = projectService.getProjectIdFromEmployeeID(EmployeeID);
     List<ProjectModel> activeProjects = projectService.getActiveProjects();
+    model.addAttribute("projectrepo", projectRepository);
     model.addAttribute("projects", activeProjects);
-    model.addAttribute("ProjectIdFromEmployeeId", projectService.getProjectIdFromEmployeeID(EmployeeID));
+    model.addAttribute("ProjectIdFromEmployeeId", ProjectId);
     model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
-    model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
+    model.addAttribute("role", projectService.getRoleFromId(EmployeeID));
     return "activeProjects";
   }
 /*
