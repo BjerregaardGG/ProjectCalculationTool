@@ -20,20 +20,12 @@
   <br><br>
   </div>
   <div>
-  <label for="project">Choose a Project:</label>
-  <select id="project" name="projectId">
-    <option value="" disabled selected>Select a Project</option>
-    <th:block th:each="project : ${projects}">
-      <option th:value="${project.projectId}" th:text="${project.projectName}"></option>
-    </th:block>
-  </select>
-
-  <br><br>
+    <input type="hidden" name="projectId" th:value="${projectId}"/>
   </div>
   <button class="action-button"  type="submit">Assign</button>
 </form>
-<div>
-  <a href="/activeProjects"><button class="action-button">Back</button></a>
+<div id="top-button">
+    <a href="/activeProjects"><button>Back</button></a>
 </div>
 </body>
 </html>

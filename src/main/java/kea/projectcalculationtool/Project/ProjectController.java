@@ -47,9 +47,9 @@ public class ProjectController {
   }
   // will get a List of employees and Projects to choose from, and values from
   // those will be combinded to add to project_team
-  @GetMapping("/addToProject")
-  public String addToProject(Model model, HttpSession session) {
-    Integer EmployeeId = (Integer) session.getAttribute("employeeId");
+  @GetMapping("/addToProject/{projectId}")
+  public String addToProject(@PathVariable("projectId") Integer projectId, Model model) {
+    model.addAttribute("projectId", projectId);
     model.addAttribute("IdList", projectService.getEmployeesFromProjectTeam());
     model.addAttribute("employees", projectService.getAllEmployees());
     model.addAttribute("projects", projectService.getAllProjects());
@@ -100,4 +100,5 @@ public class ProjectController {
 
     return "redirect:/activeProjects";
   }
+
 }
