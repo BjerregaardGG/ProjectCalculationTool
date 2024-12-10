@@ -65,11 +65,10 @@
                               th:class="${project.getWorkHoursPerProject() < projectService.getTimeForProject(project.projectId) ? 'status-not-done' : 'status-done'}">
                         </span>
                     </td>
-                    <td>
-                        <form th:if="${role == Manager}" th:action="@{/updateproject}" method="POST">
-                            <input type="hidden" name="projectId" th:value="${project.getProjectId()}">
-                            <button type="submit" class="action-button">Edit</button>
-                        </form>
+                    <td th:if="${role == Manager}">
+                        <a th:href="@{'/updateproject/' + ${project.getProjectId()}}">
+                            <button class="custom-button">Update</button>
+                        </a>
                     </td>
                     <!--  This td is only visible if user is manager, and then it give option to complete project -->
                     <!--  some of this code is inspired by chatgpt and claude-->

@@ -28,4 +28,11 @@ public class SubProjectService {
     public void markSubprojctAsNotDone(int id){
         subProjectRepository.markASubprojectAsNotDone(id);
     }
+
+    public void updateSubproject(SubProjectModel subProject){
+        subProjectRepository.updateSubproject(subProject);
+    }
+    public SubProjectModel getSubProjectById(int subProjectId){
+        return subProjectRepository.getSubprojectById(subProjectId);
+    }
 }

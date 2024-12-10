@@ -2,12 +2,12 @@ package kea.projectcalculationtool.Project;
 
 import jakarta.servlet.http.HttpSession;
 import kea.projectcalculationtool.Employee.EmployeeModel;
+import kea.projectcalculationtool.SubProject.SubProjectModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -94,20 +94,33 @@ public class ProjectController {
     projectService.updateProjectStatus(projectId, true);
     return "redirect:/activeProjects";
   }
-  @GetMapping("/updateproject")
-  public String updateProject(Model model, HttpSession session) {
+
+  @GetMapping("/updateproject/{projectId}")
+  public String updateProjectForm(@PathVariable("projectId") Integer projectId, Model model, HttpSession session) {
     Integer EmployeeID = (Integer) session.getAttribute("employeeID");
+
     if(EmployeeID == null){
       return "redirect:/login";
     }
+    if(projectId == null){
+      System.out.println("projectId is null");
+      return "redirect:/activeProjects";
+    }
+    ProjectModel project = projectService.getProjectById(projectId);
+    if(project == null){
+      System.out.println("hej");
+      return "redirect:/activeProjects";
+    }
+
+    model.addAttribute("project", project);
     model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
     model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
-    projectService.updateProjectStatus(projectService.getProjectIdFromEmployeeID(EmployeeID), false);
-    return "redirect:/updateproject";
+
+    return "updateproject";
   }
-  @PostMapping("/updateproject")
-  public String updateProject(@RequestParam("projectId") Integer projectId) {
-    projectService.updateProjectStatus(projectId, false);
+  @PostMapping("/updateproject/{projectId}")
+  public String submitUpdateProject(@PathVariable("projectId") @ModelAttribute ProjectModel project) {
+    projectService.updateProject(project);
     return "redirect:/activeProjects";
   }
 }

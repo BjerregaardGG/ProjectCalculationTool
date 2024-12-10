@@ -59,8 +59,8 @@ public class ProjectService {
         return projectRepository.getActiveProjects();
     }
 
-    public void getProjectById(int projectId) {
-        projectRepository.getProjectById(projectId);
+    public ProjectModel getProjectById(int projectId) {
+        return projectRepository.getProjectById(projectId);
     }
 
     public double getTimeForProject(int projectId) {
@@ -74,8 +74,8 @@ public class ProjectService {
   public void updateProjectStatus(Integer projectid, boolean status) {
     projectRepository.updateProjectStatus(projectid, status);
   }
-  public void updateProject (int projectId, ProjectModel project) {
-      projectRepository.updateProject(projectId, project);
+  public void updateProject (ProjectModel project) {
+      projectRepository.updateProject(project);
   }
 
   public Integer getProjectIdFromEmployeeID(Integer employeeID) {
@@ -171,8 +171,6 @@ public class ProjectService {
 
   public double getTimeForProject (Integer projectId){
 
-    ProjectModel project = projectRepository.getProjectById(projectId);
-    double workHoursPerDay = project.getWorkHoursPerProject();
     double employeeCount = employeeRepository.getAllEmployeeInProject(projectId).size();
     double taskTimeLeft = projectRepository.getTimeFromTaskNotDone(projectId);
     double daysInAWeek = daysLeftInProject(projectId);

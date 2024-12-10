@@ -174,8 +174,9 @@ public class ProjectRepository {
       return 0.0;
     }
   }
-  public void updateProject (int projectId, ProjectModel projectModel){
-    String sql = "UPDATE project SET name = ?, start_date = ? deadline = ?, budget = ?, description = ?, work_hours_per_project = ? WHERE id = ?";
+  public void updateProject (ProjectModel projectModel){
+    String sql = "UPDATE project SET name = ?, start_date = ?, deadline = ?, budget = ?, description = ?, work_hours_per_project = ? WHERE id = ?";
+
     jdbcTemplate.update(sql,
             projectModel.getProjectName(),
             projectModel.getStartDate(),
@@ -183,6 +184,6 @@ public class ProjectRepository {
             projectModel.getBudget(),
             projectModel.getProjectDescription(),
             projectModel.getWorkHoursPerProject(),
-            projectId);
+            projectModel.getProjectId());
   }
 }

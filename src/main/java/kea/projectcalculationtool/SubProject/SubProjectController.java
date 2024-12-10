@@ -1,5 +1,9 @@
 package kea.projectcalculationtool.SubProject;
 
+import jakarta.servlet.http.HttpSession;
+import kea.projectcalculationtool.Employee.EmployeeModel;
+import kea.projectcalculationtool.Project.ProjectModel;
+import kea.projectcalculationtool.Project.ProjectService;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +15,11 @@ import java.util.List;
 public class SubProjectController {
 
     SubProjectService subProjectService;
+    ProjectService projectService;
 
-    public SubProjectController(SubProjectService subProjectService) {
+    public SubProjectController(SubProjectService subProjectService, ProjectService projectService) {
         this.subProjectService = subProjectService;
+        this.projectService = projectService;
     }
 
     @GetMapping("/create_subProjectForm/{projectId}")
@@ -29,11 +35,13 @@ public class SubProjectController {
     }
 
     @GetMapping("/get_subprojects/{projectId}")
-    public String getSubProjects(@PathVariable int projectId, Model model) {
-
+    public String getSubProjects(@PathVariable int projectId, Model model, HttpSession session) {
+        Integer EmployeeId = (Integer) session.getAttribute("employeeID");
         List<SubProjectModel> allSubprojects = subProjectService.getSubProjects(projectId);
 
         model.addAttribute("allSubprojects",allSubprojects);
+        model.addAttribute("role", projectService.getRoleFromId((EmployeeId)));
+        model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
 
         return "get_subprojects";
     }
@@ -54,5 +62,26 @@ public class SubProjectController {
 
         return "redirect:/get_subprojects/" + subprojectId;
     }
+    @GetMapping("/updatesubproject/{subProjectId}")
+    public String updateSubProjectForm(@PathVariable("subProjectId") Integer subProjectId, Model model, HttpSession session) {
+        Integer EmployeeID = (Integer) session.getAttribute("employeeID");
+        if(EmployeeID == null){
+            return "redirect:/login";
+        }
+        if(subProjectId == null){
+            System.out.println("projectId is null");
+            return "redirect:/activeProjects";
+        }
+        SubProjectModel subProject = subProjectService.getSubProjectById(subProjectId);
+        model.addAttribute("subproject", subProject);
+        model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
+        model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
 
+        return "updateproject";
+    }
+    @PostMapping("/updatesubproject/{subProjectId}")
+    public String submitUpdateSubProject(@PathVariable("subProjectId") @ModelAttribute("subproject") SubProjectModel subProject) {
+        subProjectService.updateSubproject(subProject);
+        return "redirect:/get_subprojects";
+    }
 }

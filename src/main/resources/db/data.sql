@@ -20,7 +20,7 @@ VALUES
     ('123', '123', 'Kate Martin', 'kmartin@example.com', 'MANAGER'),
     ('ltaylor', 'taylor!123', 'Liam Taylor', 'ltaylor@example.com', 'SENIOR'),
     ('hgrace', 'securePass1', 'Hannah Grace', 'hgrace@example.com', 'JUNIOR'),
-    ('Hannibal Vestergaard', 'Hannibal24@gmail.com', 'Hannimal', 'pass1234','MANAGER');
+    ('Hannimal', 'pass1234', 'Hannibal Vestergaard', 'Hannibal24@gmail.com','MANAGER');
 
 INSERT INTO project_team (project_id, employee_id)
 VALUES (1, 1),
