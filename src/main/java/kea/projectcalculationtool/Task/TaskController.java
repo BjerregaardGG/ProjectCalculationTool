@@ -49,7 +49,7 @@ public class TaskController {
                              @RequestParam int employeeId,
                              @RequestParam int projectId, RedirectAttributes redirectAttributes) {
 
-        if(task.getTaskStartDate().isAfter(task.getTaskDeadline())){
+        if(task.getTaskStartDate() !=null && task.getTaskStartDate().isAfter(task.getTaskDeadline())){
             redirectAttributes.addFlashAttribute("TimeError", true);
             return "redirect:/task_form/project/" + projectId + "/" + subProjectId;
         }
@@ -86,7 +86,7 @@ public class TaskController {
 
         TaskModel task = taskService.getTask(taskId);
 
-        if(task.getTaskStatus()) {
+        if(task != null && task.getTaskStatus()) {
             taskService.deleteEmployeeFromTask(taskId);
         }
 
