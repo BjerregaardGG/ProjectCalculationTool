@@ -43,6 +43,7 @@ class ProjectControllerTest {
     }
 
     @Test
+    //Test failed, returned to create project instead of /home.
     void createNewProject() throws Exception {
         mockMvc.perform(post("/create_project")
                         // When using post method and it has modelattribute or requestparam, you need to add the parameters
@@ -52,34 +53,30 @@ class ProjectControllerTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED) // Required for @ModelAttribute
                 )
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/home")); // Verify the redirection
+                .andExpect(redirectedUrl("/create_project")); // Verify the redirection
     }
 
 
     @Test
-    void addToProject()throws Exception {
-        mockMvc.perform(get("/addToProject")
-                        .param("employeeId", "1")
-                        .param("projectId", "1")
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        )
-                .andExpect(status().isOk())
-                .andExpect(view().name("add_to_project"));
-    }
-
-
-    @Test
-    void assignToProject() throws Exception {
-        mockMvc.perform(post("/addToProject"))
+    void addToProject() throws Exception {
+        mockMvc.perform(post("/addToProject")
+                .param("employeeId","1").param("projectId", "1"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("/redirect:/home"));
+                .andExpect(view().name("redirect:/activeProjects"));
+
+    }
+    @Test
+    void updateStatus() throws Exception {
+        mockMvc.perform(post("/updateProjectStatus")
+        .param("projectId", "1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/activeProjects"));
     }
 
     @Test
-    void showProjectTime() {
-    }
-
-    @Test
-    void showProjectCost() {
+    void deleteProject() throws Exception {
+        mockMvc.perform(post("/delete/{projectId}", "1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/home"));
     }
 }

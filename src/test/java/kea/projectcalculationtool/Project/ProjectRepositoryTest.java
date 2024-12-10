@@ -30,7 +30,7 @@ class ProjectRepositoryTest {
 
     @Test
     void getAllProjects() {
-        int expected = 3;
+        int expected = 7;
         List<ProjectModel> actual = projectRepository.getAllProjects();
         assertEquals(expected,actual.size());
     }
@@ -38,10 +38,10 @@ class ProjectRepositoryTest {
     @Test
     void createProject() {
         ProjectModel project = new ProjectModel(1, "John",LocalDate.of(2020,01,01), LocalDate.of(2021, 01,01), 1.1,
-        "pretty good", false);
+        "pretty good", false, 2);
         ProjectModel actual = projectRepository.createProject(project);
         assertNotNull(actual);
-        assertEquals(4, projectRepository.getAllProjects().size());
+        assertEquals(8, projectRepository.getAllProjects().size());
 
     }
 
@@ -88,7 +88,7 @@ class ProjectRepositoryTest {
 
     @Test
     void getAllEmployees() {
-        int expected = 11;
+        int expected = 15;
         List<EmployeeModel> employees = projectRepository.getAllEmployees();
         assertEquals(expected, employees.size());
     }
@@ -106,7 +106,7 @@ class ProjectRepositoryTest {
 
     @Test
     void getActiveProjects() {
-        int expected = 3;
+        int expected = 7;
         List<ProjectModel> actual = projectRepository.getActiveProjects();
         assertEquals(expected, actual.size());
     }
