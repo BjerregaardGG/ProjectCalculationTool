@@ -24,10 +24,16 @@ public class TaskRepository {
     private final RowMapper<TaskModel> taskModelRowMapper = ((rs, rowNum) ->
             new TaskModel(
                     rs.getInt("id"),
-            rs.getString("name"), rs.getString("description"),
-            rs.getDate("start_date").toLocalDate(),
-            rs.getDate("deadline").toLocalDate(),
-            rs.getInt("duration"), rs.getInt("priority"), rs.getBoolean("status")
+                    rs.getString("name"),
+                    rs.getString("description"),
+
+                    // if getDate are null they are not set to localDate to prevent nullPointerException
+                    rs.getDate("start_date") != null ? rs.getDate("start_date").toLocalDate() : null,
+                    rs.getDate("deadline") != null ? rs.getDate("deadline").toLocalDate() : null,
+
+                    rs.getInt("duration"),
+                    rs.getInt("priority"),
+                    rs.getBoolean("status")
     ));
 
     // method for creating a task
@@ -71,8 +77,21 @@ public class TaskRepository {
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(query, new String[]{"id"}); // "id" is the column with the auto-increment primary key
             ps.setString(1, task.getTaskName());
-            ps.setDate(2, Date.valueOf(task.getTaskStartDate()));
-            ps.setDate(3, Date.valueOf(task.getTaskDeadline()));
+
+            // Set start date, handle null values - inspiration fra ChatGPT
+            if (task.getTaskStartDate() != null) {
+                ps.setDate(2, Date.valueOf(task.getTaskStartDate()));
+            } else {
+                ps.setNull(2, java.sql.Types.DATE); // Set to NULL if the start date is null
+            }
+
+            // Set deadline, handle null values - inspiration fra ChatGPT
+            if (task.getTaskDeadline() != null) {
+                ps.setDate(3, Date.valueOf(task.getTaskDeadline()));
+            } else {
+                ps.setNull(3, java.sql.Types.DATE); // Set to NULL if the deadline is null
+            }
+
             ps.setDouble(4, task.getDuration());
             ps.setString(5, task.getTaskDescription());
             ps.setInt(6, subProjectId);
@@ -82,12 +101,17 @@ public class TaskRepository {
         }, keyHolder);
 
         // Get the generated task ID
-        int taskId = keyHolder.getKey().intValue();
+        Number generatedKey = keyHolder.getKey();
+        if (generatedKey != null) {
+            task.setTaskId(generatedKey.intValue()); // sets the taskId to the generated key
+        } else {
+            System.err.println("Task ID was not generated.");
+        }
 
         // Insert the task and employee relationship into task_employee
         String employeeAssignment = "insert into task_employee (task_id, employee_id) values (?, ?)";
 
-        jdbcTemplate.update(employeeAssignment, taskId, employeeId);
+        jdbcTemplate.update(employeeAssignment, task.getTaskId(), employeeId);
 
         System.out.println("Employee ID: " + employeeId);
     }
@@ -118,10 +142,9 @@ public class TaskRepository {
 
     public void markATaskAsDone(int id){
 
-        String query = "update task set status = ? where id = ?";
+            String query = "update task set status = ? where id = ?";
 
-        jdbcTemplate.update(query, true, id);
-
+            jdbcTemplate.update(query, true, id);
     }
 
     public void markATaskAsNotDone(int id){
@@ -130,5 +153,14 @@ public class TaskRepository {
 
         jdbcTemplate.update(query, false, id);
     }
+
+    // delete from task_employee
+
+    public void deleteEmployeeFromTask(int taskId){
+        String query = "delete from task_employee where task_id = ?";
+
+        jdbcTemplate.update(query, taskId);
+    }
+
 
 }

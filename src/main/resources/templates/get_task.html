@@ -43,12 +43,12 @@
         <td>
             <ul>
                 <li th:each="employee : ${employeesByTask[task.getTaskId()]}" th:text="${employee.fullName}" ></li>
-                <li th:if="${employeesByTask[task.getTaskId()].isEmpty()}" th:text="'No assigned employees'"></li>
+                <li th:if="${employeesByTask[task.getTaskId()].isEmpty()}" th:text="'No employees assigned'"></li>
             </ul>
         </td>
         <td>
             <div th:if="${project.status == false}" id="action-links">
-            <form th:action="@{'/add_employee_form/' + ${projectId} + '/' + ${subProjectId} + '/' + ${task.taskId}}" method="GET">
+            <form th:if="${!task.taskStatus}" th:action="@{'/add_employee_form/' + ${projectId} + '/' + ${subProjectId} + '/' + ${task.taskId}}" method="GET">
                 <button type="submit">Add Employee</button>
             </form>
             </div>
@@ -62,11 +62,20 @@
     <form th:action="@{'/task_form/project/' + ${projectId} + '/' + ${subProjectId}}" method="GET">
         <button type="submit">Add a task to the current Sub Project</button>
     </form>
+    <a th:href="'/get_subprojects/' + ${projectId}"><button class="action-button">Back</button></a>
+</div>
+
+<div id="hours-pr-employee">
+    <span class="total-hours-button"
+          th:classappend="${hoursPrEmployee > 20} ? ' bad-workload' : ' good-workload'"
+          th:text="'Average workload per Employee: ' + ${hoursPrEmployee} + ' hours'"></span>
 </div>
 
 <div th:if="${project.status == false}" id="hours">
     <span class="total-hours-button" th:text="'Hours to go: ' + ${totalHours}"></span>
 </div>
+
+
 
 </body>
 </html>

@@ -27,6 +27,21 @@ body {
 #top-button button:hover {
     background-color: #ff5252;
 }
+.action-button {
+    background-color: #4ecdc4;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+    background-color: #45b7aa;
+}
 
 ul {
     list-style-type: none;

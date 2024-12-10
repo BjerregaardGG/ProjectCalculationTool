@@ -56,31 +56,17 @@ public class TaskController {
     @GetMapping("/get_task/{projectId}/{subProjectId}")
     public String getTaskBasedOnSubprojectId(@PathVariable int projectId, @PathVariable int subProjectId, Model model) {
 
-        List<TaskModel> priorityTasks = taskService.getTasksSortedByPriority(subProjectId);
+        Map<String, Object> taskData = taskService.getTaskSortedByPriority(subProjectId);
 
         ProjectModel project = projectService.getProjectById(projectId);
 
 
-        Map<Integer, List<EmployeeModel>> employeesByTask = new HashMap<>();
-
-        for(TaskModel task : priorityTasks) {
-            List<EmployeeModel> employees = employeeService.getAllEmployeesByTask(task.getTaskId());
-            employeesByTask.put(task.getTaskId(), employees);
-        }
-
-        // total hours for a subproject
-        int totalHours = 0;
-
-        for(TaskModel task : priorityTasks) {
-            if(!task.getTaskStatus()){
-                totalHours += task.getDuration();
-            }
-        }
-
+        // Tilføj dataene til model
         model.addAttribute("project", project);
-        model.addAttribute("priorityTasks", priorityTasks);
-        model.addAttribute("employeesByTask", employeesByTask);
-        model.addAttribute("totalHours", totalHours);
+        model.addAttribute("totalHours", taskData.get("totalHours"));
+        model.addAttribute("priorityTasks", taskData.get("priorityTasks"));
+        model.addAttribute("employeesByTask", taskData.get("employeesByTask"));
+        model.addAttribute("hoursPrEmployee", taskData.get("hoursPrEmployee"));
 
         return "get_task";
     }
@@ -90,6 +76,12 @@ public class TaskController {
                            @RequestParam("projectId") int projectId) {
 
         taskService.markTaskAsDone(taskId);
+
+        TaskModel task = taskService.getTask(taskId);
+
+        if(task.getTaskStatus()) {
+            taskService.deleteEmployeeFromTask(taskId);
+        }
 
         return "redirect:/get_task/" + projectId + '/' + subProjectId;
 

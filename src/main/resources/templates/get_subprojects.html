@@ -69,9 +69,13 @@
 
 <div th:if="${project.status == false}" id="action-links">
     <form th:action="@{'/create_subProjectForm/' + ${projectId}}" method="GET">
-        <button type="submit">Add another Sub Project</button>
+        <button type="submit">Add new Subproject</button>
     </form>
+    <a href="/activeProjects"><button class="action-button">Back</button></a>
 </div>
 
+<div>
+
+</div>
 </body>
 </html>

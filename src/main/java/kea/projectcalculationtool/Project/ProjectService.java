@@ -20,7 +20,7 @@ public class ProjectService {
         return projectRepository.calculateTime(projectId);
     }
 
-  public void createProject(ProjectModel project,List<Integer> employees) {
+  public ProjectModel createProject(ProjectModel project,List<Integer> employees) {
     List<ProjectModel> projects = projectRepository.getAllProjects();
     // checks if the name exist in the projects
     for (ProjectModel projectModel : projects) {
@@ -32,6 +32,7 @@ public class ProjectService {
     for (Integer employee : employees) {
       projectRepository.addEmployeeToProject(employee, projectm.getProjectId());
     }
+    return projectRepository.createProject(project);
   }
 
     public List<ProjectModel> getAllProjects() {
