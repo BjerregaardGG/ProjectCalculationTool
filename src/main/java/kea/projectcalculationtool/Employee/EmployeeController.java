@@ -1,6 +1,7 @@
 package kea.projectcalculationtool.Employee;
 
 import jakarta.servlet.http.HttpSession;
+import kea.projectcalculationtool.Task.TaskService;
 import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
@@ -17,13 +18,15 @@ import java.util.List;
 @Controller
 public class EmployeeController {
 
+    private final TaskService taskService;
     EmployeeService employeeService;
     ProjectService projectService;
 
 
-    public EmployeeController(EmployeeService employeeService, ProjectService projectService) {
+    public EmployeeController(EmployeeService employeeService, ProjectService projectService, TaskService taskService) {
         this.employeeService = employeeService;
         this.projectService = projectService;
+        this.taskService = taskService;
     }
 
 
@@ -126,6 +129,39 @@ public class EmployeeController {
         return "redirect:/get_task/" + projectId + '/' + subProjectId;
 
     }
+
+    // from for deleting an employee from a task
+    @GetMapping("/delete_employee_form/{projectId}/{subProjectId}/{taskId}")
+    public String deleteEmployeeFromTaskForm(@PathVariable int projectId, @PathVariable int subProjectId,
+                                        @PathVariable int taskId, Model model) {
+
+        EmployeeModel employee = new EmployeeModel();
+        // only employees related to the task
+        List<EmployeeModel> employeesByTask = employeeService.getAllEmployeesByTask(taskId);
+
+        model.addAttribute("employeesByTask", employeesByTask);
+        model.addAttribute("subProjectId", subProjectId);
+        model.addAttribute("taskId", taskId);
+        model.addAttribute("employee", employee);
+
+        return "employee_from_task_form";
+    }
+
+    // deletes employee to the task
+    @PostMapping("/delete_employee")
+    public String deleteEmployeeFromTask(@RequestParam("subProjectId") int subProjectId,
+                                    @RequestParam("employeeId") int employeeId,
+                                    @RequestParam("projectId") int projectId, @RequestParam("taskId") int taskId){
+
+        taskService.deleteEmployeeFromTask(taskId);
+
+        return "redirect:/get_task/" + projectId + '/' + subProjectId;
+
+    }
+
+
+
+
 
 
 

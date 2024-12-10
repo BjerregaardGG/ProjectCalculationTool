@@ -18,6 +18,7 @@
         <th>Hours</th>
         <th>Employees</th>
         <th></th>
+        <th></th>
     </tr>
     </thead>
 
@@ -51,6 +52,13 @@
             <form th:if="${!task.taskStatus}" th:action="@{'/add_employee_form/' + ${projectId} + '/' + ${subProjectId} + '/' + ${task.taskId}}" method="GET">
                 <button type="submit">Add Employee</button>
             </form>
+            </div>
+        </td>
+        <td>
+            <div id="action-links">
+                <form th:if="${!task.taskStatus}" th:action="@{'/delete_employee_form/' + ${projectId} + '/' + ${subProjectId} + '/' + ${task.taskId}}" method="GET">
+                    <button type="submit">Remove Employee</button>
+                </form>
             </div>
         </td>
 
