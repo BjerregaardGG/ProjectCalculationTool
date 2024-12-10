@@ -29,7 +29,7 @@
     <tbody>
     <tr th:each="project : ${projects}" th:if="${project.status} and (${project.getProjectId()== ProjectIdFromEmployeeId} or ${role == Manager})">
         <td>
-            <a th:href="${'/get_subproject/' + project.projectId}" th:text="${project.projectName}" class="custom-link"></a>
+            <a th:href="@{'/get_subprojects/' + ${project.projectId}}" th:text="${project.projectName}" class="custom-link"></a>
         </td>
         <td th:text="${project.projectDescription}"></td>
         <td th:text="${project.getBudget()}"></td>

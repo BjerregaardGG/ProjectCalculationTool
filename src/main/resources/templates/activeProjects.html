@@ -6,11 +6,6 @@
     <link rel="stylesheet" th:href="@{/homepage.css}">
 </head>
 <body>
-<div id="action-links">
-        <form th:if="${role == Manager}" th:action="@{/addToProject}" method="GET">
-            <button type="submit" class="action-button">Add Employee to Project</button>
-        </form>
-</div>
 <h1>Active projects</h1>
     <table>
         <thead>
@@ -20,6 +15,7 @@
                 <th>Deadline</th>
                 <th>Description</th>
                 <th>Daily Hours for Project</th>
+                <th>           </th>
                 <th>           </th>
             </tr>
         </thead>
@@ -67,6 +63,11 @@
                     </td>
                     <!--  This td is only visible if user is manager, and then it give option to complete project -->
                     <!--  some of this code is inspired by chatgpt and claude-->
+                    <td>
+                        <form th:if="${role == Manager}" th:action="@{'/addToProject/' + ${project.projectId}}" method="GET">
+                            <button type="submit" class="action-button">Add Employee to Project</button>
+                        </form>
+                    </td>
                     <td>
                           <form th:if="${role == Manager}" th:action="@{/updateProjectStatus}" method="POST">
                                 <input type="hidden" name="projectId" th:value="${project.getProjectId()}">

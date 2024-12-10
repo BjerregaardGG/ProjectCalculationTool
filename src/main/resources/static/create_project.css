@@ -102,6 +102,40 @@ form input[type="checkbox"] {
     border-radius: 5px;
     box-sizing: border-box;
 }
+#username {
+    width: 100%;
+    padding: 12px; /* Slightly more padding */
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Password field */
+#password {
+    width: 100%;
+    padding: 12px; /* Match padding with username */
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+#confirmPassword{
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+#email{
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
 
 form textarea {
     resize: vertical;
@@ -127,3 +161,17 @@ form button {
 form button:hover {
     background-color: #45b7aa;
 }
+button {
+    background-color: #4ecdc4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45b7aa;
+}
+
