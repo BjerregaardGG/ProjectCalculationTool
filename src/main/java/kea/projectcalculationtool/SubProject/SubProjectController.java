@@ -24,22 +24,27 @@ public class SubProjectController {
 
     @GetMapping("/create_subProjectForm/{projectId}")
     public String createSubProjectForm(Model model, @PathVariable int projectId, RedirectAttributes redirectAttributes) {
+            ProjectModel project = projectService.getProjectById(projectId);
+            SubProjectModel subproject = new SubProjectModel();
 
-        ProjectModel project = projectService.getProjectById(projectId);
-        SubProjectModel subproject = new SubProjectModel();
+            model.addAttribute("subProject",subproject);
+            model.addAttribute("projectBudget",project.getBudget());
 
-        model.addAttribute("subProject", subproject);
-        model.addAttribute("projectBudget", project.getBudget());
+            // redirectAttributes only occurs after a redirect
+            redirectAttributes.addFlashAttribute("errorMessage","Subproject budget cannot exceed project budget!");
+            return "create_subProjectForm";
 
-        // redirectAttributes only occurs after a redirect
-        redirectAttributes.addFlashAttribute("errorMessage", "Subproject budget cannot exceed project budget!");
-        return "create_subProjectForm";
     }
 
     @PostMapping("/create_subProject")
     public String createSubProject(@RequestParam int projectId,
                                    @ModelAttribute("subProject") SubProjectModel subProject,
                                    RedirectAttributes redirectAttributes) {
+
+        if(subProject.getStartDate().isAfter(subProject.getDeadline())){
+            redirectAttributes.addFlashAttribute("TimeError", true);
+            return "redirect:/create_subProjectForm/" + projectId;
+        }
 
         ProjectModel project = projectService.getProjectById(projectId);
         double projectBudget = project.getBudget();

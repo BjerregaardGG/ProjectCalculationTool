@@ -29,12 +29,19 @@ public class ProjectController {
 
   @PostMapping("/create_project")
   public String createNewProject(@ModelAttribute("project") ProjectModel project,
-      @RequestParam("employees") List<Integer> employees, RedirectAttributes redirectAttributes) {
+      @RequestParam("employees") List<Integer> employees,RedirectAttributes redirectAttributes) {
+
     try {
-      projectService.createProject(project, employees);
+      ProjectModel projectModel = projectService.createProject(project, employees);
+
+      if(projectModel == null) {
+        redirectAttributes.addFlashAttribute("TimeError", true);
+        return "redirect:/create_project";
+      }
       return "redirect:/home";
+
     }catch(Exception e){
-      redirectAttributes.addFlashAttribute("Error", "true");
+
       return "redirect:/create_project";
     }
 

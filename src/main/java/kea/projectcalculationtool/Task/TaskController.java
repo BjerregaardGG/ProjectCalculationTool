@@ -8,6 +8,7 @@ import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +46,13 @@ public class TaskController {
     @PostMapping("/create_task")
     public String createTask(@ModelAttribute TaskModel task,
                              @RequestParam int subProjectId,
-                             @RequestParam int employeeId, @RequestParam int projectId) {
+                             @RequestParam int employeeId,
+                             @RequestParam int projectId, RedirectAttributes redirectAttributes) {
+
+        if(task.getTaskStartDate().isAfter(task.getTaskDeadline())){
+            redirectAttributes.addFlashAttribute("TimeError", true);
+            return "redirect:/task_form/project/" + projectId + "/" + subProjectId;
+        }
 
         taskService.createTaskAndAddEmployee(task, subProjectId, employeeId);
 

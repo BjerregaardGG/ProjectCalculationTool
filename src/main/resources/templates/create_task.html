@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{/create_project.css}">
 </head>
 <body>
-
+<p th:if="${TimeError == true}" style="color: red">Deadline was before start date</p>
 <form th:action="@{/create_task}" th:object="${task}" method="POST">
     <h2> Add a Task to the Subproject </h2>
 
