@@ -1,13 +1,9 @@
 package kea.projectcalculationtool.SubProject;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -17,25 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-//@Rollback(true)
-//@ActiveProfiles("h2")
+@Rollback(true)
 class SubProjectRepositoryTest {
 
     @Autowired
     private SubProjectRepository subProjectRepository;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-        //clean up database after each test
-        jdbcTemplate.execute("DELETE FROM sub_project");
-    }
 
     @Test
     void createSubproject() {
@@ -50,7 +32,6 @@ class SubProjectRepositoryTest {
         List<SubProjectModel> subProjects = subProjectRepository.getSubprojectsByProjectId(subProject.getProjectId());
         subProjects.add(subProject);
         assertTrue(subProjects.contains(subProject),"subproject added to database");
-
     }
 
     @Test
