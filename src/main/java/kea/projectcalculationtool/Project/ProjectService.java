@@ -92,6 +92,13 @@ public class ProjectService {
       projectRepository.deleteTask(taskId);
     }
   }
+  public void deleteTask(int taskId){
+      projectRepository.deleteFromTaskEmployee(taskId);
+      projectRepository.deleteTask(taskId);
+  }
+  public void deleteFromTaskEmployee(int taskId){
+      projectRepository.deleteFromTaskEmployee(taskId);
+  }
 
   public double getTaskTime(Integer task_id){
     TaskModel task = projectRepository.getTaskFromId(task_id);

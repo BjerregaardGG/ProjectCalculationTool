@@ -60,7 +60,11 @@ public class SubProjectController {
 
         List<SubProjectModel> allSubprojects = subProjectService.getSubProjects(projectId);
 
+        ProjectModel project = projectService.getProjectById(projectId);
+
         model.addAttribute("allSubprojects",allSubprojects);
+
+        model.addAttribute("project",project);
 
         return "get_subprojects";
     }
@@ -82,4 +86,9 @@ public class SubProjectController {
         return "redirect:/get_subprojects/" + subprojectId;
     }
 
+    @PostMapping("/deleteSubproject/{subprojectId}")
+    public String deleteSubproject(@PathVariable int subprojectId, @RequestParam("projectId") int projectId) {
+        subProjectService.deleteSubproject(subprojectId);
+        return "redirect:/get_subprojects/" + projectId;
+    }
 }
