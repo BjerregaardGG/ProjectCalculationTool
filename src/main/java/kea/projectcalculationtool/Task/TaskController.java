@@ -96,4 +96,13 @@ public class TaskController {
         return "redirect:/get_task/" + projectId + '/' + subProjectId;
     }
 
+    @PostMapping("/delete_task/{taskId}")
+    public String deleteTask(@PathVariable int taskId, @RequestParam("projectId") int projectId,
+                             @RequestParam("subProjectId") int subProjectId) {
+
+        projectService.deleteTask(taskId);
+
+        return "redirect:/get_task/" + projectId + '/' + subProjectId;
+    }
+
 }

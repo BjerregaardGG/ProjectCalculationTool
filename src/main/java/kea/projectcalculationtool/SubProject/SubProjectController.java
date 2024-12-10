@@ -86,4 +86,9 @@ public class SubProjectController {
         return "redirect:/get_subprojects/" + subprojectId;
     }
 
+    @PostMapping("/deleteSubproject/{subprojectId}")
+    public String deleteSubproject(@PathVariable int subprojectId, @RequestParam("projectId") int projectId) {
+        subProjectService.deleteSubproject(subprojectId);
+        return "redirect:/get_subprojects/" + projectId;
+    }
 }

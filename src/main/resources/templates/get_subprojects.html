@@ -17,6 +17,7 @@
         <th th:if="${project.status == false}">Status</th>
         <th>Budget</th>
         <th></th>
+        <th></th>
     </tr>
     </thead>
 
@@ -63,6 +64,14 @@
             </form>
         </td>
         <td th:text="${sub.budget}"></td>
+        <td>
+            <div th:if="${project.status == false}">
+                <form th:action="@{'/deleteSubproject/' + ${sub.subProjectId}}" method="POST">
+                    <input type="hidden" name="projectId" th:value="${projectId}">
+                    <button type="submit" class="action-button"> Delete Subproject</button>
+                </form>
+            </div>
+        </td>
     </tr>
     </tbody>
 </table>
