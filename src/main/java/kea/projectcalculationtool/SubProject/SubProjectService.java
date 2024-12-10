@@ -15,32 +15,33 @@ public class SubProjectService {
     ProjectModel projectModel;
 
     SubProjectRepository subProjectRepository;
-    public SubProjectService(SubProjectRepository subProjectRepository,ProjectService projectService) {
+
+    public SubProjectService(SubProjectRepository subProjectRepository, ProjectService projectService) {
         this.subProjectRepository = subProjectRepository;
         this.projectService = projectService;
     }
-    public void createSubproject(int projectId, SubProjectModel subProject){
-            subProjectRepository.createSubproject(projectId, subProject);
 
-        }
+    public void createSubproject(int projectId, SubProjectModel subProject) {
+        subProjectRepository.createSubproject(projectId, subProject);
 
-    public List<SubProjectModel> getSubProjects(int projectId){
+    }
+
+    public List<SubProjectModel> getSubProjects(int projectId) {
 
         return subProjectRepository.getSubprojectsByProjectId(projectId);
     }
 
-    public void markSubprojetAsDone(int id){
+    public void markSubprojetAsDone(int id) {
         subProjectRepository.markASubprojectAsDone(id);
     }
 
-    public void markSubprojctAsNotDone(int id){
+    public void markSubprojctAsNotDone(int id) {
         subProjectRepository.markASubprojectAsNotDone(id);
     }
 
     public boolean canAdd(double budget, double budget2) {
         return budget <= budget2;
     }
-
 
     public void deleteSubproject(int subprojectId) {
         //Deletes subproject first then task_employee bound to that subproject and then tasks bound to it.
@@ -52,6 +53,9 @@ public class SubProjectService {
             projectService.deleteFromTaskEmployee(taskId);
             projectService.deleteTask(taskId);
         }
+    }
+    public SubProjectModel getSubprojectById(int id){
+        return subProjectRepository.getSubprojectById(id);
     }
 }
 
