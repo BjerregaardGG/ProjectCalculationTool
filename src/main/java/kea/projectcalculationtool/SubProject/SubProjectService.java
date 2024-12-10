@@ -8,10 +8,6 @@ import java.util.List;
 @Service
 public class SubProjectService {
 
-    SubProjectModel subProjectModel;
-
-    ProjectModel projectModel;
-
     SubProjectRepository subProjectRepository;
 
     public SubProjectService(SubProjectRepository subProjectRepository) {
@@ -38,8 +34,9 @@ public class SubProjectService {
     public boolean canAdd(double budget, double budget2) {
         return budget <= budget2;
     }
-
-
+    public SubProjectModel getSubprojectById(int id){
+        return subProjectRepository.getSubprojectById(id);
     }
+}
 
 
