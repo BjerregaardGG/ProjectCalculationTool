@@ -82,6 +82,7 @@ public class EmployeeController {
     }
     // Adding session and the two models to get all projects and to get projectid from employee so it will only
     // show projects that the employee are bound too.
+
     @GetMapping("/home")
     public String ShowHomepage(Model model,HttpSession session) {
         Integer EmployeeID = (Integer) session.getAttribute("employeeID");
@@ -98,6 +99,7 @@ public class EmployeeController {
         return "homepage";
     }
 
+    // from for adding an employee to a task
     @GetMapping("/add_employee_form/{projectId}/{subProjectId}/{taskId}")
     public String addEmployeeToTaskForm(@PathVariable int projectId, @PathVariable int subProjectId,
                                         @PathVariable int taskId, Model model) {
@@ -113,6 +115,7 @@ public class EmployeeController {
         return "employee_to_task_form";
     }
 
+    // adds employee to the task
     @PostMapping("/add_employee")
     public String addEmployeeToTask(@RequestParam("subProjectId") int subProjectId,
                                     @RequestParam("employeeId") int employeeId,

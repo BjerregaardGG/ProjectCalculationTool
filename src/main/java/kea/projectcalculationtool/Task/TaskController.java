@@ -52,6 +52,7 @@ public class TaskController {
     @GetMapping("/get_task/{projectId}/{subProjectId}")
     public String getTaskBasedOnSubprojectId(@PathVariable int projectId, @PathVariable int subProjectId, Model model) {
 
+        // saves the function and variables from service in a Map
         Map<String, Object> taskData = taskService.getTaskSortedByPriority(subProjectId);
 
         // Tilføj dataene til model
@@ -63,6 +64,7 @@ public class TaskController {
         return "get_task";
     }
 
+    // marks a task as done
     @PostMapping("/task_done/{taskId}")
     public String taskDone(@PathVariable int taskId, @RequestParam("subProjectId") int subProjectId,
                            @RequestParam("projectId") int projectId) {
@@ -71,6 +73,7 @@ public class TaskController {
 
         TaskModel task = taskService.getTask(taskId);
 
+        // if task is done, then remove employees from the task
         if(task.getTaskStatus()) {
             taskService.deleteEmployeeFromTask(taskId);
         }
@@ -79,6 +82,7 @@ public class TaskController {
 
     }
 
+    // marks the task as not done
     @PostMapping("/task_not_done/{taskId}")
     public String taskNotDone(@PathVariable int taskId, @RequestParam("subProjectId") int subProjectId,
                               @RequestParam("projectId") int projectId) {
