@@ -27,7 +27,7 @@ public class TaskRepository {
                     rs.getString("name"),
                     rs.getString("description"),
 
-                    // if getDate are null they are not set to localDate to prevent nullPointerException
+                    // if getDate are null they are not set to localDate to prevent nullPointerException - inspiration from ChatGpt
                     rs.getDate("start_date") != null ? rs.getDate("start_date").toLocalDate() : null,
                     rs.getDate("deadline") != null ? rs.getDate("deadline").toLocalDate() : null,
 
@@ -65,7 +65,7 @@ public class TaskRepository {
         // h2 tager ikke imode last_insert_id() -> skal anvende en KeyHolder
     } */
 
-    // method for creating a task
+    // method for creating a task - GeneratedKey Inspiration from ChatGpt
     public void createTask(TaskModel task, int subProjectId, int employeeId) {
 
         // Query for inserting a task

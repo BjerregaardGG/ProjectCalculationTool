@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Remove Employee from task</title>
+    <link rel="stylesheet" th:href="@{/form.css}">
+</head>
+<body>
+
+<form th:action="@{/delete_employee}" th:object="${employee}" method="POST">
+  <h2> Delete an employee from the task </h2>
+
+  <input type="hidden" name="subProjectId" th:value="${subProjectId}" />
+  <input type="hidden" name="projectId" th:value="${projectId}"/>
+  <input type="hidden" name="taskId" th:value="${taskId}"/>
+
+  <div>
+    <label> Delete employee: </label>
+    <select id="employeeId" name="employeeId" multiple>
+      <option th:each="employee : ${employeesByTask}" th:value= "${employee.employeeID}" th:text="${employee.fullName}"></option>
+    </select>
+    <small>Hold Ctrl (Windows) or Command (Mac) to select multiple employees.</small>
+  </div>
+
+  <button type="submit">Delete employee from task </button>
+
+</form>
+
+</body>
+</html>

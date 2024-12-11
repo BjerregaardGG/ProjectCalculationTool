@@ -23,6 +23,7 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
+    // creates a task and adds an employee - logs errors at the same time
     public void createTaskAndAddEmployee(TaskModel task, int taskId, int employeeId) {
         try {
             taskRepository.createTask(task, taskId, employeeId);
@@ -40,47 +41,65 @@ public class TaskService {
         return taskRepository.getAllTasksBySubProjectId(subProjectId);
     }
 
+    // get tasks by priority and deadline - saves the objects in a map
     public Map<String, Object> getTaskSortedByPriority(int subProjectId) {
+        Map<String, Object> map = new HashMap<>();
 
+        try {
+            // gets all tasks by subprojectId (1)
             List<TaskModel> priorityTasks = taskRepository.getTasksSortedByPriority(subProjectId);
-
+            // map to save employee by task (2)
             Map<Integer, List<EmployeeModel>> employeesByTask = new HashMap<>();
 
             for (TaskModel task : priorityTasks) {
-                List<EmployeeModel> employees = employeeRepository.getEmployeesByTaskID(task.getTaskId());
-                employeesByTask.put(task.getTaskId(), employees);
-            }
-
-            // total hours for a subproject
-            int totalHours = 0;
-            // total employees for a task
-            int employees = 0;
-            //average hours an employee has to work
-            int hoursPrEmployee = 0;
-
-            for (TaskModel task : priorityTasks) {
-                if (!task.getTaskStatus()) {
-                    totalHours += task.getDuration(); // number of hours on active projects
-
-                    List<EmployeeModel> employeesByTasks = employeeRepository.getEmployeesByTaskID(task.getTaskId());
-                    employees += employeesByTasks.size(); // number of employees on active projects
+                try {
+                    List<EmployeeModel> employees = employeeRepository.getEmployeesByTaskID(task.getTaskId());
+                    employeesByTask.put(task.getTaskId(), employees);
+                } catch (Exception e) {
+                    System.out.println("Error getting employee by task id" + task.getTaskId());
                 }
             }
-            if (employees > 0) {
-                hoursPrEmployee = totalHours / employees; // average workload
+
+            int totalHours = 0; // total hours for a subproject
+            int employees = 0; // total employees for a task
+            int hoursPrEmployee = 0; // average hours an employee has to work
+
+            for (TaskModel task : priorityTasks) {
+                if (!task.getTaskStatus()) { // if task is not done...
+                    totalHours += task.getDuration(); // number of hours on active projects (3)
+
+                    try {
+                        List<EmployeeModel> employeesByTasks = employeeRepository.getEmployeesByTaskID(task.getTaskId());
+                        employees += employeesByTasks.size(); // number of employees on active projects
+                    } catch (Exception e) {
+                        System.out.println("Error getting employee by task id" + task.getTaskId());
+                    }
+                }
             }
 
+            if (employees > 0) {
+                try {
+                    hoursPrEmployee = totalHours / employees; // average workload pr employee
+                } catch (ArithmeticException e) {
+                    System.out.println("error trying to calculate average workload - division by 0?");
+                    hoursPrEmployee = 0;
+                }
+            }
 
-            Map<String, Object> map = new HashMap<>();
+            // the map that is being returned and can be used in the controller
             map.put("totalHours", totalHours);
             map.put("priorityTasks", priorityTasks);
             map.put("employeesByTask", employeesByTask);
             map.put("hoursPrEmployee", hoursPrEmployee);
 
-            return map;
-
+        } catch (Exception e) {
+            System.out.println("Error in getting task by priority" + subProjectId);
         }
 
+            return map;
+        }
+
+    // method for deleting an employee
     public void deleteEmployeeFromTask(int taskId) {
 
         try {
@@ -88,7 +107,6 @@ public class TaskService {
 
         }catch (DataAccessException e) {
             System.out.println("Error occurred while deleting task" + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -99,7 +117,6 @@ public class TaskService {
 
         }catch (DataAccessException e) {
             System.out.println("Error occurred while marking task" + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -109,10 +126,10 @@ public class TaskService {
             taskRepository.markATaskAsNotDone(id);
         }catch (DataAccessException e) {
             System.out.println("Error occurred while marking task" + e.getMessage());
-            e.printStackTrace();
         }
     }
 
+    // get task by id
     public TaskModel getTask(int taskId) {
 
         try {
@@ -120,7 +137,6 @@ public class TaskService {
 
         }catch (DataAccessException e) {
             System.out.println("Error occurred while getting task" + e.getMessage());
-            e.printStackTrace();
         }
         return null;
     }

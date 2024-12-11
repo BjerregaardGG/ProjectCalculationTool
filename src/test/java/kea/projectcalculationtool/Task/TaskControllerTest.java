@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -82,6 +83,10 @@ class TaskControllerTest {
     @Test
     void taskDone() throws Exception {
         int taskId = 1;
+
+        TaskModel task = new TaskModel();
+        task.setTaskStatus(true);  // Simulates that the task is done
+        when(taskService.getTask(taskId)).thenReturn(task);
 
         mockMvc.perform(post("/task_done/{taskId}", taskId)
                         .param("taskId", "1")

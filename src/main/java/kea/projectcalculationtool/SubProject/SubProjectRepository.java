@@ -57,6 +57,10 @@ public class SubProjectRepository {
 
         jdbcTemplate.update(query, false, id);
     }
+    public SubProjectModel getSubprojectById(int id){
+        String sql = "SELECT * FROM sub_project WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, projectModelRowMapper, id);
+    }
 
     public void deleteSubproject(int subprojectId) {
         String sql ="DELETE FROM sub_project WHERE id = ?";

@@ -18,7 +18,7 @@ import java.util.Map;
 @Repository
 public class ProjectRepository {
   private final JdbcTemplate jdbcTemplate;
-  private final EmployeeRepository employeeRepository;
+  EmployeeRepository employeeRepository;
 
   public ProjectRepository(JdbcTemplate jdbcTemplate, EmployeeRepository employeeRepository) {
     this.jdbcTemplate = jdbcTemplate;
