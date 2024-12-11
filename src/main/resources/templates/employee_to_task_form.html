@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Add employee to task</title>
-    <link rel="stylesheet" th:href="@{/create_project.css}">
+    <link rel="stylesheet" th:href="@{/form.css}">
 </head>
 <body>
 
@@ -16,9 +16,10 @@
 
     <div>
         <label> Add employee: </label>
-        <select id="employeeId" name="employeeId">
+        <select id="employeeId" name="employeeId" multiple>
             <option th:each="employee : ${employeesByProject}" th:value= "${employee.employeeID}" th:text="${employee.fullName}"></option>
         </select>
+        <small>Hold Ctrl (Windows) or Command (Mac) to select multiple employees.</small>
     </div>
 
     <button type="submit">Add employee to task </button>

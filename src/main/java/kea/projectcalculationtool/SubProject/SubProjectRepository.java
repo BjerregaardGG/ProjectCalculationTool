@@ -71,4 +71,15 @@ public class SubProjectRepository {
         String sql = "SELECT * FROM sub_project WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, projectModelRowMapper, subProjectId);
     }
+
+
+    public void deleteSubproject(int subprojectId) {
+        String sql ="DELETE FROM sub_project WHERE id = ?";
+        jdbcTemplate.update(sql, subprojectId);
+    }
+    public List<Integer> getTaskIdFromSubprojectId(Integer SubProjectId) {
+        //String sql = "SELECT * FROM employee WHERE id = (SELECT id FROM task_employee WHERE task_id = ?) ";
+        String sql ="SELECT id FROM task WHERE sub_project_id =?";
+        return jdbcTemplate.queryForList(sql,Integer.class, SubProjectId);
+    }
 }

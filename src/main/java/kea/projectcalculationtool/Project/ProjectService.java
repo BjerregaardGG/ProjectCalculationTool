@@ -4,7 +4,6 @@ import kea.projectcalculationtool.Employee.EmployeeModel;
 import kea.projectcalculationtool.Employee.EmployeeRepository;
 import kea.projectcalculationtool.Task.TaskModel;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -25,18 +24,25 @@ public class ProjectService {
         return projectRepository.calculateTime(projectId);
     }
 
-  public void createProject(ProjectModel project,List<Integer> employees) {
+  public ProjectModel createProject(ProjectModel project,List<Integer> employees) {
     List<ProjectModel> projects = projectRepository.getAllProjects();
     // checks if the name exist in the projects
     for (ProjectModel projectModel : projects) {
       if (project.getProjectName().equals(projectModel.getProjectName())) {
         System.out.println("Name Already exist," + project.getProjectName());
+        return null;
       }
     }
+    if(project.getStartDate().isAfter(project.getDeadline())) {
+      return null;
+    }
+
     ProjectModel projectm = projectRepository.createProject(project);
+
     for (Integer employee : employees) {
       projectRepository.addEmployeeToProject(employee, projectm.getProjectId());
     }
+    return projectm;
   }
 
     public List<ProjectModel> getAllProjects() {
@@ -99,6 +105,13 @@ public class ProjectService {
       projectRepository.deleteTask(taskId);
     }
   }
+  public void deleteTask(int taskId){
+      projectRepository.deleteFromTaskEmployee(taskId);
+      projectRepository.deleteTask(taskId);
+  }
+  public void deleteFromTaskEmployee(int taskId){
+      projectRepository.deleteFromTaskEmployee(taskId);
+  }
 
   public double getTaskTime(Integer task_id){
     TaskModel task = projectRepository.getTaskFromId(task_id);
@@ -120,6 +133,7 @@ public class ProjectService {
       // Iterate over each task
       for (Integer task_id : task_ids) {
         double taskTime = getTaskTime(task_id); // Method to get the time for a task
+        // Get the current list of employees for the task
         List<EmployeeModel> employeeList = getAllEmployeesInTask(task_id);
 
         if (employeeList.isEmpty()) {

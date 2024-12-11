@@ -3,11 +3,13 @@ package kea.projectcalculationtool.Task;
 import jakarta.servlet.http.HttpSession;
 import kea.projectcalculationtool.Employee.EmployeeModel;
 import kea.projectcalculationtool.Employee.EmployeeService;
-import kea.projectcalculationtool.SubProject.SubProjectModel;
+import kea.projectcalculationtool.Project.ProjectModel;
+import kea.projectcalculationtool.Project.ProjectService;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,10 +21,12 @@ public class TaskController {
 
     TaskService taskService;
     EmployeeService employeeService;
+    ProjectService projectService;
 
-    public TaskController(TaskService taskService, EmployeeService employeeService) {
+    public TaskController(TaskService taskService, EmployeeService employeeService, ProjectService projectService) {
         this.employeeService = employeeService;
         this.taskService = taskService;
+        this.projectService = projectService;
     }
 
     // shows the task form for a given subProject
@@ -43,7 +47,13 @@ public class TaskController {
     @PostMapping("/create_task")
     public String createTask(@ModelAttribute TaskModel task,
                              @RequestParam int subProjectId,
-                             @RequestParam int employeeId, @RequestParam int projectId) {
+                             @RequestParam int employeeId,
+                             @RequestParam int projectId, RedirectAttributes redirectAttributes) {
+
+        if(task.getTaskStartDate() !=null && task.getTaskStartDate().isAfter(task.getTaskDeadline())){
+            redirectAttributes.addFlashAttribute("TimeError", true);
+            return "redirect:/task_form/project/" + projectId + "/" + subProjectId;
+        }
 
         taskService.createTaskAndAddEmployee(task, subProjectId, employeeId);
 
@@ -54,46 +64,55 @@ public class TaskController {
     @GetMapping("/get_task/{projectId}/{subProjectId}")
     public String getTaskBasedOnSubprojectId(@PathVariable int projectId, @PathVariable int subProjectId, Model model) {
 
-        List<TaskModel> priorityTasks = taskService.getTasksSortedByPriority(subProjectId);
+        // saves the function and variables from service in a Map
+        Map<String, Object> taskData = taskService.getTaskSortedByPriority(subProjectId);
 
-        Map<Integer, List<EmployeeModel>> employeesByTask = new HashMap<>();
+        ProjectModel project = projectService.getProjectById(projectId);
 
-        for(TaskModel task : priorityTasks) {
-            List<EmployeeModel> employees = employeeService.getAllEmployeesByTask(task.getTaskId());
-            employeesByTask.put(task.getTaskId(), employees);
-        }
 
-        // total hours for a subproject
-        int totalHours = 0;
-
-        for(TaskModel task : priorityTasks) {
-            if(!task.getTaskStatus()){
-                totalHours += task.getDuration();
-            }
-        }
-
-        model.addAttribute("priorityTasks", priorityTasks);
-        model.addAttribute("employeesByTask", employeesByTask);
-        model.addAttribute("totalHours", totalHours);
+        // Tilføj dataene til model
+        model.addAttribute("project", project);
+        model.addAttribute("totalHours", taskData.get("totalHours"));
+        model.addAttribute("priorityTasks", taskData.get("priorityTasks"));
+        model.addAttribute("employeesByTask", taskData.get("employeesByTask"));
+        model.addAttribute("hoursPrEmployee", taskData.get("hoursPrEmployee"));
 
         return "get_task";
     }
 
+    // marks a task as done
     @PostMapping("/task_done/{taskId}")
     public String taskDone(@PathVariable int taskId, @RequestParam("subProjectId") int subProjectId,
                            @RequestParam("projectId") int projectId) {
 
         taskService.markTaskAsDone(taskId);
 
+        TaskModel task = taskService.getTask(taskId);
+
+        // if task is done, then remove employees from the task
+        if(task.getTaskStatus()) {
+            taskService.deleteEmployeeFromTask(taskId);
+        }
+
         return "redirect:/get_task/" + projectId + '/' + subProjectId;
 
     }
 
+    // marks the task as not done
     @PostMapping("/task_not_done/{taskId}")
     public String taskNotDone(@PathVariable int taskId, @RequestParam("subProjectId") int subProjectId,
                               @RequestParam("projectId") int projectId) {
 
         taskService.markTaskAsNotDone(taskId);
+
+        return "redirect:/get_task/" + projectId + '/' + subProjectId;
+    }
+
+    @PostMapping("/delete_task/{taskId}")
+    public String deleteTask(@PathVariable int taskId, @RequestParam("projectId") int projectId,
+                             @RequestParam("subProjectId") int subProjectId) {
+
+        projectService.deleteTask(taskId);
 
         return "redirect:/get_task/" + projectId + '/' + subProjectId;
     }

@@ -29,12 +29,19 @@ public class ProjectController {
 
   @PostMapping("/create_project")
   public String createNewProject(@ModelAttribute("project") ProjectModel project,
-      @RequestParam("employees") List<Integer> employees, RedirectAttributes redirectAttributes) {
+      @RequestParam("employees") List<Integer> employees,RedirectAttributes redirectAttributes) {
+
     try {
-      projectService.createProject(project, employees);
+      ProjectModel projectModel = projectService.createProject(project, employees);
+
+      if(projectModel == null) {
+        redirectAttributes.addFlashAttribute("TimeError", true);
+        return "redirect:/create_project";
+      }
       return "redirect:/home";
+
     }catch(Exception e){
-      redirectAttributes.addFlashAttribute("Error", "true");
+
       return "redirect:/create_project";
     }
 
@@ -47,9 +54,9 @@ public class ProjectController {
   }
   // will get a List of employees and Projects to choose from, and values from
   // those will be combinded to add to project_team
-  @GetMapping("/addToProject")
-  public String addToProject(Model model, HttpSession session) {
-    Integer EmployeeId = (Integer) session.getAttribute("employeeId");
+  @GetMapping("/addToProject/{projectId}")
+  public String addToProject(@PathVariable("projectId") Integer projectId, Model model) {
+    model.addAttribute("projectId", projectId);
     model.addAttribute("IdList", projectService.getEmployeesFromProjectTeam());
     model.addAttribute("employees", projectService.getAllEmployees());
     model.addAttribute("projects", projectService.getAllProjects());
@@ -123,4 +130,5 @@ public class ProjectController {
     projectService.updateProject(project);
     return "redirect:/activeProjects";
   }
+
 }
