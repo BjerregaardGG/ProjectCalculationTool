@@ -54,7 +54,7 @@ public class ProjectRepository {
 
   // Will insert the new project into the database.
   public ProjectModel createProject(ProjectModel project) {
-    String sql = "INSERT INTO project(name, start_date, deadline, budget, description, status, work_hours_per_project ) VALUES (?, ?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO project(name, start_date, deadline, budget, description, status, work_hours_per_project ) VALUES (?, ?, ?, ?, ?, ?,?)";
     try {
       jdbcTemplate.update(sql,
               project.getProjectName(),
