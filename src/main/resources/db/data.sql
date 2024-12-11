@@ -29,7 +29,7 @@ VALUES
     ('123', '123', 'Kate Martin', 'kmartin@example.com', 'MANAGER'),
     ('ltaylor', 'taylor!123', 'Liam Taylor', 'ltaylor@example.com', 'SENIOR'),
     ('hgrace', 'securePass1', 'Hannah Grace', 'hgrace@example.com', 'JUNIOR'),
-    ('Hannimal', 'pass1234', 'Hannibal Vestergaard', 'Hannibal24@gmail.com','MANAGER');
+    ('Hannimal', 'pass1234', 'Hannibal Vestergaard', 'Hannibal24@gmail.com','MANAGER'),
        ('Mads', 'MadsAttack', 'Mads Olufsen', 'Mads1234@gmail.com', 'INTERN'),
        ('jdoe', 'password123', 'John Doe', 'jdoe@example.com', 'JUNIOR'),
        ('asmith', 'passw0rd', 'Alice Smith', 'asmith@example.com', 'SENIOR'),
