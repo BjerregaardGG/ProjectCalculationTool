@@ -13,33 +13,34 @@
 <h1>Update the subProject</h1>
 
 
-<!-- Form to create a new project -->
+<!-- Form to update a project -->
 <form th:action="@{'/updatesubproject/' + ${subProjectId}}" method="post" th:object="${subproject}">
     <input type="hidden" name="subProjectId" th:value="${subProjectId}">
     <div>
         <label for="subProjectName">New subproject Name:</label>
-        <input type="text" id="subProjectName" th:field="*{subproject.subProjectName}" placeholder="Update the name of the subproject">
+        <input type="text" id="subProjectName" th:field="*{subProjectName}" placeholder="Update the name of the subproject">
     </div>
     <div>
         <label for="subProjectDescription">New SubProject Description:</label>
-        <textarea id="subProjectDescription" th:field="*{subproject.subProjectDescription}" placeholder="Update the subproject description"></textarea>
+        <textarea id="subProjectDescription" th:field="*{subProjectDescription}" placeholder="Update the subproject description"></textarea>
     </div>
     <div>
         <label for="startDate">New start date:</label>
-        <input type="date" id="startDate" th:field="*{subproject.startDate}">
+        <input type="date" id="startDate" th:field="*{startDate}">
     </div>
     <div>
         <label for="deadline">New deadline:</label>
         <input type="date" id="deadline"
-               th:attr="min = *{subproject.startDate}"
-               th:field="*{subproject.deadline}">
+               th:attr="min = *{startDate}"
+               th:field="*{deadline}">
     </div>
     <div>
         <label for="budget">New budget:</label>
-        <input type="number" id="budget" th:field="*{subproject.budget}" placeholder="Enter budget">
+        <input type="number" id="budget" th:field="*{budget}" placeholder="Enter budget">
     </div>
 
-    <input type="hidden" th:field="*{subproject.status}" value="false">
+    <input type="hidden" id="status" th:field="*{status}">
+    <input type="hidden" id="projectId" th:field="*{projectId}">
 
     <div>
         <button type="submit">Update Subproject</button>

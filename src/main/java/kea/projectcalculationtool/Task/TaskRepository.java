@@ -1,5 +1,6 @@
 package kea.projectcalculationtool.Task;
 
+import kea.projectcalculationtool.SubProject.SubProjectModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -27,7 +28,7 @@ public class TaskRepository {
             rs.getString("name"), rs.getString("description"),
             rs.getDate("start_date").toLocalDate(),
             rs.getDate("deadline").toLocalDate(),
-            rs.getInt("duration"), rs.getInt("priority"), rs.getBoolean("status")
+            rs.getInt("duration"), rs.getInt("priority"), rs.getBoolean("status"), rs.getInt("sub_project_id")
     ));
 
     // method for creating a task
@@ -129,6 +130,26 @@ public class TaskRepository {
         String query = "update task set status = ? where id = ?";
 
         jdbcTemplate.update(query, false, id);
+    }
+
+    public void updateTask(TaskModel taskModel) {
+        String sql = "UPDATE task SET name = ?, start_date = ?, deadline = ?, duration = ?, description = ?, priority = ? WHERE id = ?";
+        jdbcTemplate.update(sql,
+                taskModel.getTaskName(),
+                taskModel.getTaskStartDate(),
+                taskModel.getTaskDeadline(),
+                taskModel.getDuration(),
+                taskModel.getTaskDescription(),
+                taskModel.getPriority(),
+                taskModel.getTaskId());
+    }
+    public TaskModel getTaskById(int taskId){
+        String sql = "SELECT * FROM task WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, taskModelRowMapper, taskId);
+    }
+    public int getProjectIdBySubProjectId(int subProjectId){
+        String sql = "SELECT project.id FROM project JOIN sub_project ON project.id = sub_project.id WHERE project.id = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, subProjectId);
     }
 
 }

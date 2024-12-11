@@ -65,7 +65,7 @@
         <td th:text="${sub.budget}"></td>
 
         <td th:if="${role == Manager}">
-            <a th:href="@{'/updatesubproject/' + ${sub.getProjectId()}}">
+            <a th:href="@{'/updatesubproject/' + ${sub.subProjectId}}">
                 <button class="custom-button">Update</button>
             </a>
         </td>

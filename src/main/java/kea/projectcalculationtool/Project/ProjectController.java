@@ -119,7 +119,7 @@ public class ProjectController {
     return "updateproject";
   }
   @PostMapping("/updateproject/{projectId}")
-  public String submitUpdateProject(@PathVariable("projectId") @ModelAttribute ProjectModel project) {
+  public String submitUpdateProject(@ModelAttribute ProjectModel project) {
     projectService.updateProject(project);
     return "redirect:/activeProjects";
   }

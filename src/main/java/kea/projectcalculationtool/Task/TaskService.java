@@ -1,5 +1,6 @@
 package kea.projectcalculationtool.Task;
 
+import kea.projectcalculationtool.SubProject.SubProjectModel;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +43,17 @@ public class TaskService {
     public void markTaskAsNotDone(int id){
         taskRepository.markATaskAsNotDone(id);
     }
+
+    public void updateTask(TaskModel taskModel){
+        taskRepository.updateTask(taskModel);
+    }
+
+    public TaskModel getTaskById(int taskId){
+        return taskRepository.getTaskById(taskId);
+    }
+    public int getProjectIdBySubProjectId(int subProjectId) {
+       return taskRepository.getProjectIdBySubProjectId(subProjectId);
+    }
+
 
 }

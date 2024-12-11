@@ -72,16 +72,23 @@ public class SubProjectController {
             System.out.println("projectId is null");
             return "redirect:/activeProjects";
         }
+
         SubProjectModel subProject = subProjectService.getSubProjectById(subProjectId);
+        int projectId = subProject.getProjectId();
+        System.out.println("projectId is " + projectId);
+        System.out.println(subProject.getSubProjectName());
         model.addAttribute("subproject", subProject);
         model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
         model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
 
-        return "updateproject";
+        return "updatesubproject";
     }
     @PostMapping("/updatesubproject/{subProjectId}")
-    public String submitUpdateSubProject(@PathVariable("subProjectId") @ModelAttribute("subproject") SubProjectModel subProject) {
+    public String submitUpdateSubProject(@ModelAttribute SubProjectModel subProject) {
         subProjectService.updateSubproject(subProject);
-        return "redirect:/get_subprojects";
+        //todo find projekt id for dette subprojekt og returner det i variabel "projectId"
+        int projectId = subProject.getProjectId();
+        System.out.println("projectId is " + projectId);
+        return "redirect:/get_subprojects/" + projectId;
     }
 }

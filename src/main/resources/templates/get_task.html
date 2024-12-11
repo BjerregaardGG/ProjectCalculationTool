@@ -53,6 +53,11 @@
             </form>
             </div>
         </td>
+        <td>
+            <a th:href="@{'/updatetask/' + ${task.taskId}}">
+                <button class="custom-button">Update</button>
+            </a>
+        </td>
 
     </tr>
     </tbody>

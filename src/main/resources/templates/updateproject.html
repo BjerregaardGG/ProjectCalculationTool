@@ -42,7 +42,7 @@
         <label for="workHoursPerProject">Update Maximum hours per day</label>
         <input type="number" id="workHoursPerProject" th:field="*{workHoursPerProject}">
     </div>
-    <input type="hidden" th:field="*{status}" value="false">
+    <input type="hidden" id="status" th:field="*{status}">
 
     <div>
         <button type="submit">Update Project</button>
