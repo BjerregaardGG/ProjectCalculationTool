@@ -35,15 +35,15 @@ class ProjectRepositoryTest {
         assertEquals(expected,actual.size());
     }
 
-    /*@Test
+    @Test
     void createProject() {
-        ProjectModel project = new ProjectModel(500, "John",LocalDate.of(2020,01,01), LocalDate.of(2021, 01,01), 1.1,
-        "pretty good", false,10);
+        ProjectModel project = new ProjectModel(1, "John",LocalDate.of(2020,01,01), LocalDate.of(2021, 01,01), 1.1,
+        "pretty good", false, 2);
         ProjectModel actual = projectRepository.createProject(project);
         assertNotNull(actual);
         assertEquals(8, projectRepository.getAllProjects().size());
 
-    }*/
+    }
 
     @Test
     void calculateTime() {

@@ -3,6 +3,7 @@ package kea.projectcalculationtool.Task;
 
 import kea.projectcalculationtool.Employee.EmployeeRepository;
 import kea.projectcalculationtool.Employee.EmployeeService;
+import kea.projectcalculationtool.Project.ProjectService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,9 @@ class TaskControllerTest {
 
     @MockBean
     private EmployeeRepository employeeRepository;
+
+    @MockBean
+    private ProjectService projectService;
 
     @BeforeEach
     void setUp() {

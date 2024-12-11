@@ -54,8 +54,9 @@ public class ProjectRepository {
 
   // Will insert the new project into the database.
   public ProjectModel createProject(ProjectModel project) {
-    String sql = "INSERT INTO project(name, start_date, deadline, budget, description, status, work_hours_per_project ) VALUES (?, ?, ?, ?, ?, ?,?)";
+    String sql = "INSERT INTO project(name, start_date, deadline, budget, description, status, work_hours_per_project ) VALUES (?, ?, ?, ?, ?, ?, ?)";
     try {
+
       jdbcTemplate.update(sql,
               project.getProjectName(),
               project.getStartDate(),
@@ -67,11 +68,13 @@ public class ProjectRepository {
 
       String select = "SELECT * FROM project WHERE name =?";
       return jdbcTemplate.queryForObject(select,projectModelRowMapper,project.getProjectName());
+
     } catch (Exception e) {
       System.out.println(e.getMessage());
       return null;
     }
   }
+
   // Delete method, that deletes, project, Subproject,task and from task_employee and project_team
   public void deleteProjectTeam(int projectid) {
     String deleteEmpOnPro = "DELETE FROM project_team WHERE project_id = ?";

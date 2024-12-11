@@ -25,13 +25,19 @@ public class ProjectService {
     for (ProjectModel projectModel : projects) {
       if (project.getProjectName().equals(projectModel.getProjectName())) {
         System.out.println("Name Already exist," + project.getProjectName());
+        return null;
       }
     }
+    if(project.getStartDate().isAfter(project.getDeadline())) {
+      return null;
+    }
+
     ProjectModel projectm = projectRepository.createProject(project);
+
     for (Integer employee : employees) {
       projectRepository.addEmployeeToProject(employee, projectm.getProjectId());
     }
-    return projectRepository.createProject(project);
+    return projectm;
   }
 
     public List<ProjectModel> getAllProjects() {
@@ -119,6 +125,7 @@ public class ProjectService {
       // Iterate over each task
       for (Integer task_id : task_ids) {
         double taskTime = getTaskTime(task_id); // Method to get the time for a task
+        // Get the current list of employees for the task
         List<EmployeeModel> employeeList = getAllEmployeesInTask(task_id);
 
         if (employeeList.isEmpty()) {
