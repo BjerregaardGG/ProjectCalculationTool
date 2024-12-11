@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Get a task </title>
-    <link rel="stylesheet" th:href="@{/homepage.css}">
+    <link rel="stylesheet" th:href="@{/overview.css}">
 </head>
 <body>
 
@@ -54,6 +54,15 @@
             </form>
             </div>
         </td>
+
+        <td>
+            <div id="action-links">
+                <form th:if="${!task.taskStatus}" th:action="@{'/delete_employee_form/' + ${projectId} + '/' + ${subProjectId} + '/' + ${task.taskId}}" method="GET">
+                    <button type="submit">Remove Employee</button>
+                </form>
+            </div>
+        </td>
+
         <td th:if="${project.status == false}" >
             <div>
                     <form th:action="@{'/delete_task/' + ${task.taskId}}" method="POST">
