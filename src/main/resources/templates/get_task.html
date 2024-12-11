@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{/homepage.css}">
 </head>
 <body>
-
+<h1>Task</h1>
 <table>
     <thead>
     <tr>
@@ -55,7 +55,7 @@
             </div>
         </td>
         <td th:if="${project.status != null and project.status == false}" >
-            <div>
+            <div th:if="${!task.taskStatus}">
                     <form th:action="@{'/delete_task/' + ${task.taskId}}" method="POST">
                         <input type="hidden" name="subProjectId" th:value="${subProjectId}"/>
                         <input type="hidden" name="projectId" th:value="${projectId}"/>
@@ -72,8 +72,8 @@
     <form th:action="@{'/task_form/project/' + ${projectId} + '/' + ${subProjectId}}" method="GET">
         <button type="submit">Add a task to the current Sub Project</button>
     </form>
-    <a th:href="'/get_subprojects/' + ${projectId}"><button class="action-button">Back</button></a>
 </div>
+
 
 <div id="hours-pr-employee">
     <span class="total-hours-button"
@@ -85,7 +85,9 @@
     <span class="total-hours-button" th:text="'Hours to go: ' + ${totalHours}"></span>
 </div>
 
-
+<div>
+    <a th:href="'/get_subprojects/' + ${projectId}"><button class="action-button">Back</button></a>
+</div>
 
 </body>
 </html>

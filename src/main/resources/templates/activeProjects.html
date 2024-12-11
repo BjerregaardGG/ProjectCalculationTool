@@ -23,43 +23,15 @@
             </tr>
         </thead>
             <tbody>
-            <tr th:each="project : ${projects}" th:if="${!project.status} and (${project.getProjectId()== ProjectIdFromEmployeeId} or ${role == Manager})">
-                    <td>
-                        <a
-                           th:href="@{'/get_subprojects/' + ${project.getProjectId()}}"
-                           th:text="${project.getProjectName()}"
-                           class="custom-link"
-                        >
-                        </a>
-                    </td>
-                    <td>
-                        <a
-                           th:href="@{'/get_subprojects/' + ${project.getProjectId()}}"
-                           th:text="${project.getStartDate()}"
-                           class="custom-link"
-                        >
-                        </a>
-                    </td>
-                    <td>
-                        <a
-                           th:href="@{'/get_subprojects/' + ${project.getProjectId()}}"
-                           th:text="${project.getDeadline()}"
-                           class="custom-link"
-                        >
-                        </a>
-                    </td>
-                    <td>
-                        <a
-                           th:href="@{'/get_subprojects/' + ${project.getProjectId()}}"
-                           th:text="${project.getProjectDescription()}"
-                           class="custom-link"
-                        >
-                        </a>
-                        <a th:href="${'/get_subprojects/' + project.getProjectId()}"
-                           th:text="${project.getProjectDescription()}"
-                           class="custom-link"></a>
-                    </td>
-                    <td>
+            <tr th:each="project : ${projects}" th:if="${!project.status} and (${project.getProjectId()== ProjectIdFromEmployeeId}
+            or ${role == Manager})" th:onclick="|window.location.href='@{/get_subprojects/{projectId}(projectId=${project.projectId})}'|"
+                class="cursor-pointer">
+                <td th:text="${project.getProjectName()}" class="custom-link"></td>
+                <td th:text="${project.getStartDate()}" class="custom-link"></td>
+                <td th:text="${project.getDeadline()}" class="custom-link"></td>
+                <td th:text="${project.getProjectDescription()}" class="custom-link"></td>
+
+                <td>
                         <span th:text="${projectService.getTimeForProject(project.projectId)}"
                               th:class="${project.getWorkHoursPerProject() < projectService.getTimeForProject(project.projectId) ? 'status-not-done' : 'status-done'}">
                         </span>

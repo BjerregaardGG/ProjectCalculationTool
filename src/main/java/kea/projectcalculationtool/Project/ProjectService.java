@@ -126,6 +126,7 @@ public class ProjectService {
       // Iterate over each task
       for (Integer task_id : task_ids) {
         double taskTime = getTaskTime(task_id); // Method to get the time for a task
+        // Get the current list of employees for the task
         List<EmployeeModel> employeeList = getAllEmployeesInTask(task_id);
 
         if (employeeList.isEmpty()) {

@@ -213,3 +213,7 @@ div#action-links button:hover {
 #hours-pr-employee .total-hours-button.good-workload {
     color: green;
 }
+tr.cursor-pointer:hover {
+    background-color: #f0f0f0; /* Optional: add a hover effect */
+    text-decoration: underline; /* Optional: underline on hover */
+}
