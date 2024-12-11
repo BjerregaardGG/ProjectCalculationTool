@@ -133,8 +133,12 @@ public class ProjectService {
 
         // Find employees for this specific task
         List<EmployeeModel> employeeList = new ArrayList<>();
+        // Uses the Hashset from TaskController to go through the string that was stored with task id and employee id
         for (String taskEmployeeCombination : TaskController.historicalTaskEmployees) {
+          //split the string into parts in a String array so task id and employee id can be accessed
           String[] parts = taskEmployeeCombination.split("-");
+          //if the array is 2 long and the first index spot 0, is the same as the task id that being iterated
+          //the employee will be added to the employee list, that used to calculate cost
           if (parts.length == 2 && Integer.parseInt(parts[0]) == task_id) {
             EmployeeModel employee = projectRepository.getEmployeeFromEmployeeId(Integer.parseInt(parts[1]));
             if(employee == null){
