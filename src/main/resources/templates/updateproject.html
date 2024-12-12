@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Project</title>
+    <link rel="stylesheet" th:href="@{/form.css}">
+</head>
+<body>
+<div>
+    <a th:href="@{/activeProjects}"><button class="action-button">Home</button></a>
+</div>
+
+<h1>Update the Project</h1>
+
+
+<!-- Form to create a new project -->
+<form th:action="@{'/updateproject/' + ${projectId}}" method="post" th:object="${project}">
+    <input type="hidden" name="projectId" th:value="${projectId}">
+    <div>
+        <label for="projectName">New project Name:</label>
+        <input type="text" id="projectName" th:field="*{projectName}" placeholder="Update the name of the project">
+    </div>
+    <div>
+        <label for="projectDescription">Project Description:</label>
+        <textarea id="projectDescription" th:field="*{projectDescription}" placeholder="Update project description"></textarea>
+    </div>
+    <div>
+        <label for="startDate">New start date:</label>
+        <input type="date" id="startDate" th:field="*{startDate}">
+    </div>
+    <div>
+        <label for="deadline">New deadline:</label>
+        <input type="date" id="deadline"
+               th:attr="min = *{startDate}"
+               th:field="*{deadline}">
+    </div>
+    <div>
+        <label for="budget">New budget:</label>
+        <input type="number" id="budget" th:field="*{budget}" placeholder="Enter budget">
+    </div>
+    <div>
+        <label for="workHoursPerProject">Update Maximum hours per day</label>
+        <input type="number" id="workHoursPerProject" th:field="*{workHoursPerProject}">
+    </div>
+    <input type="hidden" id="status" th:field="*{status}">
+
+    <div>
+        <button type="submit">Update Project</button>
+        <button type="button" onclick="history.back()"> Back </button>
+    </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Project</title>
+    <link rel="stylesheet" th:href="@{/form.css}">
+</head>
+<body>
+<div>
+    <a th:href="@{/activeProjects}"><button class="action-button">Home</button></a>
+</div>
+
+<h1>Update the Task</h1>
+
+
+<!-- Form to update a project -->
+<form th:action="@{'/updatetask/' + ${taskId}}" method="post" th:object="${task}">
+    <input type="hidden" name="taskId" th:value="${taskId}">
+    <div>
+        <label for="taskName">New Task Name:</label>
+        <input type="text" id="taskName" th:field="*{taskName}" placeholder="Update the name of the Task">
+    </div>
+    <div>
+        <label for="taskDescription">New task Description:</label>
+        <textarea id="taskDescription" th:field="*{taskDescription}" placeholder="Update the task description"></textarea>
+    </div>
+    <div>
+        <label for="startDate">New start date:</label>
+        <input type="date" id="startDate" th:field="*{taskStartDate}">
+    </div>
+    <div>
+        <label for="deadline">New deadline:</label>
+        <input type="date" id="deadline"
+               th:attr="min = *{taskStartDate}"
+               th:field="*{taskDeadline}">
+    </div>
+    <div>
+        <label for="duration">New duration:</label>
+        <input type="number" id="duration" th:field="*{duration}" placeholder="Enter duration">
+    </div>
+    <div>
+        <label for="priority">New Priority:</label>
+        <input type="number" id="priority" th:field="*{priority}" placeholder="Enter Priority">
+    </div>
+
+    <input type="hidden" id="status" th:field="*{taskStatus}">
+    <input type="hidden" id="projectId" th:field="*{subProjectId}">
+
+    <div>
+        <button type="submit">Update Subproject</button>
+        <button type="button" onclick="history.back()"> Back </button>
+    </div>
+</form>
+</body>
+</html>

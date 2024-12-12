@@ -1,5 +1,6 @@
 package kea.projectcalculationtool.Task;
 
+import jakarta.servlet.http.HttpSession;
 import kea.projectcalculationtool.Employee.EmployeeModel;
 import kea.projectcalculationtool.Employee.EmployeeService;
 import kea.projectcalculationtool.Project.ProjectModel;
@@ -121,4 +122,28 @@ public class TaskController {
     return "redirect:/get_task/" + projectId + '/' + subProjectId;
   }
 
+    @GetMapping("/updatetask/{taskId}")
+    public String updatetaskForm(@PathVariable("taskId") Integer taskId, Model model, HttpSession session) {
+        Integer EmployeeID = (Integer) session.getAttribute("employeeID");
+        if(EmployeeID == null){
+            return "redirect:/login";
+        }
+        if(taskId == null){
+            System.out.println("taskId is null");
+            return "get_task";
+        }
+
+        TaskModel task = taskService.getTaskById(taskId);
+        model.addAttribute("task", task);
+
+        return "updatetask";
+    }
+    @PostMapping("/updatetask/{taskId}")
+    public String submitUpdateSubProject(@ModelAttribute TaskModel task) {
+        taskService.updateTask(task);
+        //todo find projekt id for dette subprojekt og returner det i variabel "projectId"
+        int subProjectId = task.getSubProjectId();
+        int projectId = taskService.getProjectIdBySubProjectId(subProjectId);
+        return "redirect:/get_task/" + projectId + '/' + subProjectId;
+    }
 }

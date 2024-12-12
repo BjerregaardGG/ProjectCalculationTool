@@ -1,5 +1,6 @@
 package kea.projectcalculationtool.Task;
 
+import kea.projectcalculationtool.SubProject.SubProjectModel;
 import kea.projectcalculationtool.Employee.EmployeeModel;
 import kea.projectcalculationtool.Employee.EmployeeRepository;
 import org.springframework.dao.DataAccessException;
@@ -140,5 +141,17 @@ public class TaskService {
         }
         return null;
     }
+
+    public void updateTask(TaskModel taskModel){
+        taskRepository.updateTask(taskModel);
+    }
+
+    public TaskModel getTaskById(int taskId){
+        return taskRepository.getTaskById(taskId);
+    }
+    public int getProjectIdBySubProjectId(int subProjectId) {
+       return taskRepository.getProjectIdBySubProjectId(subProjectId);
+    }
+
 
 }

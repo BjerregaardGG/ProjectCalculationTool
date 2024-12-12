@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -74,13 +73,6 @@ public class ProjectController {
     }
   }
 
-  @GetMapping("/project/{projectId}/time")
-  public String showProjectTime(@PathVariable int projectId, Model model) {
-    double totalTime = projectService.calculateTime(projectId);
-    model.addAttribute("totalTime", totalTime);
-    return "some-project-page";
-  }
-
   @GetMapping("/activeProjects")
   public String getActiveProjects(Model model, HttpSession session) {
     Integer EmployeeID = (Integer) session.getAttribute("employeeID");
@@ -95,16 +87,39 @@ public class ProjectController {
     model.addAttribute("role", projectService.getRoleFromId(EmployeeID));
     return "activeProjects";
   }
-  @GetMapping("/done_project/{projectid}")
-  public String doneProject(@PathVariable int projectid, Model model) {
-
-    return "done_project";
-  }
 
   @PostMapping("/updateProjectStatus")
-  public String updateProjectStatus(@RequestParam("projectId") Integer projectid) {
-    projectService.updateProjectStatus(projectid, true);
+  public String updateProjectStatus(@RequestParam("projectId") Integer projectId) {
+    projectService.updateProjectStatus(projectId, true);
+    return "redirect:/activeProjects";
+  }
 
+  @GetMapping("/updateproject/{projectId}")
+  public String updateProjectForm(@PathVariable("projectId") Integer projectId, Model model, HttpSession session) {
+    Integer EmployeeID = (Integer) session.getAttribute("employeeID");
+
+    if(EmployeeID == null){
+      return "redirect:/login";
+    }
+    if(projectId == null){
+      System.out.println("projectId is null");
+      return "redirect:/activeProjects";
+    }
+    ProjectModel project = projectService.getProjectById(projectId);
+    if(project == null){
+      System.out.println("hej");
+      return "redirect:/activeProjects";
+    }
+
+    model.addAttribute("project", project);
+    model.addAttribute("role", projectService.getRoleFromId((EmployeeID)));
+    model.addAttribute("Manager", EmployeeModel.Roles.MANAGER);
+
+    return "updateproject";
+  }
+  @PostMapping("/updateproject/{projectId}")
+  public String submitUpdateProject(@ModelAttribute ProjectModel project) {
+    projectService.updateProject(project);
     return "redirect:/activeProjects";
   }
 

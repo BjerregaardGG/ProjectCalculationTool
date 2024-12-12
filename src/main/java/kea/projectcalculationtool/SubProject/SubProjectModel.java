@@ -34,7 +34,7 @@ public class SubProjectModel {
     public SubProjectModel(){}
 
     public int getProjectId() {
-        return projectId;
+        return this.projectId;
     }
 
     public void setProjectId(int projectId) {

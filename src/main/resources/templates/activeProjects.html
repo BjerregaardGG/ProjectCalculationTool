@@ -6,8 +6,12 @@
     <link rel="stylesheet" th:href="@{/overview.css}">
 </head>
 <body>
-<div>
-    <a href="/home"><button class="action-button">Back</button></a>
+<div id="Logout">
+    <a th:href="@{/logout}"><button>Logout</button></a>
+</div>
+<div id="action-links">
+    <a th:if="${role== Manager}" href="/create_project"><button>Create Project</button></a>
+    <a th:href="@{/home}"><button>View Completed Projects</button></a>
 </div>
 <h1>Active projects</h1>
     <table>
@@ -18,6 +22,7 @@
                 <th>Deadline</th>
                 <th>Description</th>
                 <th>Daily Hours for Project</th>
+                <th>           </th>
                 <th>           </th>
                 <th>           </th>
             </tr>
@@ -36,6 +41,11 @@
                               th:class="${project.getWorkHoursPerProject() < projectService.getTimeForProject(project.projectId) ? 'status-not-done' : 'status-done'}">
                         </span>
                     </td>
+                    <td th:if="${role == Manager}">
+                        <a th:href="@{'/updateproject/' + ${project.getProjectId()}}">
+                            <button class="action-button">Update</button>
+                        </a>
+                    </td>
                     <!--  This td is only visible if user is manager, and then it give option to complete project -->
                     <!--  some of this code is inspired by chatgpt and claude-->
                     <td>
@@ -52,8 +62,5 @@
                 </tr>
             </tbody>
     </table>
-        <div>
-            <a href="/home"><button class="action-button">Back</button></a>
-        </div>
 </body>
 </html>

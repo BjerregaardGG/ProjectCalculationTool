@@ -6,6 +6,9 @@
     <link rel="stylesheet" th:href="@{/overview.css}">
 </head>
 <body>
+<div>
+    <a th:href="@{/activeProjects}"><button class="action-button">Home</button></a>
+</div>
 <h1>Task</h1>
 <table>
     <thead>
@@ -17,9 +20,10 @@
         <th th:if="${project != null and project.status == false}" >Status</th>
         <th>Hours</th>
         <th>Employees</th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th ></th>
+        <th th:if="${project != null and project.status == false}"> </th>
+        <th th:if="${project != null and project.status == false}"> </th>
+        <th th:if="${project != null and project.status == false}"> </th>
     </tr>
     </thead>
 
@@ -49,20 +53,25 @@
             </ul>
         </td>
         <td>
-            <div th:if="${project != null and project.status == false}" id="action-links">
+            <div th:if="${project != null and project.status == false}">
             <form th:if="${!task.taskStatus}" th:action="@{'/add_employee_form/' + ${projectId} + '/' + ${subProjectId} + '/' + ${task.taskId}}" method="GET">
-                <button type="submit">Add Employee</button>
+                <button class="action-button">Add Employee</button>
             </form>
             </div>
         </td>
-        <td>
-            <div id="action-links">
+        <td th:if="${project != null and project.status == false}">
+            <a th:if="${!task.taskStatus}" th:href="@{'/updatetask/' + ${task.taskId}}">
+                <button class="action-button">Update</button>
+            </a>
+        </td>
+        <td th:if="${project != null and project.status == false}">
+            <div>
                 <form th:if="${!task.taskStatus}" th:action="@{'/delete_employee_form/' + ${projectId} + '/' + ${subProjectId} + '/' + ${task.taskId}}" method="GET">
-                    <button type="submit">Remove Employee</button>
+                    <button class="action-button">Remove Employee</button>
                 </form>
             </div>
         </td>
-        <td th:if="${project.status != null and project.status == false}" >
+        <td th:if="${project != null and project.status == false}" >
             <div th:if="${!task.taskStatus}">
                     <form th:action="@{'/delete_task/' + ${task.taskId}}" method="POST">
                         <input type="hidden" name="subProjectId" th:value="${subProjectId}"/>
@@ -76,14 +85,14 @@
     </tbody>
 </table>
 
-<div th:if="${project != null and project.status == false}"  id="action-links">
+<div th:if="${project != null and project.status == false}"  class="action-links">
     <form th:action="@{'/task_form/project/' + ${projectId} + '/' + ${subProjectId}}" method="GET">
-        <button type="submit">Add a task to the current Sub Project</button>
+        <button class="action-button">Add a task to the current Sub Project</button>
     </form>
 </div>
 
 
-<div id="hours-pr-employee">
+<div id="hours-pr-employee" th:if="${project != null and project.status == false}">
     <span class="total-hours-button"
           th:classappend="${hoursPrEmployee > 20} ? ' bad-workload' : ' good-workload'"
           th:text="'Average workload per Employee: ' + ${hoursPrEmployee} + ' hours'"></span>

@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 public class TaskModel {
     private Integer taskId;
+    private Integer subProjectId;
     private String taskName;
     private String taskDescription;
     private LocalDate taskStartDate;
@@ -25,7 +26,7 @@ public class TaskModel {
         this.duration = duration;
     }
 
-    public TaskModel(Integer taskId, String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, int duration, int priority, boolean taskStatus) {
+    public TaskModel(Integer taskId, String taskName, String taskDescription, LocalDate taskStartDate, LocalDate taskDeadline, int duration, int priority, boolean taskStatus, int subProjectId) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
@@ -34,6 +35,7 @@ public class TaskModel {
         this.duration = duration;
         this.priority = priority;
         this.taskStatus = taskStatus;
+        this.subProjectId = subProjectId;
     }
 
     public TaskModel(){
@@ -102,5 +104,12 @@ public class TaskModel {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public int getSubProjectId() {
+        return subProjectId;
+    }
+    public void setSubProjectId(int subProjectId) {
+        this.subProjectId = subProjectId;
     }
 }

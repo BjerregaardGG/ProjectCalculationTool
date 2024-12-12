@@ -57,10 +57,21 @@ public class SubProjectRepository {
 
         jdbcTemplate.update(query, false, id);
     }
-    public SubProjectModel getSubprojectById(int id){
-        String sql = "SELECT * FROM sub_project WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, projectModelRowMapper, id);
+    public void updateSubproject(SubProjectModel subProject){
+        String sql = "UPDATE sub_project SET name = ?, start_date = ?, deadline = ?, description = ?, budget = ? WHERE id = ?";
+        jdbcTemplate.update(sql,
+                subProject.getSubProjectName(),
+                subProject.getStartDate(),
+                subProject.getDeadline(),
+                subProject.getSubProjectDescription(),
+                subProject.getBudget(),
+                subProject.getSubProjectId());
     }
+    public SubProjectModel getSubprojectById(int subProjectId){
+        String sql = "SELECT * FROM sub_project WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, projectModelRowMapper, subProjectId);
+    }
+
 
     public void deleteSubproject(int subprojectId) {
         String sql ="DELETE FROM sub_project WHERE id = ?";

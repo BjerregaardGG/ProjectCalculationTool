@@ -159,7 +159,7 @@ public class ProjectRepository {
     jdbcTemplate.update(statusSql, status, projectId);
   }
       // gives us the role of the employee.
-  public EmployeeModel.Roles getRoleFromId ( int employeeId){
+  public EmployeeModel.Roles getRoleFromId (int employeeId){
     String sql = "SELECT roles FROM employee WHERE id = ?";
     System.out.print(jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId));
     return jdbcTemplate.queryForObject(sql, EmployeeModel.Roles.class, employeeId);
@@ -182,44 +182,17 @@ public class ProjectRepository {
       return 0.0;
     }
   }
-  public double daysLeftInProject (int projectId){
-    ProjectModel project = getProjectById(projectId);
+  public void updateProject (ProjectModel projectModel){
+    String sql = "UPDATE project SET name = ?, start_date = ?, deadline = ?, budget = ?, description = ?, work_hours_per_project = ? WHERE id = ?";
 
-    long daysInAWeek = 7;
-    long weekendDays = 2;
-    long differenceInDays;
-
-    LocalDate currentDate = LocalDate.now();
-    LocalDate startDate = project.getStartDate();
-    LocalDate deadline = project.getDeadline();
-
-    if(currentDate.isAfter(startDate)){
-      differenceInDays = ChronoUnit.DAYS.between(currentDate, deadline);
-    } else {
-      differenceInDays = ChronoUnit.DAYS.between(startDate, deadline);
-    }
-
-    double weekendDaysInProject = ((double) differenceInDays / daysInAWeek) * weekendDays;
-    double daysInProject = differenceInDays - weekendDaysInProject;
-
-    if(daysInProject <= 0){
-      return -1;
-    }
-
-    return daysInProject;
-  }
-
-  public double getTimeForProject (Integer projectId){
-
-    ProjectModel project = getProjectById(projectId);
-    double workHoursPerDay = project.getWorkHoursPerProject();
-    double employeeCount = employeeRepository.getAllEmployeeInProject(projectId).size();
-    double taskTimeLeft = getTimeFromTaskNotDone(projectId);
-    double daysInAWeek = daysLeftInProject(projectId);
-
-    double hoursPerDayPerEmployee = taskTimeLeft / (employeeCount*daysInAWeek);
-
-    return Math.ceil(hoursPerDayPerEmployee);
+    jdbcTemplate.update(sql,
+            projectModel.getProjectName(),
+            projectModel.getStartDate(),
+            projectModel.getDeadline(),
+            projectModel.getBudget(),
+            projectModel.getProjectDescription(),
+            projectModel.getWorkHoursPerProject(),
+            projectModel.getProjectId());
   }
 
   public ProjectModel findProjectById(int projectId) {

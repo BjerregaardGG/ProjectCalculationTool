@@ -5,6 +5,9 @@
   <link rel="stylesheet" th:href="@{/form.css}">
 </head>
 <body>
+<div>
+  <a th:href="@{/activeProjects}"><button class="action-button">Home</button></a>
+</div>
 <h1>Assign Employee to Project</h1>
 
 <form th:action="@{/addToProject}" method="post">
@@ -12,9 +15,12 @@
   <label for="employee">Choose an Employee:</label>
   <select id="employee" name="employeeId">
     <option value="" disabled selected>Select an Employee</option>
-    <th:block th:each="employee : ${employees}">
-      <option th:if="${!IdList.contains(employee.getEmployeeID())}" th:value="${employee.getEmployeeID()}" th:text="${employee.fullName}"></option>
-    </th:block>
+    <option value="" disabled selected>Select an Employee</option>
+    <option th:each="employee : ${employees}"
+            th:if="${!IdList.contains(employee.getEmployeeID())}"
+            th:value="${employee.getEmployeeID()}"
+            th:text="${employee.fullName}">
+    </option>
   </select>
 
   <br><br>

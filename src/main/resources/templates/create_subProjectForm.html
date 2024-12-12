@@ -6,8 +6,8 @@
     <link rel="stylesheet" th:href="@{/form.css}">
 </head>
 <body>
-<div id="top-button">
-    <a th:href="@{/home}"><button>Home</button></a>
+<div>
+    <a th:href="@{/activeProjects}"><button class="action-button">Home</button></a>
 </div>
 
 <h1>Create a New Subproject</h1>
@@ -51,8 +51,7 @@
     </div>
 
     <div>
-        <label for="status">Status:</label>
-        <input type="checkbox" id="status" th:field="*{status}"> Active
+        <input type="hidden" name="status" th:value="*{status}">
     </div>
 
     <div>

@@ -2,20 +2,25 @@ package kea.projectcalculationtool.Project;
 
 import kea.projectcalculationtool.Employee.EmployeeModel;
 import kea.projectcalculationtool.Task.TaskController;
+import kea.projectcalculationtool.Employee.EmployeeRepository;
 import kea.projectcalculationtool.Task.TaskModel;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ProjectService {
 
-  ProjectRepository projectRepository;
+    ProjectRepository projectRepository;
+    EmployeeRepository employeeRepository;
 
-  public ProjectService(ProjectRepository projectRepository) {
-    this.projectRepository = projectRepository;
-  }
+    public ProjectService(ProjectRepository projectRepository, EmployeeRepository employeeRepository) {
+        this.projectRepository = projectRepository;
+        this.employeeRepository = employeeRepository;
+    }
 
   public double calculateTime(int projectId) {
     return projectRepository.calculateTime(projectId);
@@ -66,16 +71,15 @@ public class ProjectService {
     return projectRepository.getProjectById(projectId);
   }
 
-  public double getTimeForProject(int projectId) {
-    return projectRepository.getTimeForProject(projectId);
-  }
-
   public List<Integer> getEmployeesFromProjectTeam() {
     return projectRepository.getEmployeesFromProjectTeam();
   }
 
   public void updateProjectStatus(Integer projectid, boolean status) {
     projectRepository.updateProjectStatus(projectid, status);
+  }
+  public void updateProject (ProjectModel project) {
+      projectRepository.updateProject(project);
   }
 
   public Integer getProjectIdFromEmployeeID(Integer employeeID) {
@@ -167,11 +171,41 @@ public class ProjectService {
     }
   }
 
-  public double getTimeForProject(Integer projectId) {
-    return projectRepository.getTimeForProject(projectId);
+  public double daysLeftInProject (int projectId){
+    ProjectModel project = projectRepository.getProjectById(projectId);
+
+    long daysInAWeek = 7;
+    long weekendDays = 2;
+    long differenceInDays;
+
+    LocalDate currentDate = LocalDate.now();
+    LocalDate startDate = project.getStartDate();
+    LocalDate deadline = project.getDeadline();
+
+    if(currentDate.isAfter(startDate)){
+      differenceInDays = ChronoUnit.DAYS.between(currentDate, deadline);
+    } else {
+      differenceInDays = ChronoUnit.DAYS.between(startDate, deadline);
+    }
+
+    double weekendDaysInProject = ((double) differenceInDays / daysInAWeek) * weekendDays;
+    double daysInProject = differenceInDays - weekendDaysInProject;
+
+    if(daysInProject <= 0){
+      return -1;
+    }
+
+    return daysInProject;
   }
 
-  public double daysLeftInProject(int projectId) {
-    return projectRepository.daysLeftInProject(projectId);
+  public double getTimeForProject (Integer projectId){
+
+    double employeeCount = employeeRepository.getAllEmployeeInProject(projectId).size();
+    double taskTimeLeft = projectRepository.getTimeFromTaskNotDone(projectId);
+    double daysInAWeek = daysLeftInProject(projectId);
+
+    double hoursPerDayPerEmployee = taskTimeLeft / (employeeCount * daysInAWeek);
+
+    return Math.ceil(hoursPerDayPerEmployee);
   }
 }

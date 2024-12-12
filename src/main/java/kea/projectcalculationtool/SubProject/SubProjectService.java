@@ -57,6 +57,14 @@ public class SubProjectService {
     public SubProjectModel getSubprojectById(int id){
         return subProjectRepository.getSubprojectById(id);
     }
+
+    public void updateSubproject(SubProjectModel subProject){
+        subProjectRepository.updateSubproject(subProject);
+    }
+
+    public SubProjectModel getSubProjectById(int subProjectId){
+        return subProjectRepository.getSubprojectById(subProjectId);
+    }
 }
 
 
