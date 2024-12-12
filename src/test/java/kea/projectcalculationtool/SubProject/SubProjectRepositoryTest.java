@@ -23,15 +23,23 @@ class SubProjectRepositoryTest {
     void createSubproject() {
         //Arrange
         int projectId = 1;
+        String subProjectName = "John";
         SubProjectModel subProject = new SubProjectModel(0,projectId, "John", LocalDate.of(2020,01,01),LocalDate.of(2021,02,02),1000,"testing", false);
 
         //Act
-        subProjectRepository.createSubproject(1,subProject);
+        subProjectRepository.createSubproject(projectId,subProject);
 
         //Assert
-        List<SubProjectModel> subProjects = subProjectRepository.getSubprojectsByProjectId(subProject.getProjectId());
-        subProjects.add(subProject);
-        assertTrue(subProjects.contains(subProject),"subproject added to database");
+        List<SubProjectModel> subProjects = subProjectRepository.getSubprojectsByProjectId(projectId);
+        boolean isSubProjectAdded = false;
+        for (SubProjectModel sp : subProjects) {
+            if (subProjectName.equals(sp.getSubProjectName())) {
+                isSubProjectAdded = true;
+                break;
+            }
+        }
+
+        assertTrue(isSubProjectAdded, "Subproject with the name 'John' should be added to the database.");
     }
 
     @Test
@@ -49,10 +57,8 @@ class SubProjectRepositoryTest {
     @Test
     void markASubprojectAsDone() {
         // Arrange
-        int projectId = 0;
-        SubProjectModel subPro1 = new SubProjectModel(1, projectId, "Test Subproject",
-                LocalDate.of(2020, 1, 1), LocalDate.of(2020, 12, 12), 10000, "Test Description", false);
-
+        SubProjectModel subPro1 = subProjectRepository.getSubprojectById(4);
+        subPro1.setStatus(false);
         // Act
         subProjectRepository.markASubprojectAsDone(subPro1.getSubProjectId());
 

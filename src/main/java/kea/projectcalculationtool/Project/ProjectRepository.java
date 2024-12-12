@@ -168,6 +168,10 @@ public class ProjectRepository {
     String sql = "SELECT * FROM project WHERE id = ?";
     return jdbcTemplate.queryForObject(sql, projectModelRowMapper, projectId);
   }
+  public EmployeeModel getEmployeeFromEmployeeId(int employeeId){
+    String sql="SELECT * FROM employee WHERE id = ? ";
+    return jdbcTemplate.queryForObject(sql, employeeModelRowMapper, employeeId);
+  }
   //
   public double getTimeFromTaskNotDone(int projectId){
     String sql = "SELECT SUM(duration) FROM task WHERE status = false AND sub_project_id IN (SELECT id FROM sub_project WHERE project_id = ?)";

@@ -3,6 +3,7 @@ package kea.projectcalculationtool.Employee;
 import kea.projectcalculationtool.Project.ProjectModel;
 import kea.projectcalculationtool.Project.ProjectRepository;
 import kea.projectcalculationtool.Project.ProjectService;
+import kea.projectcalculationtool.Task.TaskService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,8 @@ public class EmployeeControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
+    private TaskService taskService;
     @MockBean
     private EmployeeService employeeService;
 
@@ -67,7 +70,7 @@ public class EmployeeControllerTest {
                         .param("password", employee.getPassword())
                         .param("confirmPassword",employee.getConfirmPassword()))
                 .andExpect(status().isOk())
-                .andExpect(view().name("create_employee"));
+                .andExpect(view().name("login"));
     }
 
     @Test

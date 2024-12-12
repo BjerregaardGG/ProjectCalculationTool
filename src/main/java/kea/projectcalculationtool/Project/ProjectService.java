@@ -1,6 +1,7 @@
 package kea.projectcalculationtool.Project;
 
 import kea.projectcalculationtool.Employee.EmployeeModel;
+import kea.projectcalculationtool.Task.TaskController;
 import kea.projectcalculationtool.Employee.EmployeeRepository;
 import kea.projectcalculationtool.Task.TaskModel;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,11 @@ public class ProjectService {
         this.employeeRepository = employeeRepository;
     }
 
-    public double calculateTime(int projectId) {
-        return projectRepository.calculateTime(projectId);
-    }
+  public double calculateTime(int projectId) {
+    return projectRepository.calculateTime(projectId);
+  }
 
-  public ProjectModel createProject(ProjectModel project,List<Integer> employees) {
+  public ProjectModel createProject(ProjectModel project, List<Integer> employees) {
     List<ProjectModel> projects = projectRepository.getAllProjects();
     // checks if the name exist in the projects
     for (ProjectModel projectModel : projects) {
@@ -33,7 +34,7 @@ public class ProjectService {
         return null;
       }
     }
-    if(project.getStartDate().isAfter(project.getDeadline())) {
+    if (project.getStartDate().isAfter(project.getDeadline())) {
       return null;
     }
 
@@ -45,29 +46,29 @@ public class ProjectService {
     return projectm;
   }
 
-    public List<ProjectModel> getAllProjects() {
-        return projectRepository.getAllProjects();
-    }
+  public List<ProjectModel> getAllProjects() {
+    return projectRepository.getAllProjects();
+  }
 
-    public List<EmployeeModel> getAllEmployeesInTask(int taskId) {
-        return projectRepository.getAllEmployeesInTask(taskId);
-    }
+  public List<EmployeeModel> getAllEmployeesInTask(int taskId) {
+    return projectRepository.getAllEmployeesInTask(taskId);
+  }
 
-    public List<EmployeeModel> getAllEmployees() {
-        return projectRepository.getAllEmployees();
-    }
+  public List<EmployeeModel> getAllEmployees() {
+    return projectRepository.getAllEmployees();
+  }
 
-    public void addEmployeeToProject(int employeeId,int projectId) {
-        projectRepository.addEmployeeToProject(employeeId,projectId);
-    }
+  public void addEmployeeToProject(int employeeId, int projectId) {
+    projectRepository.addEmployeeToProject(employeeId, projectId);
+  }
 
-    public List<ProjectModel> getActiveProjects() {
-        return projectRepository.getActiveProjects();
-    }
+  public List<ProjectModel> getActiveProjects() {
+    return projectRepository.getActiveProjects();
+  }
 
-    public ProjectModel getProjectById(int projectId) {
-        return projectRepository.getProjectById(projectId);
-    }
+  public ProjectModel getProjectById(int projectId) {
+    return projectRepository.getProjectById(projectId);
+  }
 
     public double getTimeForProject(int projectId) {
         return getTimeForProject(projectId);
@@ -97,45 +98,62 @@ public class ProjectService {
     projectRepository.deleteProjectTeam(projectId);
     projectRepository.deleteProject(projectId);
     projectRepository.deleteSubProject(projectId);
-    //Get all ids from task connected to project.
+    // Get all ids from task connected to project.
     List<Integer> taskIds = projectRepository.getTaskId(projectId);
-    //uses task ids to delete from Task employee table and task table.
+    // uses task ids to delete from Task employee table and task table.
     for (Integer taskId : taskIds) {
       projectRepository.deleteFromTaskEmployee(taskId);
       projectRepository.deleteTask(taskId);
     }
   }
-  public void deleteTask(int taskId){
-      projectRepository.deleteFromTaskEmployee(taskId);
-      projectRepository.deleteTask(taskId);
-  }
-  public void deleteFromTaskEmployee(int taskId){
-      projectRepository.deleteFromTaskEmployee(taskId);
+
+  public void deleteTask(int taskId) {
+    projectRepository.deleteFromTaskEmployee(taskId);
+    projectRepository.deleteTask(taskId);
   }
 
-  public double getTaskTime(Integer task_id){
+  public void deleteFromTaskEmployee(int taskId) {
+    projectRepository.deleteFromTaskEmployee(taskId);
+  }
+
+  public double getTaskTime(Integer task_id) {
     TaskModel task = projectRepository.getTaskFromId(task_id);
 
-    if(task != null){
+    if (task != null) {
       return task.getDuration();
-    }
-    else {
+    } else {
       return 0.0;
     }
   }
 
-  // this method was sponsored by tutor alexander and chatgpt based on own original work.
+  // this method was sponsored by tutor alexander and chatgpt based on own
+  // original work.
   public double calculateCost(Integer projectId) {
     try {
       List<Integer> task_ids = projectRepository.getTaskId(projectId);
       double totalCost = 0.0;
 
-      // Iterate over each task
-      for (Integer task_id : task_ids) {
-        double taskTime = getTaskTime(task_id); // Method to get the time for a task
-        // Get the current list of employees for the task
-        List<EmployeeModel> employeeList = getAllEmployeesInTask(task_id);
+      // Use the same static set
 
+      for (Integer task_id : task_ids) {
+        double taskTime = getTaskTime(task_id);
+
+        // Find employees for this specific task
+        List<EmployeeModel> employeeList = new ArrayList<>();
+        // Uses the Hashset from TaskController to go through the string that was stored with task id and employee id
+        for (String taskEmployeeCombination : TaskController.historicalTaskEmployees) {
+          //split the string into parts in a String array so task id and employee id can be accessed
+          String[] parts = taskEmployeeCombination.split("-");
+          //if the array is 2 long and the first index spot 0, is the same as the task id that being iterated
+          //the employee will be added to the employee list, that used to calculate cost
+          if (parts.length == 2 && Integer.parseInt(parts[0]) == task_id) {
+            EmployeeModel employee = projectRepository.getEmployeeFromEmployeeId(Integer.parseInt(parts[1]));
+            if(employee == null){
+              continue;
+            }
+            employeeList.add(employee);
+          }
+        }
         if (employeeList.isEmpty()) {
           continue; // Skip tasks with no assigned employees
         }
