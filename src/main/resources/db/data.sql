@@ -20,10 +20,16 @@ VALUES ('niko123', 'nikoniko', 'Nikolaj Panema', 'niko1234@gmail.com', 'INTERN')
        ('nielssss', 'niko', 'Niels Svendsen', 'niels1234@gmail.com', 'INTERN'),
        ('LarsOG', 'larsmedhars', 'Lars Adelsborg', 'Lars1234@gmail.com', 'INTERN'),
        ('Mads', 'MadsAttack', 'Mads Olufsen', 'Mads1234@gmail.com', 'INTERN'),
+       ('jdoe', 'password123', 'John Doe', 'jdoe@example.com', 'JUNIOR'),
+       ('asmith', 'passw0rd', 'Alice Smith', 'asmith@example.com', 'SENIOR'),
+       ('bwhite', '12345pass', 'Bob White', 'bwhite@example.com', 'INTERN'),
+       ('123', '123', 'Kate Martin', 'kmartin@example.com', 'MANAGER'),
+       ('ltaylor', 'taylor!123', 'Liam Taylor', 'ltaylor@example.com', 'SENIOR'),
+       ('hgrace', 'securePass1', 'Hannah Grace', 'hgrace@example.com', 'JUNIOR'),
+       ('Hannibal Vestergaard', 'Hannibal24@gmail.com', 'Hannibal', 'pass1234','MANAGER'),
        ('Lone','lone123', 'Lone Jensen', 'lone123@example.com','SENIOR'),
        ('Henrik','henny','Henrik Madsen','henny@example.com','INTERN'),
        ('Michael123','mic123','Michael Laudrup','laudrip@example.com','SENIOR'),
-       ('123', '123', 'Kate Martin', 'kmartin@example.com', 'MANAGER'),
        ('juju','jul2024','Julie Juju','juju321@example.com','INTERN');
 
 INSERT INTO project_team (project_id, employee_id)
@@ -45,7 +51,6 @@ INSERT INTO task_employee (task_id, employee_id)
 VALUES (1,1),
        (3,3),
        (3,4);
-
 
 
 

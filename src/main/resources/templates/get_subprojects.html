@@ -6,6 +6,9 @@
     <link rel="stylesheet" th:href="@{/overview.css}">
 </head>
 <body>
+<div>
+    <a th:href="@{/activeProjects}"><button class="action-button">Home</button></a>
+</div>
 <h1>Subprojects</h1>
 <table>
     <thead>
@@ -16,8 +19,10 @@
         <th>Deadline</th>
         <th th:if="${project.status == false}">Status</th>
         <th>Budget</th>
-        <th></th>
-        <th></th>
+        <th ></th>
+        <th th:if="${project.status != null and project.status == false}"></th>
+        <th th:if="${project.status != null and project.status == false}"></th>
+
     </tr>
     </thead>
 
@@ -42,9 +47,9 @@
         </td>
         <td th:text="${sub.budget}"></td>
 
-        <td th:if="${role == Manager}">
+        <td th:if="${role == Manager and project.status == false}">
             <a th:href="@{'/updatesubproject/' + ${sub.subProjectId}}">
-                <button class="custom-button">Update</button>
+                <button class="action-button">Update</button>
             </a>
         </td>
         <td>
@@ -65,7 +70,8 @@
     </form>
 </div>
 <div>
-    <a href="/activeProjects"><button class="action-button">Back</button></a>
+    <a th:if="${project.status != null and project.status == true}" th:href="@{/home}"><button class="action-button">Back</button></a>
+    <a th:if="${project.status != null and project.status == false}" href="/activeProjects"><button class="action-button">Back</button></a>
 </div>
 
 <div>

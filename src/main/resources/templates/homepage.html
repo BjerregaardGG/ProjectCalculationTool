@@ -6,12 +6,8 @@
     <link rel="stylesheet" th:href="@{/overview.css}">
 </head>
 <body>
-<div id="Logout">
-    <a th:href="@{/logout}"><button>Logout</button></a>
-</div>
-<div id="action-links">
-      <a th:if="${role== Manager}" href="/create_project"><button>Create Project</button></a>
-    <a href="/activeProjects"><button>View Current Project</button></a>
+<div>
+    <a th:href="@{/activeProjects}"><button class="action-button">Home</button></a>
 </div>
 <p>Completed Projects</p>
 <table>
@@ -46,5 +42,8 @@
     </tr>
     </tbody>
 </table>
+<div>
+    <a href="/activeProjects"><button class="action-button">Back</button></a>
+</div>
 </body>
 </html>

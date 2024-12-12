@@ -6,7 +6,9 @@
     <link rel="stylesheet" th:href="@{/form.css}">
 </head>
 <body>
-
+<div>
+    <a th:href="@{/activeProjects}"><button class="action-button">Home</button></a>
+</div>
 <form th:action="@{/add_employee}" th:object="${employee}" method="POST">
     <h2> Add an employee to the task </h2>
 
@@ -15,7 +17,7 @@
     <input type="hidden" name="taskId" th:value="${taskId}"/>
 
     <div>
-        <label> Add employee: </label>
+        <label for="employeeId"> Add employee: </label>
         <select id="employeeId" name="employeeId" multiple>
             <option th:each="employee : ${employeesByProject}" th:value= "${employee.employeeID}" th:text="${employee.fullName}"></option>
         </select>

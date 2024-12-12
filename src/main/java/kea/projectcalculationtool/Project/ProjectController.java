@@ -2,7 +2,6 @@ package kea.projectcalculationtool.Project;
 
 import jakarta.servlet.http.HttpSession;
 import kea.projectcalculationtool.Employee.EmployeeModel;
-import kea.projectcalculationtool.SubProject.SubProjectModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -72,13 +71,6 @@ public class ProjectController {
       System.out.println(e.getMessage());
       return "redirect:/addToProject";
     }
-  }
-
-  @GetMapping("/project/{projectId}/time")
-  public String showProjectTime(@PathVariable int projectId, Model model) {
-    double totalTime = projectService.calculateTime(projectId);
-    model.addAttribute("totalTime", totalTime);
-    return "some-project-page";
   }
 
   @GetMapping("/activeProjects")

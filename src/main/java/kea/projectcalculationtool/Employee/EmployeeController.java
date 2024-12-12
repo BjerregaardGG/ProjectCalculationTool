@@ -2,15 +2,9 @@ package kea.projectcalculationtool.Employee;
 
 import jakarta.servlet.http.HttpSession;
 import kea.projectcalculationtool.Task.TaskService;
-import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.HttpSession;
-import kea.projectcalculationtool.Project.ProjectRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import kea.projectcalculationtool.Project.ProjectRepository;
 import kea.projectcalculationtool.Project.ProjectService;
 
 import java.util.List;
@@ -72,7 +66,7 @@ public class EmployeeController {
             session.setAttribute("employeeID", foundEmployee.getEmployeeID());
             session.setAttribute("employee", foundEmployee.getUsername());
             session.setAttribute("employeePassword", foundEmployee.getPassword());
-            return "redirect:/home";
+            return "redirect:/activeProjects";
 
         } catch (Exception e){
             model.addAttribute("error", "An unexpected error occurred. Please try again.");
@@ -153,17 +147,7 @@ public class EmployeeController {
     public String deleteEmployeeFromTask(@RequestParam("subProjectId") int subProjectId,
                                     @RequestParam("employeeId") int employeeId,
                                     @RequestParam("projectId") int projectId, @RequestParam("taskId") int taskId){
-
         taskService.deleteEmployeeFromTask(taskId);
-
         return "redirect:/get_task/" + projectId + '/' + subProjectId;
-
     }
-
-
-
-
-
-
-
 }
