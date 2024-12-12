@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -69,10 +70,6 @@ public class ProjectService {
   public ProjectModel getProjectById(int projectId) {
     return projectRepository.getProjectById(projectId);
   }
-
-    public double getTimeForProject(int projectId) {
-        return getTimeForProject(projectId);
-    }
 
   public List<Integer> getEmployeesFromProjectTeam() {
     return projectRepository.getEmployeesFromProjectTeam();
