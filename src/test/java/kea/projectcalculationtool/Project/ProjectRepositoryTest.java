@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.util.TestContextSpringFactoriesUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +18,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
-@Transactional
-@Rollback(true)
+
 @ActiveProfiles("h2")
+
+@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {
+        "classpath:db/schema.sql",
+        "classpath:db/data.sql"
+})
 class ProjectRepositoryTest {
 
     @Autowired

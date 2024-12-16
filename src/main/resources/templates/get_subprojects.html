@@ -47,13 +47,13 @@
         </td>
         <td th:text="${sub.budget}"></td>
 
-        <td th:if="${role == Manager and sub.status == false}">
+        <td th:if="${role == Manager and project.status == false}">
             <a th:href="@{'/updatesubproject/' + ${sub.subProjectId}}">
                 <button class="action-button">Update</button>
             </a>
         </td>
         <td>
-            <div th:if="${sub.status == false}">
+            <div th:if="${project.status == false}">
                 <form th:action="@{'/deleteSubproject/' + ${sub.subProjectId}}" method="POST">
                     <input type="hidden" name="projectId" th:value="${projectId}">
                     <button type="submit" class="action-button"> Delete Subproject</button>
