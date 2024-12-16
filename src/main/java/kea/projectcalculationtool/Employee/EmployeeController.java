@@ -9,7 +9,7 @@ import kea.projectcalculationtool.Project.ProjectService;
 
 import java.util.List;
 
-@Controller
+@Controller()
 public class EmployeeController {
 
     private final TaskService taskService;
@@ -23,6 +23,10 @@ public class EmployeeController {
         this.taskService = taskService;
     }
 
+    @GetMapping("/")
+    public String redirectToLogin() {
+        return "redirect:/login";
+    }
 
     @GetMapping("/create_employee")
     public String createEmployee(Model model) {

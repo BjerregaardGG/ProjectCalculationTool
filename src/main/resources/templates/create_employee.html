@@ -7,6 +7,9 @@
 </head>
 <body>
 <div>
+    <a th:href="@{/login}"><button class="action-button">Login page</button></a>
+</div>
+<div>
     <form th:action="@{/create_employee}" th:object="${employee}" method="post">
         <h2>Create an account</h2>
         <h2>Employee Details</h2>
