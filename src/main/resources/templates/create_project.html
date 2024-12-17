@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Project</title>
-    <link rel="stylesheet" th:href="@{/create_project.css}">
+    <link rel="stylesheet" th:href="@{/form.css}">
 </head>
 <body>
-<div id="top-button">
-    <a th:href="@{/home}"><button>Home</button></a>
+<div>
+    <a th:href="@{/activeProjects}"><button class="action-button">Home</button></a>
 </div>
-<ul>
-    <li><a th:href="@{/projects}">If a button is needed place here</a></li>
-</ul>
 
 <h1>Create a New Project</h1>
 
 
 <!-- Form to create a new project -->
 <p th:if="${Error == true}" style="color: red" > Project name already taken </p>
+<p th:if="${TimeError == true}" style="color: red">Deadline was before start date</p>
 <form th:action="@{/create_project}" method="post" th:object="${project}">
     <div>
         <label for="projectName">Project Name:</label>
@@ -51,7 +49,10 @@
         </select>
         <small>Hold Ctrl (Windows) or Command (Mac) to select multiple employees.</small>
     </div>
-
+    <div>
+        <label for="workHoursPerProject">Maximum hours per day</label>
+        <input type="number" id="workHoursPerProject" th:field="*{workHoursPerProject}">
+    </div>
     <input type="hidden" th:field="*{status}" value="false">
 
     <div>

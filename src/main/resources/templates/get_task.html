@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Get a task </title>
-    <link rel="stylesheet" th:href="@{/homepage.css}">
+    <link rel="stylesheet" th:href="@{/overview.css}">
 </head>
 <body>
-
+<div>
+    <a th:href="@{/activeProjects}"><button class="action-button">Home</button></a>
+</div>
+<h1>Task</h1>
 <table>
     <thead>
     <tr>
@@ -14,10 +17,13 @@
         <th>Description</th>
         <th>Deadline</th>
         <th>Priority</th>
-        <th>Status</th>
+        <th th:if="${project != null and project.status == false}" >Status</th>
         <th>Hours</th>
         <th>Employees</th>
-        <th></th>
+        <th ></th>
+        <th th:if="${project != null and project.status == false}"> </th>
+        <th th:if="${project != null and project.status == false}"> </th>
+        <th th:if="${project != null and project.status == false}"> </th>
     </tr>
     </thead>
 
@@ -27,7 +33,7 @@
         <td th:text="${task.taskDescription}"></td>
         <td th:text="${task.taskDeadline}"></td>
         <td th:text="${task.priority}"></td>
-        <td>
+        <td th:if="${project != null and project.status == false}" >
             <form th:if="${task.taskStatus}" th:action="@{'/task_not_done/' + ${task.taskId}}" method="POST">
                 <input type="hidden" name="subProjectId" th:value="${subProjectId}"/>
                 <input type="hidden" name="projectId" th:value="${projectId}"/>
@@ -43,14 +49,35 @@
         <td>
             <ul>
                 <li th:each="employee : ${employeesByTask[task.getTaskId()]}" th:text="${employee.fullName}" ></li>
-                <li th:if="${employeesByTask[task.getTaskId()].isEmpty()}" th:text="'No assigned employees'"></li>
+                <li th:if="${employeesByTask[task.getTaskId()].isEmpty()}" th:text="'No employees assigned'"></li>
             </ul>
         </td>
         <td>
-            <div id="action-links">
-            <form th:action="@{'/add_employee_form/' + ${projectId} + '/' + ${subProjectId} + '/' + ${task.taskId}}" method="GET">
-                <button type="submit">Add Employee</button>
+            <div th:if="${project != null and project.status == false}">
+            <form th:if="${!task.taskStatus}" th:action="@{'/add_employee_form/' + ${projectId} + '/' + ${subProjectId} + '/' + ${task.taskId}}" method="GET">
+                <button class="action-button">Add Employee</button>
             </form>
+            </div>
+        </td>
+        <td th:if="${project != null and project.status == false}">
+            <a th:if="${!task.taskStatus}" th:href="@{'/updatetask/' + ${task.taskId}}">
+                <button class="action-button">Update</button>
+            </a>
+        </td>
+        <td th:if="${project != null and project.status == false}">
+            <div>
+                <form th:if="${!task.taskStatus}" th:action="@{'/delete_employee_form/' + ${projectId} + '/' + ${subProjectId} + '/' + ${task.taskId}}" method="GET">
+                    <button class="action-button">Remove Employee</button>
+                </form>
+            </div>
+        </td>
+        <td th:if="${project != null and project.status == false}" >
+            <div th:if="${!task.taskStatus}">
+                    <form th:action="@{'/delete_task/' + ${task.taskId}}" method="POST">
+                        <input type="hidden" name="subProjectId" th:value="${subProjectId}"/>
+                        <input type="hidden" name="projectId" th:value="${projectId}"/>
+                        <button class="action-button" type="submit">Delete Task</button>
+                    </form>
             </div>
         </td>
 
@@ -58,14 +85,25 @@
     </tbody>
 </table>
 
-<div id="action-links">
+<div th:if="${project != null and project.status == false}"  class="action-links">
     <form th:action="@{'/task_form/project/' + ${projectId} + '/' + ${subProjectId}}" method="GET">
-        <button type="submit">Add a task to the current Sub Project</button>
+        <button class="action-button">Add a task to the current Sub Project</button>
     </form>
 </div>
 
-<div id="hours">
+
+<div id="hours-pr-employee" th:if="${project != null and project.status == false}">
+    <span class="total-hours-button"
+          th:classappend="${hoursPrEmployee > 20} ? ' bad-workload' : ' good-workload'"
+          th:text="'Average workload per Employee: ' + ${hoursPrEmployee} + ' hours'"></span>
+</div>
+
+<div th:if="${project != null and project.status == false}" id="hours">
     <span class="total-hours-button" th:text="'Hours to go: ' + ${totalHours}"></span>
+</div>
+
+<div>
+    <a th:href="'/get_subprojects/' + ${projectId}"><button class="action-button">Back</button></a>
 </div>
 
 </body>

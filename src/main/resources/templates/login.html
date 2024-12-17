@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Page</title>
+    <link rel="stylesheet" th:href="@{/form.css}">
 </head>
 <body>
-<div class="form-container">
-    <form id="login-form" th:action="@{/login}" th:object="${employee}" method="post">
+<div>
+    <form th:action="@{/login}" th:object="${employee}" method="post">
         <h2>Login Page</h2>
         <div>
             <label for="username">Username:</label>
@@ -21,6 +22,9 @@
         <p th:if="${error}" style="color:red">Error: Wrong Username or Password.</p>
         </div>
     </form>
+    <div>
+        <a href="/create_employee"><button>Create Employee</button></a>
+    </div>
 
 </div>
 

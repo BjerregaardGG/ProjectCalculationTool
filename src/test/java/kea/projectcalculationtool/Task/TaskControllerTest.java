@@ -3,6 +3,7 @@ package kea.projectcalculationtool.Task;
 
 import kea.projectcalculationtool.Employee.EmployeeRepository;
 import kea.projectcalculationtool.Employee.EmployeeService;
+import kea.projectcalculationtool.Project.ProjectService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -33,6 +35,9 @@ class TaskControllerTest {
 
     @MockBean
     private EmployeeRepository employeeRepository;
+
+    @MockBean
+    private ProjectService projectService;
 
     @BeforeEach
     void setUp() {
@@ -79,6 +84,10 @@ class TaskControllerTest {
     void taskDone() throws Exception {
         int taskId = 1;
 
+        TaskModel task = new TaskModel();
+        task.setTaskStatus(true);  // Simulates that the task is done
+        when(taskService.getTask(taskId)).thenReturn(task);
+
         mockMvc.perform(post("/task_done/{taskId}", taskId)
                         .param("taskId", "1")
                 .param("subProjectId", "1").param("projectId", "1")
@@ -95,7 +104,8 @@ class TaskControllerTest {
 
         mockMvc.perform(post("/task_not_done/{taskId}", taskId)
                         .param("taskId", "1")
-                        .param("subProjectId", "1").param("projectId", "1")
+                        .param("subProjectId", "1")
+                        .param("projectId", "1")
                         .param("employeeId", "1")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection())

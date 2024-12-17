@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Active projects</title>
-    <link rel="stylesheet" th:href="@{/homepage.css}">
+    <link rel="stylesheet" th:href="@{/overview.css}">
 </head>
 <body>
+<div id="Logout">
+    <a th:href="@{/logout}"><button>Logout</button></a>
+</div>
 <div id="action-links">
-        <form th:if="${role == Manager}" th:action="@{/addToProject}" method="GET">
-            <button type="submit" class="action-button">Add Employee to Project</button>
-        </form>
+    <a th:if="${role== Manager}" href="/create_project"><button>Create Project</button></a>
+    <a th:href="@{/home}"><button>View Completed Projects</button></a>
 </div>
 <h1>Active projects</h1>
     <table>
@@ -19,46 +21,38 @@
                 <th>Start Date</th>
                 <th>Deadline</th>
                 <th>Description</th>
+                <th>Daily Hours for Project</th>
+                <th>           </th>
+                <th>           </th>
                 <th>           </th>
             </tr>
         </thead>
             <tbody>
-            <tr th:each="project : ${projects}" th:if="${!project.status} and (${project.getProjectId()== ProjectIdFromEmployeeId} or ${role == Manager})">
-                    <td>
-                        <a
-                           th:href="@{'/get_subprojects/' + ${project.getProjectId()}}"
-                           th:text="${project.getProjectName()}"
-                           class="custom-link"
-                        >
-                        </a>
+            <tr th:each="project : ${projects}" th:if="${!project.status} and (${project.getProjectId()== ProjectIdFromEmployeeId}
+            or ${role == Manager})" th:onclick="|window.location.href='@{/get_subprojects/{projectId}(projectId=${project.projectId})}'|"
+                class="cursor-pointer">
+                <td th:text="${project.getProjectName()}" class="custom-link"></td>
+                <td th:text="${project.getStartDate()}" class="custom-link"></td>
+                <td th:text="${project.getDeadline()}" class="custom-link"></td>
+                <td th:text="${project.getProjectDescription()}" class="custom-link"></td>
+
+                <td>
+                        <span th:text="${projectService.getTimeForProject(project.projectId)}"
+                              th:class="${project.getWorkHoursPerProject() < projectService.getTimeForProject(project.projectId) ? 'status-not-done' : 'status-done'}">
+                        </span>
                     </td>
-                    <td>
-                        <a
-                           th:href="@{'/get_subprojects/' + ${project.getProjectId()}}"
-                           th:text="${project.getStartDate()}"
-                           class="custom-link"
-                        >
+                    <td th:if="${role == Manager}">
+                        <a th:href="@{'/updateproject/' + ${project.getProjectId()}}">
+                            <button class="action-button">Update</button>
                         </a>
-                    </td>
-                    <td>
-                        <a
-                           th:href="@{'/get_subprojects/' + ${project.getProjectId()}}"
-                           th:text="${project.getDeadline()}"
-                           class="custom-link"
-                        >
-                        </a>
-                    </td>
-                    <td>
-                        <a
-                           th:href="@{'/get_subprojects/' + ${project.getProjectId()}}"
-                           th:text="${project.getProjectDescription()}"
-                           class="custom-link"
-                        >
-                        </a>
-                        <a th:href="${'/ActiveProject/' + project.getProjectId()}" th:text="${project.getProjectDescription()}" class="custom-link"></a>
                     </td>
                     <!--  This td is only visible if user is manager, and then it give option to complete project -->
                     <!--  some of this code is inspired by chatgpt and claude-->
+                    <td>
+                        <form th:if="${role == Manager}" th:action="@{'/addToProject/' + ${project.projectId}}" method="GET">
+                            <button type="submit" class="action-button">Add Employee to Project</button>
+                        </form>
+                    </td>
                     <td>
                           <form th:if="${role == Manager}" th:action="@{/updateProjectStatus}" method="POST">
                                 <input type="hidden" name="projectId" th:value="${project.getProjectId()}">
@@ -68,8 +62,5 @@
                 </tr>
             </tbody>
     </table>
-        <div>
-            <a href="/home"><button class="action-button">Back</button></a>
-        </div>
 </body>
 </html>

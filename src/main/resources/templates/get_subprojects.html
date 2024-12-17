@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Get Subprojects</title>
-    <link rel="stylesheet" th:href="@{/homepage.css}">
+    <link rel="stylesheet" th:href="@{/overview.css}">
 </head>
 <body>
-
+<div>
+    <a th:href="@{/activeProjects}"><button class="action-button">Home</button></a>
+</div>
+<h1>Subprojects</h1>
 <table>
     <thead>
     <tr>
@@ -14,43 +17,23 @@
         <th>Description</th>
         <th>Start Date</th>
         <th>Deadline</th>
-        <th>Status</th>
+        <th th:if="${project.status == false}">Status</th>
         <th>Budget</th>
-        <th></th>
+        <th ></th>
+        <th th:if="${project.status != null and project.status == false}"></th>
+        <th th:if="${project.status != null and project.status == false}"></th>
+
     </tr>
     </thead>
 
     <tbody>
-    <tr th:each="sub : ${allSubprojects}">
-        <td>
-            <a
-                th:href="@{'/get_task/' + ${sub.getProjectId()} + '/' + ${sub.getSubProjectId()}}"
-                th:text="${sub.subProjectName}"
-                class="custom-link">
-            </a>
-        </td>
-        <td>
-            <a
-                th:href="@{'/get_task/' + ${sub.getProjectId()} + '/' + ${sub.getSubProjectId()}}"
-                th:text="${sub.subProjectDescription}"
-                class="custom-link">
-            </a>
-        </td>
-        <td>
-            <a
-                th:href="@{'/get_task/' + ${sub.getProjectId()} + '/' + ${sub.getSubProjectId()}}"
-                th:text="${sub.startDate}"
-                class="custom-link">
-            </a>
-        </td>
-        <td>
-            <a
-                th:href="@{'/get_task/' + ${sub.getProjectId()} + '/' + ${sub.getSubProjectId()}}"
-                th:text="${sub.deadline}"
-                class="custom-link">
-            </a>
-        </td>
-        <td>
+    <tr th:each="sub : ${allSubprojects}" th:onclick="|window.location.href='@{/get_task/{projectId}/{subprojectId}(projectId=${sub.getProjectId()}, subprojectId=${sub.getSubProjectId()})}'|"
+        class="cursor-pointer">
+        <td th:text="${sub.subProjectName}" class="custom-link"></td>
+        <td th:text="${sub.subProjectDescription}" class="custom-link"></td>
+        <td th:text="${sub.startDate}" class="custom-link"></td>
+        <td th:text="${sub.deadline}" class="custom-link"></td>
+        <td th:if="${(project.status == false)}">
             <form th:if="${sub.status}" th:action="@{'/subProject_not_done/' + ${projectId}}" method="POST">
                 <input type="hidden" name="subProjectId" th:value="${sub.subProjectId}"/>
                 <input type="hidden" name="projectId" th:value="${projectId}"/>
@@ -61,16 +44,38 @@
                 <input type="hidden" name="projectId" th:value="${projectId}"/>
                 <button type="submit" class="button_done">✖</button>
             </form>
+        </td>
         <td th:text="${sub.budget}"></td>
+
+        <td th:if="${role == Manager and project.status == false}">
+            <a th:href="@{'/updatesubproject/' + ${sub.subProjectId}}">
+                <button class="action-button">Update</button>
+            </a>
+        </td>
+        <td>
+            <div th:if="${project.status == false}">
+                <form th:action="@{'/deleteSubproject/' + ${sub.subProjectId}}" method="POST">
+                    <input type="hidden" name="projectId" th:value="${projectId}">
+                    <button type="submit" class="action-button"> Delete Subproject</button>
+                </form>
+            </div>
+        </td>
     </tr>
     </tbody>
 </table>
 
-<div id="action-links">
+<div th:if="${project.status == false}" id="action-links">
     <form th:action="@{'/create_subProjectForm/' + ${projectId}}" method="GET">
-        <button type="submit">Add another Sub Project</button>
+        <button type="submit">Add new Subproject</button>
     </form>
 </div>
+<div>
+    <a th:if="${project.status != null and project.status == true}" th:href="@{/home}"><button class="action-button">Back</button></a>
+    <a th:if="${project.status != null and project.status == false}" href="/activeProjects"><button class="action-button">Back</button></a>
+</div>
 
+<div>
+
+</div>
 </body>
 </html>

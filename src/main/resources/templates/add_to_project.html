@@ -2,35 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Add Employee to Project</title>
-  <link rel="stylesheet" th:href="@{/homepage.css}">
+  <link rel="stylesheet" th:href="@{/form.css}">
 </head>
 <body>
+<div>
+  <a th:href="@{/activeProjects}"><button class="action-button">Home</button></a>
+</div>
 <h1>Assign Employee to Project</h1>
 
 <form th:action="@{/addToProject}" method="post">
-  <!-- Here you choose Employee -->
+  <div>
   <label for="employee">Choose an Employee:</label>
   <select id="employee" name="employeeId">
     <option value="" disabled selected>Select an Employee</option>
-    <th:block th:each="employee : ${employees}">
-      <option th:value="${employee.employeeID}" th:text="${employee.fullName}"></option>
-    </th:block>
+    <option value="" disabled selected>Select an Employee</option>
+    <option th:each="employee : ${employees}"
+            th:if="${!IdList.contains(employee.getEmployeeID())}"
+            th:value="${employee.getEmployeeID()}"
+            th:text="${employee.fullName}">
+    </option>
   </select>
 
   <br><br>
-
-  <!-- this is where you choose project -->
-  <label for="project">Choose a Project:</label>
-  <select id="project" name="projectId">
-    <option value="" disabled selected>Select a Project</option>
-    <th:block th:each="project : ${projects}">
-      <option th:value="${project.projectId}" th:text="${project.projectName}"></option>
-    </th:block>
-  </select>
-
-  <br><br>
-
-  <button type="submit">Assign</button>
+  </div>
+  <div>
+    <input type="hidden" name="projectId" th:value="${projectId}"/>
+  </div>
+  <button class="action-button"  type="submit">Assign</button>
 </form>
+<div id="top-button">
+    <a href="/activeProjects"><button>Back</button></a>
+</div>
 </body>
 </html>

@@ -3,54 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Task </title>
-    <link rel="stylesheet" th:href="@{/create_project.css}">
+    <link rel="stylesheet" th:href="@{/form.css}">
 </head>
 <body>
-
+<div>
+    <a th:href="@{/activeProjects}"><button class="action-button">Home</button></a>
+</div>
+<p th:if="${TimeError == true}" style="color: red">Deadline was before start date</p>
 <form th:action="@{/create_task}" th:object="${task}" method="POST">
     <h2> Add a Task to the Subproject </h2>
 
     <input type="hidden" name="subProjectId" th:value="${subProjectId}" />
     <input type="hidden" name="projectId" th:value="${projectId}"/>
+    <input type="hidden" name="taskId" th:value="*{taskId}" />
 
     <div>
-        <label> Task Name: </label>
+        <label for="taskName"> Task Name: </label>
         <input id="taskName" type="text" th:field="*{taskName}" required>
     </div>
 
     <div>
-        <label> Start date: </label>
-        <input id="startDate" type="date" th:field="*{taskStartDate}">
+        <label for="startDate"> Start date: </label>
+        <input id="startDate" type="date" th:field="*{taskStartDate}" required>
     </div>
 
     <div>
-        <label> Deadline: </label>
-        <input id="deadline" type="date" th:field="*{taskDeadline}">
+        <label for="deadline"> Deadline: </label>
+        <input id="deadline" type="date" th:field="*{taskDeadline}" required>
     </div>
 
     <div>
-        <label> Duration (in hours):  </label>
-        <input id="duration" type="number" th:field="*{duration}">
+        <label for="duration"> Duration (in hours):  </label>
+        <input id="duration" type="number" th:field="*{duration}" required>
     </div>
 
     <div>
-        <label> Description: </label>
-        <textarea id="description" type="text" th:field="*{taskDescription}"></textarea>
+        <label for="description"> Description: </label>
+        <textarea id="description" th:field="*{taskDescription}"></textarea>
     </div>
 
     <div>
-        <label> Add employee: </label>
-        <select id="employeeId" name="employeeId">
+        <label for="employeeId"> Add employee: </label>
+        <select id="employeeId" name="employeeId" multiple>
             <option th:each="employee : ${employeesByProject}" th:value= "${employee.employeeID}" th:text="${employee.fullName}"></option>
         </select>
+        <small>Hold Ctrl (Windows) or Command (Mac) to select multiple employees.</small>
     </div>
 
     <div>
-        <label> Priority (1 for low - 5 for high): </label>
+        <label for="priority"> Priority (1 for low - 5 for high): </label>
         <input id="priority" type="number" th:field="*{priority}" min="1" max="5" required>
     </div>
 
     <button type="submit">Add task to project </button>
+
+    <div>
+
+        <button type="button" onclick="history.back()"> Back </button>
+    </div>
 </form>
 </body>
 </html>
