@@ -9,7 +9,7 @@ you will be able to create projects, and break them into smaller subprojects and
 ## Built With
 - **Spring Boot** - Backend framework.
 - **Thymeleaf** - Template engine for dynamic HTML generation.
-- **H2 Database** (or any other database) - For data persistence.
+- **H2 Database** For  local database.
 - **Mysql Database** For deployment.
 - **Maven** - Dependency management.
 
