@@ -32,6 +32,7 @@ public class TaskRepository {
             ));
 
     // method for creating a task
+    // Workds in deployment not in h2, therefre its outcommented
     /*public void createTask(TaskModel task, int subProjectId, int employeeId) {
 
         String query = "insert into task (name, start_date, deadline, duration, description, status, sub_project_id) values (?, ?, ?, ?, ?, ?, ?)";
